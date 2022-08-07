@@ -262,6 +262,7 @@ impl RealityParcelsContract {
                 "type": "nft_create_series",
                 "params": {
                     "token_series_id": token_series_id,
+                    "parcel_metadata": parcel_metadata,
                     "token_metadata": token_metadata,
                     "creator_id": caller_id,
                     "price": price,

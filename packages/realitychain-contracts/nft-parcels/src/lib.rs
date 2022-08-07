@@ -216,11 +216,13 @@ mod tests {
         contract.nft_create_series(
             None,
             crate::metadata::ParcelMetadata {
-                world_id: "world_id".to_string(),
-                land_id: "land_id".to_string(),
-                land_x: 0,
-                land_y: 0,
-                land_size: 0,
+                world_id: "w1".to_string(),
+                land_id: "b1".to_string(),
+                size_x: 11,
+                size_y: 11,
+                pos_x: -120,
+                pos_y: -120,
+                land_type: "Building".to_string(),
             },
             TokenMetadata {
                 title: Some("Tsundere land".to_string()),
