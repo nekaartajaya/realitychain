@@ -1,0 +1,72 @@
+{
+  "name": "@realitychain/webapp",
+  "version": "1.0.0",
+  "description": "Reality Chain frontend",
+  "private": true,
+  "dependencies": {
+    "@realitychain/sdk": "0.0.1-beta.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^14.2.1",
+    "babel-jest": "^28.1.2",
+    "bootstrap": "^5.1.3",
+    "buffer": "^6.0.3",
+    "eslint-visitor-keys": "^3.3.0",
+    "near-api-js": "^0.45.1",
+    "react": "^18.0.0",
+    "react-bootstrap": "^2.3.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "regenerator-runtime": "^0.13.9",
+    "web-vitals": "^2.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "format": "prettier --write \"(src|example|test)/**/*.js\"",
+    "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
+    "prepare": "yarn build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/realitychainio/realitychain-monorepo.git"
+  },
+  "keywords": [
+    "react",
+    "frontend",
+    "ethereum",
+    "solidity",
+    "ethers",
+    "near",
+    "nearprotocol",
+    "metaverse"
+  ],
+  "author": "Imam Hermawan",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/realitychainio/realitychain-monorepo/issues"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
