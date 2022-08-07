@@ -285,6 +285,86 @@ mod tests {
     }
 
     #[test]
+    fn test_set_series_parcel_metadata() {
+        let (mut context, mut contract) = setup_contract();
+        testing_env!(context
+            .predecessor_account_id(accounts(1))
+            .attached_deposit(STORAGE_FOR_CREATE_SERIES)
+            .build());
+
+        let mut royalty: HashMap<AccountId, u32> = HashMap::new();
+        royalty.insert(accounts(1).to_string(), 1000);
+        create_series(
+            &mut contract,
+            &royalty,
+            Some(U128::from(1 * 10u128.pow(24))),
+            None,
+        );
+
+        let nft_series_return = contract.nft_get_series_single("1".to_string());
+        assert_eq!(nft_series_return.creator_id, accounts(1).to_string());
+
+        assert_eq!(nft_series_return.token_series_id, "1",);
+
+        assert_eq!(nft_series_return.royalty, royalty,);
+
+        assert!(nft_series_return.metadata.copies.is_none());
+
+        assert_eq!(
+            nft_series_return.metadata.title.unwrap(),
+            "Tsundere land".to_string()
+        );
+
+        assert_eq!(
+            nft_series_return.metadata.reference.unwrap(),
+            "bafybeicg4ss7qh5odijfn2eogizuxkrdh3zlv4eftcmgnljwu7dm64uwji".to_string()
+        );
+
+        testing_env!(context
+            .predecessor_account_id(accounts(1))
+            .attached_deposit(1)
+            .build());
+
+        let _ = contract.nft_set_series_parcel_metadata(
+            nft_series_return.token_series_id.clone(),
+            crate::metadata::ParcelMetadata {
+                world_id: "w2".to_string(),
+                land_id: "b2".to_string(),
+                size_x: 11,
+                size_y: 11,
+                pos_x: -120,
+                pos_y: -120,
+                land_type: "Building2".to_string(),
+            },
+        );
+
+        let nft_series_return = contract.nft_get_series_single(nft_series_return.token_series_id.clone().to_string());
+        assert_eq!(nft_series_return.creator_id, accounts(1).to_string());
+
+        assert_eq!(nft_series_return.token_series_id, "1",);
+
+        assert_eq!(nft_series_return.parcel_metadata.world_id, "w2",);
+
+        assert_eq!(nft_series_return.parcel_metadata.land_id, "b2",);
+
+        assert_eq!(nft_series_return.parcel_metadata.land_type, "Building2",);
+
+        assert_eq!(nft_series_return.royalty, royalty,);
+
+        assert!(nft_series_return.metadata.copies.is_none());
+
+        assert_eq!(
+            nft_series_return.metadata.title.unwrap(),
+            "Tsundere land".to_string()
+        );
+
+        assert_eq!(
+            nft_series_return.metadata.reference.unwrap(),
+            "bafybeicg4ss7qh5odijfn2eogizuxkrdh3zlv4eftcmgnljwu7dm64uwji".to_string()
+        );
+    }
+
+    #[test]
     fn test_buy() {
         let (mut context, mut contract) = setup_contract();
         testing_env!(context

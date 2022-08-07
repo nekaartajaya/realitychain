@@ -399,6 +399,67 @@ impl RealityParcelsContract {
     }
 
     #[payable]
+    pub fn nft_set_series_parcel_metadata(
+        &mut self,
+        token_series_id: TokenSeriesId,
+        parcel_metadata: ParcelMetadata,
+    ) -> TokenSeriesJson {
+        assert_one_yocto();
+        let caller_id = env::predecessor_account_id();
+
+        let mut token_series = self
+            .token_series_by_id
+            .get(&token_series_id)
+            .expect("Token series not exist");
+        assert_eq!(
+            env::predecessor_account_id(),
+            token_series.creator_id,
+            "RealityChain: Creator only"
+        );
+
+        assert!(
+            token_series.is_mintable,
+            "RealityChain: token series is not mintable"
+        );
+
+        token_series.parcel_metadata = parcel_metadata.clone();
+
+        self.token_series_by_id
+            .insert(&token_series_id, &token_series);
+
+        // set market data transaction fee
+        let current_transaction_fee = self.calculate_current_transaction_fee();
+        self.market_data_transaction_fee
+            .transaction_fee
+            .insert(&token_series_id, &current_transaction_fee);
+
+        env::log(
+            json!({
+                "type": "nft_set_series_parcel_metadata",
+                "params": {
+                    "token_series_id": token_series_id,
+                    "token_metadata": token_series.metadata,
+                    "creator_id": caller_id,
+                    "price": token_series.price.unwrap_or(0).to_string(),
+                    "royalty": token_series.royalty,
+                    "transaction_fee": &current_transaction_fee.to_string()
+                }
+            })
+            .to_string()
+            .as_bytes(),
+        );
+
+        TokenSeriesJson {
+            token_series_id,
+            metadata: token_series.metadata,
+            parcel_metadata,
+            creator_id: caller_id,
+            royalty: token_series.royalty,
+            transaction_fee: Some(current_transaction_fee.into()),
+        }
+    }
+
+    #[payable]
     pub fn nft_burn(&mut self, token_id: TokenId) {
         assert_one_yocto();
 
