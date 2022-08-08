@@ -203,11 +203,8 @@ impl RealityParcelsContract {
         );
 
         // Add 10% of copies
-        let new_copies = if let Some(copies) = copies {
-            copies + (copies / 10)
-        } else {
-            0
-        };
+        let copies = copies.unwrap();
+        let new_copies = copies + (copies / 10);
         token_metadata.copies = Some(new_copies);
 
         let mut total_perpetual = 0;

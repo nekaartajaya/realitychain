@@ -14,22 +14,29 @@ impl RealityParcelVouchersContract {
     pub fn ft_stake_and_nft_mint(
         &mut self,
         receiver_id: AccountId,
-        amount: U128,
+        amount: u128,
         token_series_id: String,
     ) -> TokenId {
+        assert!(
+            amount >= 62857143000000,
+            "RealityChain: Amount staked is not enough"
+        );
+
         ext_ft::ft_transfer(
             receiver_id,
-            amount,
+            U128::from(amount),
             None,
             &env::current_account_id().to_string(),
             0, // amount of yoctoNEAR to attach
             GAS_FOR_CALLBACK,
         );
 
+        self.locked_amount = U128::from(amount);
+
         let initial_storage_usage = env::storage_usage();
         let sender_id = env::predecessor_account_id();
 
-        let _token_series = self
+        let token_series = self
             .token_series_by_id
             .get(&token_series_id)
             .expect("RealityChain: Token series does not exist");
