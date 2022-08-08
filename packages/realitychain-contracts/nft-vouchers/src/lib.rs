@@ -19,7 +19,6 @@ mod core;
 mod event;
 mod metadata;
 mod mint;
-mod receiver;
 pub use event::NearEvent;
 pub use metadata::StorageKey;
 
