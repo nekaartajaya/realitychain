@@ -64,7 +64,6 @@ export function login() {
   // This works by creating a new access key for the user's account and storing
   // the private key in localStorage.
   window.Buffer = buffer.Buffer;
-  console.log(parcelsConfig.contractName, 99);
   window.walletConnection.requestSignIn({
     contractId: "agustinustheo.testnet",
     methodNames: [],

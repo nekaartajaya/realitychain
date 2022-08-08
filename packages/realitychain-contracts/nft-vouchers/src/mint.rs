@@ -32,7 +32,7 @@ impl RealityParcelVouchersContract {
         let _token_series = self
             .token_series_by_id
             .get(&token_series_id)
-            .expect("RealityChain: Token series exists");
+            .expect("RealityChain: Token series does not exist");
 
         let token_id: TokenId = self.nft_mint_series(token_series_id, sender_id.to_string());
 
@@ -51,7 +51,7 @@ impl RealityParcelVouchersContract {
         let mut token_series = self
             .token_series_by_id
             .get(&token_series_id)
-            .expect("RealityChain: Token series not exist");
+            .expect("RealityChain: Token series does not exist");
         assert!(
             token_series.is_mintable,
             "RealityChain: Token series is not mintable"

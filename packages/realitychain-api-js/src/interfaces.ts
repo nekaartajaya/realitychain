@@ -14,9 +14,11 @@ export interface FtTransferCallDto {
 export interface ParcelMetadata {
   world_id: string;
   land_id: string;
-  land_x: number;
-  land_y: number;
-  land_size: number;
+  land_type: string;
+  pos_x: number;
+  pos_y: number;
+  size_x: number;
+  size_y: number;
 }
 
 export interface TokenMetadata {
