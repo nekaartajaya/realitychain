@@ -13,7 +13,7 @@ import { ReactComponent as NearIcon } from "../assets/wallets/near.svg";
 import { ReactComponent as EthereumIcon } from "../assets/wallets/ethereum.svg";
 import { ReactComponent as PolygonIcon } from "../assets/wallets/polygon.svg";
 import { useNavigate } from "react-router-dom";
-import { ftTransferCall } from "@realitychain/api";
+import { ftStakeAndNftMint } from "@realitychain/api";
 
 export const WorldComponent = ({ balance }) => {
   const [blockchain, setBlockchain] = React.useState(null);
@@ -71,10 +71,10 @@ export const WorldComponent = ({ balance }) => {
       id: window.accountId,
     };
     if (balance >= value) {
-      await ftTransferCall(window.ftContract, {
-        receiver_id: "rc-vouchers.testnet",
+      await ftStakeAndNftMint(window.vouchersContract, {
+        receiver_id: "ms-vouchers.testnet",
         amount: "10000000000000",
-        msg: '{ "token_series_id": "1" }',
+        token_series_id: "1",
       });
       navigate("/minting");
     } else {

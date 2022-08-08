@@ -91,6 +91,19 @@ export async function nftDecreaseSeriesCopies(
   })) as any;
 }
 
+export async function ftStakeAndNftMint(
+  contract: RcVouchersContract,
+  args: FtStakeAndNftMintDto,
+  gas: number = 300000000000000,
+  amount: string = '7090000000000000000000',
+): Promise<any> {
+  return (await contract.ft_stake_and_nft_mint({
+    args,
+    gas,
+    amount,
+  })) as any;
+}
+
 export async function ftTransferCall(
   contract: Nep141Contract,
   args: FtTransferCallDto,

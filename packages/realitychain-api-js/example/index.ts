@@ -11,7 +11,7 @@ import {
 const main = async () => {
   try {
     const ownerAccountId = 'agustinustheo.testnet';
-    const treasuryAccountId = 'rc-vouchers.testnet';
+    const treasuryAccountId = 'ms-vouchers.testnet';
     const keyStore = new keyStores.UnencryptedFileSystemKeyStore(`${process.env.HOME}/.near-credentials/`);
     const contract = await vouchersContractWithAccountId(ownerAccountId, keyStore, rcVouchersTestnetConfig);
     const ftContract = await nep141ContractWithAccountId(ownerAccountId, keyStore, testnetNep141Config);
@@ -53,7 +53,7 @@ const main = async () => {
 
     const ret = await ftContract.storage_deposit({
       args: {
-        account_id: 'rc-vouchers.testnet',
+        account_id: 'ms-vouchers.testnet',
         registration_only: null,
       },
       gas: 300000000000000,
@@ -64,7 +64,7 @@ const main = async () => {
 
     const ret2 = await ftContract.ft_transfer_call({
       args: {
-        receiver_id: 'rc-vouchers.testnet',
+        receiver_id: 'ms-vouchers.testnet',
         amount: '10000000000000',
         msg: '{ "token_series_id": "1" }',
       },

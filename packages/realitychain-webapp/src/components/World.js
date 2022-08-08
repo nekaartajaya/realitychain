@@ -72,14 +72,14 @@ export const WorldComponent = ({ balance }) => {
     };
     if (balance >= value) {
       await ftTransferCall(window.ftContract, {
-        receiver_id: "rc-vouchers.testnet",
+        receiver_id: "ms-vouchers.testnet",
         amount: "10000000000000",
         msg: '{ "token_series_id": "1" }',
       });
       navigate("/minting");
     } else {
       // TODO: Error handling
-      console.log("your balance is not sufficient");
+      console.log("Your balance is not sufficient");
     }
   };
 
