@@ -21,8 +21,6 @@ export const ParcelListComponent = () => {
   const getParcelSeries = async () => {
     try {
       const response = await nftGetSeries(window.parcelsContract);
-      console.log(response);
-
       setData(response);
     } catch (error) {
       console.log(error);

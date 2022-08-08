@@ -168,7 +168,7 @@ impl RealityParcelsContract {
         &mut self,
         creator_id: Option<ValidAccountId>,
         parcel_metadata: ParcelMetadata,
-        token_metadata: TokenMetadata,
+        mut token_metadata: TokenMetadata,
         price: Option<U128>,
         royalty: Option<HashMap<AccountId, u32>>,
     ) -> TokenSeriesJson {
@@ -195,6 +195,20 @@ impl RealityParcelsContract {
             title.is_some(),
             "RealityChain: token_metadata.title is required"
         );
+
+        let copies = token_metadata.copies.clone();
+        assert!(
+            copies.is_some(),
+            "RealityChain: token_metadata.copies is required"
+        );
+
+        // Add 10% of copies
+        let new_copies = if let Some(copies) = copies {
+            copies + (copies / 10)
+        } else {
+            0
+        };
+        token_metadata.copies = Some(new_copies);
 
         let mut total_perpetual = 0;
         let mut total_accounts = 0;

@@ -256,12 +256,12 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
         create_series(
             &mut contract,
             &royalty,
             Some(U128::from(1 * 10u128.pow(24))),
-            None,
+            Some(100),
         );
 
         let nft_series_return = contract.nft_get_series_single("1".to_string());
@@ -271,7 +271,7 @@ mod tests {
 
         assert_eq!(nft_series_return.royalty, royalty,);
 
-        assert!(nft_series_return.metadata.copies.is_none());
+        assert!(nft_series_return.metadata.copies.is_some());
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -293,12 +293,12 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
         create_series(
             &mut contract,
             &royalty,
             Some(U128::from(1 * 10u128.pow(24))),
-            None,
+            Some(100),
         );
 
         let nft_series_return = contract.nft_get_series_single("1".to_string());
@@ -308,7 +308,7 @@ mod tests {
 
         assert_eq!(nft_series_return.royalty, royalty,);
 
-        assert!(nft_series_return.metadata.copies.is_none());
+        assert!(nft_series_return.metadata.copies.is_some());
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -351,7 +351,7 @@ mod tests {
 
         assert_eq!(nft_series_return.royalty, royalty,);
 
-        assert!(nft_series_return.metadata.copies.is_none());
+        assert!(nft_series_return.metadata.copies.is_some());
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -373,13 +373,13 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
         create_series(
             &mut contract,
             &royalty,
             Some(U128::from(1 * 10u128.pow(24))),
-            None,
+            Some(100),
         );
 
         testing_env!(context
@@ -405,9 +405,9 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
-        create_series(&mut contract, &royalty, None, None);
+        create_series(&mut contract, &royalty, None, Some(100));
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -425,34 +425,6 @@ mod tests {
 
     #[test]
     #[should_panic(expected = "RealityChain: Token series is not mintable")]
-    fn test_invalid_mint_non_mintable() {
-        let (mut context, mut contract) = setup_contract();
-        testing_env!(context
-            .predecessor_account_id(accounts(1))
-            .attached_deposit(STORAGE_FOR_CREATE_SERIES)
-            .build());
-
-        let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
-
-        create_series(&mut contract, &royalty, None, None);
-
-        testing_env!(context
-            .predecessor_account_id(accounts(1))
-            .attached_deposit(1)
-            .build());
-        contract.nft_set_series_non_mintable("1".to_string());
-
-        testing_env!(context
-            .predecessor_account_id(accounts(1))
-            .attached_deposit(STORAGE_FOR_MINT)
-            .build());
-
-        contract.nft_mint("1".to_string(), accounts(2));
-    }
-
-    #[test]
-    #[should_panic(expected = "RealityChain: Token series is not mintable")]
     fn test_invalid_mint_above_copies() {
         let (mut context, mut contract) = setup_contract();
         testing_env!(context
@@ -461,7 +433,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
         create_series(&mut contract, &royalty, None, Some(1));
 
@@ -483,9 +455,9 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
-        create_series(&mut contract, &royalty, None, Some(5));
+        create_series(&mut contract, &royalty, None, Some(100));
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -513,7 +485,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
         create_series(&mut contract, &royalty, None, Some(5));
 
@@ -543,13 +515,13 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
         create_series(
             &mut contract,
             &royalty,
             Some(U128::from(1 * 10u128.pow(24))),
-            None,
+            Some(100),
         );
 
         testing_env!(context
@@ -583,13 +555,13 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
         create_series(
             &mut contract,
             &royalty,
             Some(U128::from(1_000_000_000 * 10u128.pow(24))),
-            None,
+            Some(100),
         );
 
         testing_env!(context
@@ -607,9 +579,9 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
-        create_series(&mut contract, &royalty, None, None);
+        create_series(&mut contract, &royalty, None, Some(100));
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -637,9 +609,9 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
-        create_series(&mut contract, &royalty, None, None);
+        create_series(&mut contract, &royalty, None, Some(100));
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -668,9 +640,9 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
-        create_series(&mut contract, &royalty, None, None);
+        create_series(&mut contract, &royalty, None, Some(100));
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -696,9 +668,9 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
-        create_series(&mut contract, &royalty, None, None);
+        create_series(&mut contract, &royalty, None, Some(100));
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -723,11 +695,11 @@ mod tests {
         let mut payout_calc: HashMap<AccountId, U128> = HashMap::new();
         payout_calc.insert(
             accounts(1).to_string(),
-            U128::from((1000 * (1 * 10u128.pow(24))) / 10_000),
+            U128::from((2000 * (1 * 10u128.pow(24))) / 10_000),
         );
         payout_calc.insert(
             accounts(2).to_string(),
-            U128::from((9000 * (1 * 10u128.pow(24))) / 10_000),
+            U128::from((8000 * (1 * 10u128.pow(24))) / 10_000),
         );
 
         assert_eq!(payout.unwrap().payout, payout_calc);
@@ -805,7 +777,7 @@ mod tests {
         contract.set_transaction_fee(next_fee, Some(start_time_sec));
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 1000);
+        royalty.insert(accounts(1).to_string(), 2000);
 
         testing_env!(context
             .predecessor_account_id(accounts(0))
@@ -816,7 +788,7 @@ mod tests {
             &mut contract,
             &royalty,
             Some(U128::from(1 * 10u128.pow(24))),
-            None,
+            Some(100),
         );
 
         testing_env!(context
