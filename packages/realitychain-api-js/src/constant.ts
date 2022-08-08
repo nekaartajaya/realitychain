@@ -18,7 +18,7 @@ export const testnetNep141Config: Nep141Config = {
   nodeUrl: 'https://rpc.testnet.near.org',
   walletUrl: 'https://wallet.testnet.near.org',
   appName: 'Reality Chain Testnet',
-  contractName: `bdf09d53af7df6266796b20e15e123acf491fe7a.factory.goerli.testnet`,
+  contractName: `dev-1659971238392-58880293835351`,
 };
 
 export const rcParcelsTestnetConfig: RcParcelsConfig = {
