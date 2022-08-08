@@ -15,8 +15,8 @@
     "format": "lerna run --parallel format --scope=@realitychain/{erc20,api,webapp,webapp-old}",
     "test": "lerna run --parallel test --scope=@realitychain/{erc20}",
     "test:all": "lerna run --parallel test --scope=@realitychain/{nft-parcels,erc20,nft-vouchers}",
-    "start": "yarn workspace @realitychain/webapp start",
-    "start-old": "yarn workspace @realitychain/webapp-old start"
+    "start": "lerna bootstrap && yarn workspace @realitychain/webapp start",
+    "start-old": "lerna bootstrap && yarn workspace @realitychain/webapp-old start"
   },
   "resolutions": {
     "**/ethers": "^5.6.8",
