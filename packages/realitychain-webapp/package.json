@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "@fontsource/montserrat": "^4.5.11",
-    "@realitychain/sdk": "0.0.1-beta.0",
+    "@realitychain/api": "0.0.1-beta.0",
     "@heroicons/react": "^1.0.6",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",

@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import {
   nftCreateParcelSeries,
   nftCreateVoucherSeries,
-} from "@realitychain/sdk";
+} from "@realitychain/api";
 
 export const SeriesComponent = ({ balance }) => {
   const [value, setValue] = React.useState();

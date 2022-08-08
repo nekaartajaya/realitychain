@@ -1,5 +1,5 @@
 {
-  "name": "@realitychain/sdk",
+  "name": "@realitychain/api",
   "version": "0.0.1-beta.0",
   "description": "Reality Chain SDK for Frontend Applications.",
   "main": "lib/index.js",

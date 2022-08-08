@@ -1,8 +1,8 @@
 import React from "react";
-import { nftGetSeries } from "@realitychain/sdk";
+import { nftGetSeries } from "@realitychain/api";
 import MapImage from "../../assets/map.png";
 import { Card, Button, Accordion } from "react-bootstrap";
-import { nftMint } from "@realitychain/sdk";
+import { nftMint } from "@realitychain/api";
 
 export const ParcelListComponent = () => {
   const handleMinting = async (data) => {

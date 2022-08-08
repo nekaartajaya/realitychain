@@ -6,7 +6,7 @@ import {
   parcelsContractWithAccountId,
   nep141ContractWithAccountId,
   vouchersContractWithAccountId,
-} from "@realitychain/sdk";
+} from "@realitychain/api";
 import { getParcelsConfig, getVouchersConfig, getNep141Config } from "./config";
 
 const parcelsConfig = getParcelsConfig("development");

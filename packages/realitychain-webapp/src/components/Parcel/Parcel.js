@@ -4,7 +4,7 @@ import "regenerator-runtime/runtime";
 import React from "react";
 import { Container, Button } from "react-bootstrap";
 import { ParcelListComponent } from "./ParcelList";
-import { nftMint } from "@realitychain/sdk";
+import { nftMint } from "@realitychain/api";
 
 const Parcel = () => {
   window.Buffer = buffer.Buffer;

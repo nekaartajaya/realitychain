@@ -13,7 +13,7 @@ import { ReactComponent as NearIcon } from "../assets/wallets/near.svg";
 import { ReactComponent as EthereumIcon } from "../assets/wallets/ethereum.svg";
 import { ReactComponent as PolygonIcon } from "../assets/wallets/polygon.svg";
 import { useNavigate } from "react-router-dom";
-import { ftTransferCall } from "@realitychain/sdk";
+import { ftTransferCall } from "@realitychain/api";
 
 export const WorldComponent = ({ balance }) => {
   const [blockchain, setBlockchain] = React.useState(null);
