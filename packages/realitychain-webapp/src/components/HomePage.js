@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { ReactComponent as RealityChain } from "../assets/logo.svg";
+import { ReactComponent as Illustration } from "../assets/home.svg";
 
 export const HomePage = ({onConnect}) => {
   const navigate = useNavigate();
@@ -23,9 +23,8 @@ export const HomePage = ({onConnect}) => {
         <Typography variant="h1" style={{fontSize: 48, width: 587, wordWrap: 'break-word', marginBottom: 28}}>Discover and show your creativity to the metaverse</Typography>
         <Typography variant="subtitle1" style={{width: 298, wordWrap: 'break-word', marginBottom: 28}}>The NFT utility is now available to create in RealityChain.</Typography>
         <Button variant="contained" color="primary" style={{width: 'auto'}} onClick={handleCreateNFT}>Create now</Button>
-        <div style={{position: 'absolute', right: 0, top: '50%', zIndex: -99}}>
-          {/* change illustration */}
-          <RealityChain />
+        <div style={{position: 'absolute', right: 0, top: -50, zIndex: -99}}>
+          <Illustration />
         </div>
       </div>
     </Container>
