@@ -41,6 +41,13 @@ impl RealityParcelVouchersContract {
             .get(&token_series_id)
             .expect("RealityChain: Token series does not exist");
 
+        // let mut copies = token_series.metadata.copies.clone().unwrap();
+        // let dao_copies = copies / 11;
+        // copies = copies - dao_copies;
+
+        // for _n in 1..copies {
+        //     self.nft_mint_series(token_series_id.clone(), sender_id.to_string());
+        // }
         let token_id: TokenId = self.nft_mint_series(token_series_id, sender_id.to_string());
 
         refund_deposit(env::storage_usage() - initial_storage_usage, 0);
