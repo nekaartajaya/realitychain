@@ -61,7 +61,7 @@ function App() {
       <Router>
         {/* <Header onConnect={handleOpenModal} onLogout={logout} balance={balance} /> */}
         {/* <ConnectWallet open={open} onHide={handleCloseModal} onLogin={onLogin} /> */}
-        <Navbar onConnect={handleOpenModal} balance={balance} />
+        <Navbar onConnect={handleOpenModal} balance={balance} onLogout={logout} />
         <ModalConnect open={open} onHide={handleCloseModal} onLogin={onLogin} />
         <Routes>
           <Route path="/minting" element={<ParcelComponent />} />

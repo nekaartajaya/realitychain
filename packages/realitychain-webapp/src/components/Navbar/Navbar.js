@@ -1,9 +1,15 @@
+import BellIcon from '@heroicons/react/solid/BellIcon'
+import UserCircleIcon from '@heroicons/react/solid/UserCircleIcon'
+import LogoutIcon from '@heroicons/react/solid/LogoutIcon'
+
 import React from "react";
 
 import { ReactComponent as RealityChain } from "../../assets/logo.svg";
 
-import BellIcon from '@heroicons/react/solid/BellIcon'
-import UserCircleIcon from '@heroicons/react/solid/UserCircleIcon'
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import SvgIcon from '@material-ui/core/SvgIcon';
@@ -39,11 +45,12 @@ function LinkTab(props) {
   );
 }
 
-export const Navbar = ({onConnect, balance}) => {
+export const Navbar = ({onConnect, balance, onLogout}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const style = useStyles();
   const [value, setValue] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     const paths = ['discover', 'marketplace', 'project', 'nft-utility']
@@ -62,6 +69,10 @@ export const Navbar = ({onConnect, balance}) => {
   const handleConnectWallet = () => {
     onConnect();
   };
+
+  const handleTogleModal = () => {
+    setOpen(open => !open)
+  }
 
   return (
     <AppBar position="static" color='primary'>
@@ -99,8 +110,8 @@ export const Navbar = ({onConnect, balance}) => {
         <div style={{display: 'flex', alignItems: 'center', gap: 16}}>
           {window.walletConnection.isSignedIn() ?
             <ButtonGroup size="small" variant="outlined" color="primary" style={{justifySelf: 'flex-end'}}>
-              <Button style={{width: 'auto', color: '#B761C2', borderRightColor: 'transparent', marginRight: -3}}>{balance} REAL</Button>
-              <Button style={{width: 'auto', backgroundColor: 'rgba(152, 22, 168, 0.15)', borderLeftColor: 'transparent'}}>{window.accountId}</Button>
+              <Button onClick={handleTogleModal} style={{width: 'auto', color: '#B761C2', borderRightColor: 'transparent', marginRight: -3}}>{balance} REAL</Button>
+              <Button onClick={handleTogleModal} style={{width: 'auto', backgroundColor: 'rgba(152, 22, 168, 0.15)', borderLeftColor: 'transparent'}}>{window.accountId}</Button>
             </ButtonGroup>
           :
             <Button variant="contained" color="primary" style={{width: 'auto'}} onClick={handleConnectWallet}>Connect</Button>
@@ -125,6 +136,24 @@ export const Navbar = ({onConnect, balance}) => {
             <SvgIcon component={UserCircleIcon} viewBox="0 0 20 20" />
           </IconButton>
         </div>
+        <Dialog onClose={handleTogleModal} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs">
+          <DialogTitle id="customized-dialog-title">
+            Account
+          </DialogTitle>
+          <DialogContent>
+            <div style={{background: '#2B3240', borderRadius: 8, padding: 24, width: 384}}>
+              <Typography variant="subtitle1" style={{marginBottom: 8}}>{window.accountId}</Typography>
+              <Typography variant="caption" color="textSecondary">Balance</Typography>
+              <div style={{display: 'flex', alignItems: 'center', gap: 8}}>
+              <SvgIcon component={RealityChain} viewBox="0 0 40 40" />
+                <Typography variant="subtitle1">{balance} REAL</Typography>
+              </div>
+            </div>
+          </DialogContent>
+          <DialogActions style={{justifyContent: 'flex-start', paddingLeft: 16}}>
+            <Button startIcon={<SvgIcon component={LogoutIcon} viewBox="0 0 20 20" />} variant="text" style={{color: '#D391D6', width: 'auto'}} onClick={onLogout}>Disconnect</Button>
+          </DialogActions>
+        </Dialog>
       </Toolbar>
     </AppBar>
   );
