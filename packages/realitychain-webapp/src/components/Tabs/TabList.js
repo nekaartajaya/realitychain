@@ -1,25 +1,25 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 
-import {Tooltip} from '@material-ui/core';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import Typography from '@material-ui/core/Typography';
+import { Tooltip } from "@material-ui/core";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import Typography from "@material-ui/core/Typography";
 
-import {useStyles} from './TabList.styles';
+import { useStyles } from "./TabList.styles";
 
-export const TabList = props => {
+export const TabList = (props) => {
   const {
     tabs,
     selected,
-    mark = 'underline',
-    textColor = 'primary',
-    size = 'medium',
+    mark = "underline",
+    textColor = "primary",
+    size = "medium",
     background,
     onChangeTab,
     ...tabsProps
   } = props;
 
-  const styles = useStyles({mark, size, background});
+  const styles = useStyles({ mark, size, background });
 
   const [selectedTab, setSelectedTab] = useState(selected);
 
@@ -41,15 +41,17 @@ export const TabList = props => {
         className: styles.indicatorColor,
         children: <span className={styles.indicator} />,
       }}
-      classes={{root: styles.tabs}}
-      onChange={handleTabChange}>
+      classes={{ root: styles.tabs }}
+      onChange={handleTabChange}
+    >
       {tabs.map((tab, i) => {
         if (tab.tooltip) {
           return (
             <Tooltip
               key={`tab-${tab.id}`}
               title={<Typography component="span">{tab.tooltip}</Typography>}
-              arrow>
+              arrow
+            >
               <span>
                 <Tab
                   label={tab.title}

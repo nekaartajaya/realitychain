@@ -1,4 +1,4 @@
-import {createStyles, makeStyles, } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) =>
   createStyles({
@@ -8,46 +8,46 @@ export const useStyles = makeStyles((theme) =>
       minHeight: 600,
     },
     media: {
-      height: '100%',
-      width: '100%',
-      objectFit: 'contain',
-      borderRadius: 8
+      height: "100%",
+      width: "100%",
+      objectFit: "contain",
+      borderRadius: 8,
     },
     content: {
-      display: 'flex',
-      gap: 24
+      display: "flex",
+      gap: 24,
     },
     row2: {
-      width: '100%'
+      width: "100%",
     },
     avatar: {
       width: 40,
       height: 40,
-      background: '#222731',
-      color: '#FFF'
+      background: "#222731",
+      color: "#FFF",
     },
     subtitle: {
-      display: 'flex',
-      alignItems: 'center',
+      display: "flex",
+      alignItems: "center",
       gap: 8,
-      marginBottom: 24
+      marginBottom: 24,
     },
     detail: {
       padding: 24,
-      width: '100%',
-      display: 'flex',
-      flexWrap: 'wrap',
+      width: "100%",
+      display: "flex",
+      flexWrap: "wrap",
     },
     link: {
       padding: 24,
-      width: '100%',
+      width: "100%",
     },
     key: {
-      textTransform: 'uppercase',
-      width: 160
+      textTransform: "uppercase",
+      width: 160,
     },
     value: {
-      width: 284
+      width: 284,
     },
-  }),
+  })
 );

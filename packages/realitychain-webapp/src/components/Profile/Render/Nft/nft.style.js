@@ -1,4 +1,4 @@
-import {createStyles, makeStyles, } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) =>
   createStyles({
@@ -6,10 +6,10 @@ export const useStyles = makeStyles((theme) =>
     media: {
       height: 256,
       width: 256,
-      objectFit: 'contain',
+      objectFit: "contain",
     },
     content: {
       padding: 16,
-    }
-  }),
+    },
+  })
 );

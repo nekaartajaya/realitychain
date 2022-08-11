@@ -88,7 +88,7 @@ export const WorldComponent = ({ balance }) => {
       style={{
         height: "calc(100vh - 66px)",
         padding: 50,
-        textAlign: 'center'
+        textAlign: "center",
       }}
     >
       {!blockchain && <h1>SELECT BLOCKCHAIN FOR METAVERSE</h1>}

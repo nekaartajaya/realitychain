@@ -2,8 +2,8 @@ import "regenerator-runtime/runtime";
 
 import React from "react";
 
-import {ThemeProvider} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // import { Header } from "./components/Header";
@@ -12,17 +12,17 @@ import { HomePage } from "./components/HomePage";
 import { SeriesComponent } from "./components/Series";
 import { WorldComponent } from "./components/World";
 import ParcelComponent from "./components/Parcel/Parcel";
-import { Navbar } from './components/Navbar/Navbar'
+import { Navbar } from "./components/Navbar/Navbar";
 import { CreateComponent } from "./components/Create/Create";
 import { CreateNFTComponent } from "./components/CreateNFT/CreateNFT";
 import { DiscoverComponent } from "./components/Discover/Discover";
 import { ProfileComponent } from "./components/Profile/Profile";
 import { ProjectComponent } from "./components/Project/Project";
-import { ProjectDetail} from "./components/ProjectDetail/ProjectDetail"
+import { ProjectDetail } from "./components/ProjectDetail/ProjectDetail";
 import { NFTDetail } from "./components/NFTDetail/NftDetail";
 
 import { login, logout } from "./utils";
-import theme from './themes/dark-theme';
+import theme from "./themes/dark-theme";
 import { ModalConnect } from "./components/ModalConnect";
 
 function App() {
@@ -61,12 +61,22 @@ function App() {
       <Router>
         {/* <Header onConnect={handleOpenModal} onLogout={logout} balance={balance} /> */}
         {/* <ConnectWallet open={open} onHide={handleCloseModal} onLogin={onLogin} /> */}
-        <Navbar onConnect={handleOpenModal} balance={balance} onLogout={logout} />
+        <Navbar
+          onConnect={handleOpenModal}
+          balance={balance}
+          onLogout={logout}
+        />
         <ModalConnect open={open} onHide={handleCloseModal} onLogin={onLogin} />
         <Routes>
           <Route path="/minting" element={<ParcelComponent />} />
-          <Route path="/series" element={<SeriesComponent balance={balance} />} />
-          <Route path="/staking" element={<WorldComponent balance={balance} />} />
+          <Route
+            path="/series"
+            element={<SeriesComponent balance={balance} />}
+          />
+          <Route
+            path="/staking"
+            element={<WorldComponent balance={balance} />}
+          />
           <Route path="/discover" element={<DiscoverComponent />} />
           <Route path="/profile" element={<ProfileComponent />} />
           <Route path="/project/:id" element={<ProjectDetail />} />

@@ -1,10 +1,10 @@
 import React from "react";
 
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
 
 import { useNavigate } from "react-router-dom";
 import {
@@ -17,32 +17,31 @@ export const SeriesComponent = ({ balance }) => {
   const navigate = useNavigate();
   const style = useStyles();
 
-  const [world_id, setWorld_id] = React.useState('');
-  const [land_id, setLand_id] = React.useState('');
-  const [land_size, setLand_size] = React.useState('');
-  const [land_x, setLand_x] = React.useState('');
-  const [land_y, setLand_y] = React.useState('');
-  
+  const [world_id, setWorld_id] = React.useState("");
+  const [land_id, setLand_id] = React.useState("");
+  const [land_size, setLand_size] = React.useState("");
+  const [land_x, setLand_x] = React.useState("");
+  const [land_y, setLand_y] = React.useState("");
 
   const handleChangeWorldID = (e) => {
-    setWorld_id(e.target.value)
-  }
+    setWorld_id(e.target.value);
+  };
 
   const handleChangeLandID = (e) => {
-    setLand_id(e.target.value)
-  }
+    setLand_id(e.target.value);
+  };
 
   const handleChangeLandSize = (e) => {
-    setLand_size(e.target.value)
-  }
+    setLand_size(e.target.value);
+  };
 
   const handleChangeLandX = (e) => {
-    setLand_x(e.target.value)
-  }
+    setLand_x(e.target.value);
+  };
 
   const handleChangeLandY = (e) => {
-    setLand_y(e.target.value)
-  }
+    setLand_y(e.target.value);
+  };
 
   const voucherParams = {
     token_metadata: {
@@ -83,25 +82,87 @@ export const SeriesComponent = ({ balance }) => {
   };
 
   return (
-    <Container style={{marginTop: 24, maxWidth: 888, padding: 0}}>
-        <Typography variant="h4" style={{marginBottom: 24}}>CREATE SERIES</Typography>
-      <Paper style={{minHeight: 972, padding: 24, marginBottom: 24}}>
-        <Typography variant='subtitle1' style={{marginBottom : 4}}>World ID</Typography>
-        <TextField value={world_id} onChange={handleChangeWorldID} style={{marginBottom: 24}} className={style.input} id="outlined-basic" fullWidth placeholder='World ID' />
-        
-        <Typography variant='subtitle1' style={{marginBottom : 4}}>Land ID</Typography>
-        <TextField value={land_id} onChange={handleChangeLandID} style={{marginBottom: 24}} className={style.input} id="outlined-basic" fullWidth placeholder='Land ID' />
+    <Container style={{ marginTop: 24, maxWidth: 888, padding: 0 }}>
+      <Typography variant="h4" style={{ marginBottom: 24 }}>
+        CREATE SERIES
+      </Typography>
+      <Paper style={{ minHeight: 972, padding: 24, marginBottom: 24 }}>
+        <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
+          World ID
+        </Typography>
+        <TextField
+          value={world_id}
+          onChange={handleChangeWorldID}
+          style={{ marginBottom: 24 }}
+          className={style.input}
+          id="outlined-basic"
+          fullWidth
+          placeholder="World ID"
+        />
 
-        <Typography variant='subtitle1' style={{marginBottom : 4}}>Land Size</Typography>
-        <TextField type="number" value={land_size} onChange={handleChangeLandSize} style={{marginBottom: 24}} className={style.input} id="outlined-basic" fullWidth placeholder='Land size' />
+        <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
+          Land ID
+        </Typography>
+        <TextField
+          value={land_id}
+          onChange={handleChangeLandID}
+          style={{ marginBottom: 24 }}
+          className={style.input}
+          id="outlined-basic"
+          fullWidth
+          placeholder="Land ID"
+        />
 
-        <Typography variant='subtitle1' style={{marginBottom : 4}}>Land X</Typography>
-        <TextField type="number" value={land_x} onChange={handleChangeLandX} style={{marginBottom: 24}} className={style.input} id="outlined-basic" fullWidth placeholder='land x' />
+        <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
+          Land Size
+        </Typography>
+        <TextField
+          type="number"
+          value={land_size}
+          onChange={handleChangeLandSize}
+          style={{ marginBottom: 24 }}
+          className={style.input}
+          id="outlined-basic"
+          fullWidth
+          placeholder="Land size"
+        />
 
-        <Typography variant='subtitle1' style={{marginBottom : 4}}>Land Y</Typography>
-        <TextField type="number" value={land_y} onChange={handleChangeLandY} style={{marginBottom: 24}} className={style.input} id="outlined-basic" fullWidth placeholder='land y' />
+        <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
+          Land X
+        </Typography>
+        <TextField
+          type="number"
+          value={land_x}
+          onChange={handleChangeLandX}
+          style={{ marginBottom: 24 }}
+          className={style.input}
+          id="outlined-basic"
+          fullWidth
+          placeholder="land x"
+        />
 
-        <Button onClick={handleCreateSeries} variant="contained" color="primary" style={{width: 'auto'}}>CREATE SERIES</Button>
+        <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
+          Land Y
+        </Typography>
+        <TextField
+          type="number"
+          value={land_y}
+          onChange={handleChangeLandY}
+          style={{ marginBottom: 24 }}
+          className={style.input}
+          id="outlined-basic"
+          fullWidth
+          placeholder="land y"
+        />
+
+        <Button
+          onClick={handleCreateSeries}
+          variant="contained"
+          color="primary"
+          style={{ width: "auto" }}
+        >
+          CREATE SERIES
+        </Button>
       </Paper>
     </Container>
   );

@@ -1,23 +1,22 @@
-import {createStyles, makeStyles} from '@material-ui/core/styles';
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 
-
-export const useStyles = makeStyles(theme =>
+export const useStyles = makeStyles((theme) =>
   createStyles({
     root: {},
     tabs: {
-      marginBottom: '16px',
-      minHeight: props => (props.size === 'small' ? 36 : 48),
-      background: props => props.background ?? 'transparent',
+      marginBottom: "16px",
+      minHeight: (props) => (props.size === "small" ? 36 : 48),
+      background: (props) => props.background ?? "transparent",
 
       // '& .MuiTabs-scroller': {
       //   height: props => (props.size === 'small' ? 36 : 48),
       // },
 
-      '& .MuiTab-wrapper': {
-        textTransform: 'capitalize',
+      "& .MuiTab-wrapper": {
+        textTransform: "capitalize",
         fontWeight: 500,
         fontSize: 13,
-        lineHeight: '20px',
+        lineHeight: "20px",
       },
 
       // '& .Mui-selected': {
@@ -56,7 +55,7 @@ export const useStyles = makeStyles(theme =>
       // background: '#FFC857',
     },
     indicatorColor: {
-      backgroundColor: 'rgba(183, 97, 194, 1)',
+      backgroundColor: "rgba(183, 97, 194, 1)",
     },
-  }),
+  })
 );

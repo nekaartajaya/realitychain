@@ -1,8 +1,8 @@
 import "@fontsource/montserrat"; // Defaults to weight 400.
 
-import {createTheme} from '@material-ui/core/styles';
+import { createTheme } from "@material-ui/core/styles";
 
-const {breakpoints} = createTheme();
+const { breakpoints } = createTheme();
 
 const breakpointsValue = {
   xs: 500,
@@ -13,36 +13,36 @@ const breakpointsValue = {
 };
 
 //Neutral colors
-const neutral20 = '#F5F5F5';
-const neutral90 = '#404040';
+const neutral20 = "#F5F5F5";
+const neutral90 = "#404040";
 
 //Primary colors
 // const primaryPurple = '#7342CC';
-const primaryOrange = '#FFD24D';
+const primaryOrange = "#FFD24D";
 
-const primaryGreen = '#39BF87';
-const primaryRed = '#FE3333';
-const primaryBlue = '#1E4FCB';
-const primaryWhite = '#FFFFFF';
+const primaryGreen = "#39BF87";
+const primaryRed = "#FE3333";
+const primaryBlue = "#1E4FCB";
+const primaryWhite = "#FFFFFF";
 
 // text colors
-const textPrimary = '#FFFFFF';
-const textSecondary = '#95A1B7';
+const textPrimary = "#FFFFFF";
+const textSecondary = "#95A1B7";
 
 //Surface colors
-const surfacePurple = '#EBE0FF';
-const surfaceOrange = '#FFF2CC';
-const surfaceGreen = '#DAF1E6';
-const surfaceRed = '#FFD7D7';
-const surfaceBlue = '#CFE2F4';
+const surfacePurple = "#EBE0FF";
+const surfaceOrange = "#FFF2CC";
+const surfaceGreen = "#DAF1E6";
+const surfaceRed = "#FFD7D7";
+const surfaceBlue = "#CFE2F4";
 
 // Pressed colors
-const pressedGreen = '#268054';
-const pressedRed = '#A62121';
-const pressedOrange = '#E8AE00';
+const pressedGreen = "#268054";
+const pressedRed = "#A62121";
+const pressedOrange = "#E8AE00";
 
 //Border colors
-const borderPurple = '#DECCFF';
+const borderPurple = "#DECCFF";
 
 //Font weight
 const textRegular = 400;
@@ -64,7 +64,6 @@ const heading4 = 22;
 const heading3 = 24;
 const heading2 = 27;
 const heading1 = 30;
-
 
 const theme = createTheme({
   breakpoints: {
@@ -97,16 +96,16 @@ const theme = createTheme({
 
   palette: {
     background: {
-      default: '#0F1319',
-      paper: '#191F29'
+      default: "#0F1319",
+      paper: "#191F29",
     },
     primary: {
-      main: '#0F1319',
-      contrastText: '#FFFFF',
+      main: "#0F1319",
+      contrastText: "#FFFFF",
     },
     secondary: {
-      main: 'rgba(183, 97, 194, 1)',
-      contrastText: '#FFFFF',
+      main: "rgba(183, 97, 194, 1)",
+      contrastText: "#FFFFF",
     },
     text: {
       primary: textPrimary,
@@ -115,7 +114,7 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: ['Montserrat', 'serif'].join(','),
+    fontFamily: ["Montserrat", "serif"].join(","),
     fontWeightRegular: textRegular,
     fontWeightMedium: textMedium,
     fontWeightBold: textBold,
@@ -153,7 +152,7 @@ const theme = createTheme({
     h3: {
       fontSize: heading3,
       fontWeight: 600,
-      lineHeight: '32px',
+      lineHeight: "32px",
 
       [breakpoints.down(breakpointsValue.lg)]: {},
     },
@@ -170,8 +169,8 @@ const theme = createTheme({
       [breakpoints.down(breakpointsValue.lg)]: {},
     },
     overline: {
-      fontSize: overline
-    }
+      fontSize: overline,
+    },
   },
 
   overrides: {
@@ -182,15 +181,15 @@ const theme = createTheme({
     },
     MuiListItem: {
       container: {
-        width: '100%',
+        width: "100%",
       },
     },
     MuiButton: {
       root: {
-        textTransform: 'uppercase',
-        boxSizing: 'border-box',
+        textTransform: "uppercase",
+        boxSizing: "border-box",
         borderRadius: 4,
-        width: 270
+        width: 270,
       },
       sizeSmall: {
         width: 180,
@@ -212,48 +211,48 @@ const theme = createTheme({
       },
       containedPrimary: {
         backgroundColor: primaryBlue,
-        color: '#FFFFFF',
-        '&:hover': {
+        color: "#FFFFFF",
+        "&:hover": {
           backgroundColor: primaryBlue,
         },
       },
       containedSecondary: {
         backgroundColor: `${primaryWhite}`,
-        color: '#191F29',
-        '&:hover': {
+        color: "#191F29",
+        "&:hover": {
           backgroundColor: primaryWhite,
         },
       },
       outlinedPrimary: {
         border: `2px solid rgba(30, 79, 203, 1)`,
-        backgroundColor: 'transparent',
-        color: '#FFF',
-        
-        '&:hover': {
+        backgroundColor: "transparent",
+        color: "#FFF",
+
+        "&:hover": {
           border: `2px solid rgba(255, 104, 233, 1)`,
         },
       },
       outlinedSecondary: {
         border: `2px solid ${primaryOrange}`,
-        backgroundColor: '#FFF',
+        backgroundColor: "#FFF",
         color: neutral90,
-        '&:hover': {
-          backgroundColor: '#FFC85733',
+        "&:hover": {
+          backgroundColor: "#FFC85733",
         },
       },
     },
     MuiButtonGroup: {
       groupedOutlinedPrimary: {
-        borderColor: '#9816A8',
-        backgroundColor: 'transparent',
-        color: '#FFF',
-        '&:hover': {
-          backgroundColor: 'transparent',
-          borderColor: '#9816A8',
+        borderColor: "#9816A8",
+        backgroundColor: "transparent",
+        color: "#FFF",
+        "&:hover": {
+          backgroundColor: "transparent",
+          borderColor: "#9816A8",
         },
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 export default theme;
