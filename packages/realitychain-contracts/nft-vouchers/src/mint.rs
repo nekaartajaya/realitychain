@@ -16,7 +16,7 @@ impl RealityParcelVouchersContract {
         receiver_id: AccountId,
         amount: u128,
         token_series_id: String,
-    ) -> TokenId {
+    ) -> Vec<TokenId> {
         assert!(
             amount >= 62857143000000,
             "RealityChain: Amount staked is not enough"
@@ -41,20 +41,16 @@ impl RealityParcelVouchersContract {
             .get(&token_series_id)
             .expect("RealityChain: Token series does not exist");
 
-        // let mut copies = token_series.metadata.copies.clone().unwrap();
-        // let dao_copies = copies / 11;
-        // copies = copies - dao_copies;
-
-        // for _n in 1..copies {
-        //     self.nft_mint_series(token_series_id.clone(), sender_id.to_string());
-        // }
-        let token_id: TokenId = self.nft_mint_series(token_series_id, sender_id.to_string());
+        let mut token_ids: Vec<TokenId> = vec![];
+        for _n in 0..50 {
+            token_ids.push(self.nft_mint_series(token_series_id.clone(), sender_id.to_string()));
+        }
 
         refund_deposit(env::storage_usage() - initial_storage_usage, 0);
 
-        NearEvent::log_nft_mint(sender_id.to_string(), vec![token_id.clone()], None);
+        NearEvent::log_nft_mint(sender_id.to_string(), token_ids.clone(), None);
 
-        token_id
+        token_ids
     }
 
     pub fn nft_mint_series(

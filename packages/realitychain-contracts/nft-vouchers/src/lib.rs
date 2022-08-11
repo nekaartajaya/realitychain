@@ -167,7 +167,7 @@ mod tests {
     use near_contract_standards::storage_management::StorageManagement;
 
     const STORAGE_FOR_CREATE_SERIES: Balance = 8540000000000000000000;
-    const STORAGE_FOR_MINT: Balance = 11280000000000000000000;
+    const STORAGE_FOR_MINT: Balance = 263230000000000000000000;
 
     const TOTAL_SUPPLY: Balance = 1_000_000_000_000_000;
 
@@ -389,13 +389,13 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_id = contract.ft_stake_and_nft_mint(
+        let token_ids = contract.ft_stake_and_nft_mint(
             accounts(2).to_string(),
             (TOTAL_SUPPLY / 4).into(),
             token_series_id,
         );
 
-        let token_from_nft_token = contract.nft_token(token_id);
+        let token_from_nft_token = contract.nft_token(token_ids[0].clone());
         assert_eq!(
             token_from_nft_token.unwrap().owner_id,
             accounts(2).to_string()
@@ -456,11 +456,6 @@ mod tests {
             (TOTAL_SUPPLY / 4).into(),
             token_series_id.clone(),
         );
-        contract.ft_stake_and_nft_mint(
-            accounts(0).to_string(),
-            (TOTAL_SUPPLY / 4).into(),
-            token_series_id,
-        );
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -471,7 +466,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "RealityChain: cannot decrease supply, already minted : 2")]
+    #[should_panic(expected = "RealityChain: cannot decrease supply, already minted : 50")]
     fn test_invalid_decrease_copies() {
         let (mut context, mut contract, _) = setup_contract();
         testing_env!(context
@@ -482,7 +477,7 @@ mod tests {
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
         royalty.insert(accounts(1).to_string(), 2000);
 
-        let token_series_id = create_series(&mut contract, &royalty, None, Some(5));
+        let token_series_id = create_series(&mut contract, &royalty, None, Some(49));
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -493,11 +488,6 @@ mod tests {
             accounts(0).to_string(),
             (TOTAL_SUPPLY / 4).into(),
             token_series_id.clone(),
-        );
-        contract.ft_stake_and_nft_mint(
-            accounts(0).to_string(),
-            (TOTAL_SUPPLY / 4).into(),
-            token_series_id,
         );
 
         testing_env!(context
@@ -551,7 +541,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_id = contract.ft_stake_and_nft_mint(
+        let token_ids = contract.ft_stake_and_nft_mint(
             accounts(0).to_string(),
             (TOTAL_SUPPLY / 4).into(),
             token_series_id,
@@ -562,8 +552,8 @@ mod tests {
             .attached_deposit(1)
             .build());
 
-        contract.nft_burn(token_id.clone());
-        let token = contract.nft_token(token_id);
+        contract.nft_burn(token_ids[0].clone());
+        let token = contract.nft_token(token_ids[0].clone());
         assert!(token.is_none());
     }
 
@@ -585,7 +575,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_id = contract.ft_stake_and_nft_mint(
+        let token_ids = contract.ft_stake_and_nft_mint(
             accounts(2).to_string(),
             (TOTAL_SUPPLY / 4).into(),
             token_series_id,
@@ -596,9 +586,9 @@ mod tests {
             .attached_deposit(1)
             .build());
 
-        contract.nft_transfer(accounts(3), token_id.clone(), None, None);
+        contract.nft_transfer(accounts(3), token_ids[0].clone(), None, None);
 
-        let token = contract.nft_token(token_id).unwrap();
+        let token = contract.nft_token(token_ids[0].clone()).unwrap();
         assert_eq!(token.owner_id, accounts(3).to_string())
     }
 
@@ -620,7 +610,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_id = contract.ft_stake_and_nft_mint(
+        let token_ids = contract.ft_stake_and_nft_mint(
             accounts(0).to_string(),
             (TOTAL_SUPPLY / 4).into(),
             token_series_id,
@@ -628,9 +618,9 @@ mod tests {
 
         testing_env!(context.predecessor_account_id(accounts(1)).build());
 
-        contract.nft_transfer_unsafe(accounts(3), token_id.clone(), None, None);
+        contract.nft_transfer_unsafe(accounts(3), token_ids[0].clone(), None, None);
 
-        let token = contract.nft_token(token_id).unwrap();
+        let token = contract.nft_token(token_ids[0].clone()).unwrap();
         assert_eq!(token.owner_id, accounts(3).to_string())
     }
 
@@ -652,7 +642,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_id = contract.ft_stake_and_nft_mint(
+        let token_ids = contract.ft_stake_and_nft_mint(
             accounts(0).to_string(),
             (TOTAL_SUPPLY / 4).into(),
             token_series_id,
@@ -665,7 +655,7 @@ mod tests {
 
         let payout = contract.nft_transfer_payout(
             accounts(3),
-            token_id.clone(),
+            token_ids[0].clone(),
             Some(0),
             Some(U128::from(1 * 10u128.pow(24))),
             Some(10),
@@ -679,7 +669,7 @@ mod tests {
 
         assert_eq!(payout.unwrap().payout, payout_calc);
 
-        let token = contract.nft_token(token_id).unwrap();
+        let token = contract.nft_token(token_ids[0].clone()).unwrap();
         assert_eq!(token.owner_id, accounts(3).to_string())
     }
 
