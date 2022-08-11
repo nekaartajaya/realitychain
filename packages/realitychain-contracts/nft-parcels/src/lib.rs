@@ -157,7 +157,6 @@ mod tests {
     use super::*;
     use near_sdk::test_utils::{accounts, VMContextBuilder};
     use near_sdk::testing_env;
-    use near_sdk::MockedBlockchain;
 
     const STORAGE_FOR_CREATE_SERIES: Balance = 8540000000000000000000;
     const STORAGE_FOR_MINT: Balance = 11280000000000000000000;
@@ -174,16 +173,25 @@ mod tests {
     fn setup_contract() -> (VMContextBuilder, RealityParcelsContract) {
         let mut context = VMContextBuilder::new();
         testing_env!(context.predecessor_account_id(accounts(0)).build());
-        let contract = RealityParcelsContract::new_default_meta(accounts(0), accounts(4));
+        let contract = RealityParcelsContract::new_default_meta(
+            accounts(0),
+            accounts(1),
+            accounts(2),
+            accounts(3),
+            accounts(4),
+        );
         (context, contract)
     }
 
     #[test]
     fn test_new() {
-        let mut context = get_context(accounts(1));
+        let mut context = get_context(accounts(3));
         testing_env!(context.build());
         let contract = RealityParcelsContract::new(
+            accounts(0),
             accounts(1),
+            accounts(2),
+            accounts(3),
             accounts(4),
             NFTContractMetadata {
                 spec: NFT_METADATA_SPEC.to_string(),
@@ -197,7 +205,7 @@ mod tests {
             500,
         );
         testing_env!(context.is_view(true).build());
-        assert_eq!(contract.get_owner(), accounts(1).to_string());
+        assert_eq!(contract.get_owner(), accounts(3));
         assert_eq!(
             contract.nft_metadata().base_uri.unwrap(),
             "https://ipfs.fleek.co/ipfs/".to_string()
@@ -257,7 +265,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
         create_series(
             &mut contract,
             &royalty,
@@ -266,7 +274,7 @@ mod tests {
         );
 
         let nft_series_return = contract.nft_get_series_single("1".to_string());
-        assert_eq!(nft_series_return.creator_id, accounts(1).to_string());
+        assert_eq!(nft_series_return.creator_id, accounts(1));
 
         assert_eq!(nft_series_return.token_series_id, "1",);
 
@@ -296,7 +304,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
         create_series(
             &mut contract,
             &royalty,
@@ -305,7 +313,7 @@ mod tests {
         );
 
         let nft_series_return = contract.nft_get_series_single("1".to_string());
-        assert_eq!(nft_series_return.creator_id, accounts(1).to_string());
+        assert_eq!(nft_series_return.creator_id, accounts(1));
 
         assert_eq!(nft_series_return.token_series_id, "1",);
 
@@ -346,7 +354,7 @@ mod tests {
         let nft_series_return =
             contract.nft_get_series_single(nft_series_return.token_series_id.clone().to_string());
 
-        assert_eq!(nft_series_return.creator_id, accounts(1).to_string());
+        assert_eq!(nft_series_return.creator_id, accounts(1));
 
         assert_eq!(nft_series_return.token_series_id, "1",);
 
@@ -382,7 +390,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
         create_series(
             &mut contract,
             &royalty,
@@ -392,7 +400,7 @@ mod tests {
 
         let nft_series_return = contract.nft_get_series_single("1".to_string());
 
-        assert_eq!(nft_series_return.creator_id, accounts(1).to_string());
+        assert_eq!(nft_series_return.creator_id, accounts(1));
 
         assert_eq!(nft_series_return.token_series_id, "1",);
 
@@ -442,7 +450,7 @@ mod tests {
         let nft_series_return =
             contract.nft_get_series_single(nft_series_return.token_series_id.clone().to_string());
 
-        assert_eq!(nft_series_return.creator_id, accounts(1).to_string());
+        assert_eq!(nft_series_return.creator_id, accounts(1));
 
         assert_eq!(nft_series_return.token_series_id, "1",);
 
@@ -472,7 +480,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(
             &mut contract,
@@ -489,10 +497,7 @@ mod tests {
         let token_id = contract.nft_buy("1".to_string(), accounts(2));
 
         let token_from_nft_token = contract.nft_token(token_id);
-        assert_eq!(
-            token_from_nft_token.unwrap().owner_id,
-            accounts(2).to_string()
-        )
+        assert_eq!(token_from_nft_token.unwrap().owner_id, accounts(2))
     }
 
     #[test]
@@ -504,7 +509,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(&mut contract, &royalty, None, Some(100));
 
@@ -516,10 +521,7 @@ mod tests {
         let token_id = contract.nft_mint("1".to_string(), accounts(2));
 
         let token_from_nft_token = contract.nft_token(token_id);
-        assert_eq!(
-            token_from_nft_token.unwrap().owner_id,
-            accounts(2).to_string()
-        )
+        assert_eq!(token_from_nft_token.unwrap().owner_id, accounts(2))
     }
 
     #[test]
@@ -532,7 +534,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(&mut contract, &royalty, None, Some(1));
 
@@ -554,7 +556,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(&mut contract, &royalty, None, Some(100));
 
@@ -584,7 +586,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(&mut contract, &royalty, None, Some(5));
 
@@ -614,7 +616,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(
             &mut contract,
@@ -638,10 +640,7 @@ mod tests {
         let token_id = contract.nft_buy("1".to_string(), accounts(2));
 
         let token_from_nft_token = contract.nft_token(token_id);
-        assert_eq!(
-            token_from_nft_token.unwrap().owner_id,
-            accounts(2).to_string()
-        )
+        assert_eq!(token_from_nft_token.unwrap().owner_id, accounts(2))
     }
 
     #[test]
@@ -654,7 +653,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(
             &mut contract,
@@ -678,7 +677,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(&mut contract, &royalty, None, Some(100));
 
@@ -708,7 +707,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(&mut contract, &royalty, None, Some(100));
 
@@ -727,7 +726,7 @@ mod tests {
         contract.nft_transfer(accounts(3), token_id.clone(), None, None);
 
         let token = contract.nft_token(token_id).unwrap();
-        assert_eq!(token.owner_id, accounts(3).to_string())
+        assert_eq!(token.owner_id, accounts(3))
     }
 
     #[test]
@@ -739,7 +738,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(&mut contract, &royalty, None, Some(100));
 
@@ -755,7 +754,7 @@ mod tests {
         contract.nft_transfer_unsafe(accounts(3), token_id.clone(), None, None);
 
         let token = contract.nft_token(token_id).unwrap();
-        assert_eq!(token.owner_id, accounts(3).to_string())
+        assert_eq!(token.owner_id, accounts(3))
     }
 
     #[test]
@@ -767,7 +766,7 @@ mod tests {
             .build());
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         create_series(&mut contract, &royalty, None, Some(100));
 
@@ -793,18 +792,18 @@ mod tests {
 
         let mut payout_calc: HashMap<AccountId, U128> = HashMap::new();
         payout_calc.insert(
-            accounts(1).to_string(),
+            accounts(1),
             U128::from((2000 * (1 * 10u128.pow(24))) / 10_000),
         );
         payout_calc.insert(
-            accounts(2).to_string(),
+            accounts(2),
             U128::from((8000 * (1 * 10u128.pow(24))) / 10_000),
         );
 
         assert_eq!(payout.unwrap().payout, payout_calc);
 
         let token = contract.nft_token(token_id).unwrap();
-        assert_eq!(token.owner_id, accounts(3).to_string())
+        assert_eq!(token.owner_id, accounts(3))
     }
 
     #[test]
@@ -812,7 +811,7 @@ mod tests {
         let (mut context, mut contract) = setup_contract();
 
         testing_env!(context
-            .predecessor_account_id(accounts(0))
+            .predecessor_account_id(accounts(3))
             .attached_deposit(1)
             .build());
 
@@ -826,7 +825,7 @@ mod tests {
         let (mut context, mut contract) = setup_contract();
 
         testing_env!(context
-            .predecessor_account_id(accounts(0))
+            .predecessor_account_id(accounts(3))
             .attached_deposit(1)
             .build());
 
@@ -862,7 +861,7 @@ mod tests {
         let (mut context, mut contract) = setup_contract();
 
         testing_env!(context
-            .predecessor_account_id(accounts(0))
+            .predecessor_account_id(accounts(3))
             .attached_deposit(1)
             .build());
 
@@ -876,7 +875,7 @@ mod tests {
         contract.set_transaction_fee(next_fee, Some(start_time_sec));
 
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1).to_string(), 2000);
+        royalty.insert(accounts(1), 2000);
 
         testing_env!(context
             .predecessor_account_id(accounts(0))
