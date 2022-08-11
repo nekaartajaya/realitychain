@@ -273,7 +273,7 @@ mod tests {
 
         assert!(nft_series_return.metadata.copies.is_some());
 
-        assert_eq!(nft_series_return.metadata.copies.unwrap(), 110,);
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -312,7 +312,7 @@ mod tests {
 
         assert!(nft_series_return.metadata.copies.is_some());
 
-        assert_eq!(nft_series_return.metadata.copies.unwrap(), 110,);
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -359,7 +359,7 @@ mod tests {
 
         assert!(nft_series_return.metadata.copies.is_some());
 
-        assert_eq!(nft_series_return.metadata.copies.unwrap(), 110,);
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -399,7 +399,7 @@ mod tests {
 
         assert!(nft_series_return.metadata.copies.is_some());
 
-        assert_eq!(nft_series_return.metadata.copies.unwrap(), 110,);
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -449,7 +449,7 @@ mod tests {
 
         assert!(nft_series_return.metadata.copies.is_some());
 
-        assert_eq!(nft_series_return.metadata.copies.unwrap(), 110,);
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),

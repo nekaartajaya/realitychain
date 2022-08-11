@@ -41,6 +41,7 @@ impl RealityParcelVouchersContract {
             .get(&token_series_id)
             .expect("RealityChain: Token series does not exist");
 
+        // Limited to 50 NFTs because of gas limits
         let mut token_ids: Vec<TokenId> = vec![];
         for _n in 0..50 {
             token_ids.push(self.nft_mint_series(token_series_id.clone(), sender_id.to_string()));
