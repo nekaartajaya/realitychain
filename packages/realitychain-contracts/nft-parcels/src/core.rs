@@ -8,8 +8,17 @@ use near_sdk::{
 #[near_bindgen]
 impl RealityParcelsContract {
     #[init]
-    pub fn new_default_meta(owner_id: ValidAccountId, treasury_id: ValidAccountId) -> Self {
+    pub fn new_default_meta(
+        contract_id: AccountId,
+        parcel_nft_id: AccountId,
+        real_ft_id: AccountId,
+        owner_id: AccountId,
+        treasury_id: AccountId,
+    ) -> Self {
         Self::new(
+            contract_id,
+            parcel_nft_id,
+            real_ft_id,
             owner_id,
             treasury_id,
             NFTContractMetadata {
@@ -27,14 +36,20 @@ impl RealityParcelsContract {
 
     #[init]
     pub fn new(
-        owner_id: ValidAccountId,
-        treasury_id: ValidAccountId,
+        contract_id: AccountId,
+        parcel_nft_id: AccountId,
+        real_ft_id: AccountId,
+        owner_id: AccountId,
+        treasury_id: AccountId,
         metadata: NFTContractMetadata,
         current_fee: u16,
     ) -> Self {
         assert!(!env::state_exists(), "Already initialized");
         metadata.assert_valid();
         Self {
+            contract_id: contract_id,
+            parcel_nft_id: parcel_nft_id,
+            real_ft_id: real_ft_id,
             tokens: NonFungibleToken::new(
                 StorageKey::NonFungibleToken,
                 owner_id,
@@ -44,7 +59,7 @@ impl RealityParcelsContract {
             ),
             token_series_by_id: UnorderedMap::new(StorageKey::TokenSeriesById),
             metadata: LazyOption::new(StorageKey::Metadata, Some(&metadata)),
-            treasury_id: treasury_id.to_string(),
+            treasury_id: treasury_id,
             transaction_fee: TransactionFee {
                 next_fee: None,
                 start_time: None,
@@ -66,6 +81,9 @@ impl RealityParcelsContract {
         );
 
         RealityParcelsContract {
+            contract_id: env::predecessor_account_id(),
+            parcel_nft_id: env::predecessor_account_id(),
+            real_ft_id: env::predecessor_account_id(),
             tokens: prev.tokens,
             metadata: prev.metadata,
             token_series_by_id: prev.token_series_by_id,
@@ -151,14 +169,14 @@ impl RealityParcelsContract {
 
     // Treasury
     #[payable]
-    pub fn set_treasury(&mut self, treasury_id: ValidAccountId) {
+    pub fn set_treasury(&mut self, treasury_id: AccountId) {
         assert_one_yocto();
         assert_eq!(
             env::predecessor_account_id(),
             self.tokens.owner_id,
             "RealityChain: Owner only"
         );
-        self.treasury_id = treasury_id.to_string();
+        self.treasury_id = treasury_id;
     }
 
     // CUSTOM
@@ -166,9 +184,9 @@ impl RealityParcelsContract {
     #[payable]
     pub fn nft_create_series(
         &mut self,
-        creator_id: Option<ValidAccountId>,
+        creator_id: Option<AccountId>,
         parcel_metadata: ParcelMetadata,
-        mut token_metadata: TokenMetadata,
+        token_metadata: TokenMetadata,
         price: Option<U128>,
         royalty: Option<HashMap<AccountId, u32>>,
     ) -> TokenSeriesJson {
@@ -177,7 +195,7 @@ impl RealityParcelsContract {
 
         if creator_id.is_some() {
             assert_eq!(
-                creator_id.unwrap().to_string(),
+                creator_id.unwrap(),
                 caller_id,
                 "RealityChain: Caller is not creator_id"
             );
@@ -205,14 +223,15 @@ impl RealityParcelsContract {
         // Add 10% of copies
         let copies = copies.unwrap();
         let new_copies = copies + (copies / 10);
-        token_metadata.copies = Some(new_copies);
+        let mut new_token_metadata = token_metadata;
+        new_token_metadata.copies = Some(new_copies);
 
         let mut total_perpetual = 0;
         let mut total_accounts = 0;
         let royalty_res: HashMap<AccountId, u32> = if let Some(royalty) = royalty {
             for (k, v) in royalty.iter() {
                 if !is_valid_account_id(k.as_bytes()) {
-                    env::panic("Not valid account_id for royalty".as_bytes());
+                    env::panic_str("Not valid account_id for royalty".as_ref());
                 };
                 total_perpetual += *v;
                 total_accounts += 1;
@@ -247,8 +266,8 @@ impl RealityParcelsContract {
             &token_series_id,
             &TokenSeries {
                 parcel_metadata: parcel_metadata.clone(),
-                metadata: token_metadata.clone(),
-                creator_id: caller_id.to_string(),
+                metadata: new_token_metadata.clone(),
+                creator_id: caller_id.clone(),
                 tokens: UnorderedSet::new(
                     StorageKey::TokensBySeriesInner {
                         token_series: token_series_id.clone(),
@@ -268,28 +287,27 @@ impl RealityParcelsContract {
             .transaction_fee
             .insert(&token_series_id, &current_transaction_fee);
 
-        env::log(
-            json!({
+        env::log_str(
+            &json!({
                 "type": "nft_create_series",
                 "params": {
                     "token_series_id": token_series_id,
                     "parcel_metadata": parcel_metadata,
-                    "token_metadata": token_metadata,
+                    "token_metadata": new_token_metadata,
                     "creator_id": caller_id,
                     "price": price,
                     "royalty": royalty_res,
                     "transaction_fee": &current_transaction_fee.to_string()
                 }
             })
-            .to_string()
-            .as_bytes(),
+            .to_string(),
         );
 
         refund_deposit(env::storage_usage() - initial_storage_usage, 0);
 
         TokenSeriesJson {
             token_series_id,
-            metadata: token_metadata,
+            metadata: new_token_metadata,
             parcel_metadata,
             creator_id: caller_id,
             royalty: royalty_res,
@@ -335,8 +353,8 @@ impl RealityParcelsContract {
 
         self.token_series_by_id
             .insert(&token_series_id, &token_series);
-        env::log(
-            json!({
+        env::log_str(
+            &json!({
                 "type": "nft_decrease_series_copies",
                 "params": {
                     "token_series_id": token_series_id,
@@ -344,8 +362,7 @@ impl RealityParcelsContract {
                     "is_non_mintable": is_non_mintable,
                 }
             })
-            .to_string()
-            .as_bytes(),
+            .to_string(),
         );
         U64::from(token_series.metadata.copies.unwrap())
     }
@@ -393,8 +410,8 @@ impl RealityParcelsContract {
             .transaction_fee
             .insert(&token_series_id, &current_transaction_fee);
 
-        env::log(
-            json!({
+        env::log_str(
+            &json!({
                 "type": "nft_set_series_price",
                 "params": {
                     "token_series_id": token_series_id,
@@ -402,8 +419,7 @@ impl RealityParcelsContract {
                     "transaction_fee": current_transaction_fee.to_string()
                 }
             })
-            .to_string()
-            .as_bytes(),
+            .to_string(),
         );
 
         price
@@ -444,8 +460,8 @@ impl RealityParcelsContract {
             .transaction_fee
             .insert(&token_series_id, &current_transaction_fee);
 
-        env::log(
-            json!({
+        env::log_str(
+            &json!({
                 "type": "nft_set_series_parcel_metadata",
                 "params": {
                     "token_series_id": token_series_id,
@@ -456,8 +472,7 @@ impl RealityParcelsContract {
                     "transaction_fee": &current_transaction_fee.to_string()
                 }
             })
-            .to_string()
-            .as_bytes(),
+            .to_string(),
         );
 
         TokenSeriesJson {
@@ -505,8 +520,8 @@ impl RealityParcelsContract {
             .transaction_fee
             .insert(&token_series_id, &current_transaction_fee);
 
-        env::log(
-            json!({
+        env::log_str(
+            &json!({
                 "type": "nft_set_series_metadata",
                 "params": {
                     "token_series_id": token_series_id,
@@ -517,8 +532,7 @@ impl RealityParcelsContract {
                     "transaction_fee": &current_transaction_fee.to_string()
                 }
             })
-            .to_string()
-            .as_bytes(),
+            .to_string(),
         );
 
         TokenSeriesJson {
@@ -558,7 +572,7 @@ impl RealityParcelsContract {
 
         self.tokens.owner_by_id.remove(&token_id);
 
-        NearEvent::log_nft_burn(owner_id, vec![token_id], None, None);
+        NearEvent::log_nft_burn(owner_id.to_string(), vec![token_id], None, None);
     }
 
     // CUSTOM VIEWS
@@ -701,16 +715,15 @@ impl RealityParcelsContract {
 
     pub fn nft_transfer_unsafe(
         &mut self,
-        receiver_id: ValidAccountId,
+        receiver_id: AccountId,
         token_id: TokenId,
         approval_id: Option<u64>,
         memo: Option<String>,
     ) {
         let sender_id = env::predecessor_account_id();
-        let receiver_id_str = receiver_id.to_string();
         let (previous_owner_id, _) = self.tokens.internal_transfer(
             &sender_id,
-            &receiver_id_str,
+            &receiver_id,
             &token_id,
             approval_id,
             memo.clone(),
@@ -722,19 +735,25 @@ impl RealityParcelsContract {
             None
         };
 
+        let authorized_id_str: Option<String> = if let Some(id) = authorized_id {
+            Some(id.to_string())
+        } else {
+            Some("".to_string())
+        };
+
         NearEvent::log_nft_transfer(
-            previous_owner_id,
-            receiver_id_str,
+            previous_owner_id.to_string(),
+            receiver_id.to_string(),
             vec![token_id],
             memo,
-            authorized_id,
+            authorized_id_str,
         );
     }
 
     #[payable]
     pub fn nft_transfer(
         &mut self,
-        receiver_id: ValidAccountId,
+        receiver_id: AccountId,
         token_id: TokenId,
         approval_id: Option<u64>,
         memo: Option<String>,
@@ -755,19 +774,25 @@ impl RealityParcelsContract {
             None
         };
 
+        let authorized_id_str: Option<String> = if let Some(id) = authorized_id {
+            Some(id.to_string())
+        } else {
+            Some("".to_string())
+        };
+
         NearEvent::log_nft_transfer(
-            previous_owner_id,
+            previous_owner_id.to_string(),
             receiver_id_str,
             vec![token_id],
             memo,
-            authorized_id,
+            authorized_id_str,
         );
     }
 
     #[payable]
     pub fn nft_transfer_call(
         &mut self,
-        receiver_id: ValidAccountId,
+        receiver_id: AccountId,
         token_id: TokenId,
         approval_id: Option<u64>,
         memo: Option<String>,
@@ -777,7 +802,7 @@ impl RealityParcelsContract {
         let sender_id = env::predecessor_account_id();
         let (previous_owner_id, old_approvals) = self.tokens.internal_transfer(
             &sender_id,
-            receiver_id.as_ref(),
+            &receiver_id,
             &token_id,
             approval_id,
             memo.clone(),
@@ -789,34 +814,32 @@ impl RealityParcelsContract {
             None
         };
 
+        let authorized_id_str: Option<String> = if let Some(id) = authorized_id {
+            Some(id.to_string())
+        } else {
+            Some("".to_string())
+        };
+
         NearEvent::log_nft_transfer(
-            previous_owner_id.clone(),
+            previous_owner_id.clone().to_string(),
             receiver_id.to_string(),
             vec![token_id.clone()],
             memo,
-            authorized_id,
+            authorized_id_str,
         );
 
         // Initiating receiver's call and the callback
-        ext_non_fungible_token_receiver::nft_on_transfer(
-            sender_id,
-            previous_owner_id.clone(),
-            token_id.clone(),
-            msg,
-            receiver_id.as_ref(),
-            NO_DEPOSIT,
-            env::prepaid_gas() - GAS_FOR_NFT_TRANSFER_CALL,
-        )
-        .then(ext_self::nft_resolve_transfer(
-            previous_owner_id,
-            receiver_id.into(),
-            token_id,
-            old_approvals,
-            &env::current_account_id(),
-            NO_DEPOSIT,
-            GAS_FOR_RESOLVE_TRANSFER,
-        ))
-        .into()
+        ext_non_fungible_token_receiver::ext(self.contract_id.clone())
+            .nft_on_transfer(sender_id, previous_owner_id.clone(), token_id.clone(), msg)
+            .then(
+                ext_self::ext(self.contract_id.clone()).nft_resolve_transfer(
+                    previous_owner_id,
+                    receiver_id.into(),
+                    token_id,
+                    old_approvals,
+                ),
+            )
+            .into()
     }
 
     // CUSTOM enumeration standard modified here because no macro below
@@ -845,26 +868,26 @@ impl RealityParcelsContract {
             .collect()
     }
 
-    pub fn nft_supply_for_owner(self, account_id: ValidAccountId) -> U128 {
+    pub fn nft_supply_for_owner(self, account_id: AccountId) -> U128 {
         let tokens_per_owner = self.tokens.tokens_per_owner.expect(
             "Could not find tokens_per_owner when calling a method on the enumeration standard.",
         );
         tokens_per_owner
-            .get(account_id.as_ref())
+            .get(&account_id)
             .map(|account_tokens| U128::from(account_tokens.len() as u128))
             .unwrap_or(U128(0))
     }
 
     pub fn nft_tokens_for_owner(
         &self,
-        account_id: ValidAccountId,
+        account_id: AccountId,
         from_index: Option<U128>,
         limit: Option<u64>,
     ) -> Vec<Token> {
         let tokens_per_owner = self.tokens.tokens_per_owner.as_ref().expect(
             "Could not find tokens_per_owner when calling a method on the enumeration standard.",
         );
-        let token_set = if let Some(token_set) = tokens_per_owner.get(account_id.as_ref()) {
+        let token_set = if let Some(token_set) = tokens_per_owner.get(&account_id) {
             token_set
         } else {
             return vec![];
@@ -925,7 +948,7 @@ impl RealityParcelsContract {
     #[payable]
     pub fn nft_transfer_payout(
         &mut self,
-        receiver_id: ValidAccountId,
+        receiver_id: AccountId,
         token_id: TokenId,
         approval_id: Option<u64>,
         balance: Option<U128>,
@@ -987,12 +1010,18 @@ impl RealityParcelsContract {
             None
         };
 
+        let authorized_id_str: Option<String> = if let Some(id) = authorized_id {
+            Some(id.to_string())
+        } else {
+            Some("".to_string())
+        };
+
         NearEvent::log_nft_transfer(
-            previous_owner_id,
+            previous_owner_id.to_string(),
             receiver_id.to_string(),
             vec![token_id],
             None,
-            authorized_id,
+            authorized_id_str,
         );
 
         payout

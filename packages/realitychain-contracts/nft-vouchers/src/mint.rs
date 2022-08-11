@@ -1,10 +1,11 @@
 use crate::*;
 use near_sdk::{env, ext_contract, near_bindgen, AccountId};
 
-const GAS_FOR_CALLBACK: Gas = 5_000_000_000_000;
+const GAS_FOR_CALLBACK: Gas = near_sdk::Gas(5_000_000_000_000);
 
-#[ext_contract(ext_ft)]
+#[ext_contract(real_ft)]
 trait FungibleToken {
+    #[payable]
     fn ft_transfer(&mut self, receiver_id: AccountId, amount: U128, memo: Option<String>);
 }
 
@@ -22,21 +23,16 @@ impl RealityParcelVouchersContract {
             "RealityChain: Amount staked is not enough"
         );
 
-        ext_ft::ft_transfer(
-            receiver_id,
-            U128::from(amount),
-            None,
-            &env::current_account_id().to_string(),
-            0, // amount of yoctoNEAR to attach
-            GAS_FOR_CALLBACK,
-        );
+        real_ft::ext(self.real_ft_id.clone())
+            .with_static_gas(GAS_FOR_CALLBACK)
+            .ft_transfer(receiver_id, U128::from(amount), None);
 
         self.locked_amount = U128::from(amount);
 
         let initial_storage_usage = env::storage_usage();
         let sender_id = env::predecessor_account_id();
 
-        let token_series = self
+        let _ = self
             .token_series_by_id
             .get(&token_series_id)
             .expect("RealityChain: Token series does not exist");
@@ -44,7 +40,7 @@ impl RealityParcelVouchersContract {
         // Limited to 50 NFTs because of gas limits
         let mut token_ids: Vec<TokenId> = vec![];
         for _n in 0..50 {
-            token_ids.push(self.nft_mint_series(token_series_id.clone(), sender_id.to_string()));
+            token_ids.push(self.nft_mint_series(token_series_id.clone(), sender_id.clone()));
         }
 
         refund_deposit(env::storage_usage() - initial_storage_usage, 0);

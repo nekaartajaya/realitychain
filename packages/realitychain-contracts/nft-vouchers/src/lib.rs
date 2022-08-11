@@ -1,6 +1,5 @@
-use near_contract_standards::non_fungible_token::core::{
-    NonFungibleTokenCore, NonFungibleTokenResolver,
-};
+use near_contract_standards::non_fungible_token::core::NonFungibleTokenCore;
+use near_contract_standards::non_fungible_token::core::NonFungibleTokenResolver;
 use near_contract_standards::non_fungible_token::metadata::{
     NFTContractMetadata, NonFungibleTokenMetadataProvider, TokenMetadata, NFT_METADATA_SPEC,
 };
@@ -9,7 +8,7 @@ use near_contract_standards::non_fungible_token::{Token, TokenId};
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::{LazyOption, UnorderedMap, UnorderedSet};
 use near_sdk::env::is_valid_account_id;
-use near_sdk::json_types::{ValidAccountId, U128, U64};
+use near_sdk::json_types::{U128, U64};
 use near_sdk::{
     env, ext_contract, near_bindgen, AccountId, Balance, Gas, PanicOnDefault, Promise, Timestamp,
 };
@@ -34,9 +33,6 @@ pub const TITLE_DELIMETER: &str = " #";
 /// e.g. "Title — 2/10" where 10 is max copies
 pub const EDITION_DELIMETER: &str = "/";
 
-const GAS_FOR_RESOLVE_TRANSFER: Gas = 10_000_000_000_000;
-const GAS_FOR_NFT_TRANSFER_CALL: Gas = 30_000_000_000_000 + GAS_FOR_RESOLVE_TRANSFER;
-const NO_DEPOSIT: Balance = 0;
 const MAX_PRICE: Balance = 1_000_000_000 * 10u128.pow(24);
 
 pub type ContractAndTokenId = String;
@@ -58,7 +54,7 @@ trait NonFungibleTokenReceiver {
 }
 
 #[ext_contract(ext_self)]
-trait NonFungibleTokenResolver {
+trait NonFungibleTokenVouchersResolver {
     fn nft_resolve_transfer(
         &mut self,
         previous_owner_id: AccountId,
@@ -68,8 +64,7 @@ trait NonFungibleTokenResolver {
     ) -> bool;
 }
 
-near_sdk::setup_alloc!();
-
+#[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
 pub struct RealityParcelVouchersContractV1 {
     tokens: NonFungibleToken,
@@ -87,6 +82,9 @@ pub struct RealityParcelVouchersContract {
     tokens: NonFungibleToken,
     metadata: LazyOption<NFTContractMetadata>,
     // CUSTOM
+    contract_id: AccountId,
+    parcel_nft_id: AccountId,
+    real_ft_id: AccountId,
     token_series_by_id: UnorderedMap<TokenSeriesId, TokenSeries>,
     owner_id: AccountId,
     treasury_id: AccountId,
@@ -105,7 +103,7 @@ impl NonFungibleTokenMetadataProvider for RealityParcelVouchersContract {
 }
 
 #[near_bindgen]
-impl NonFungibleTokenResolver for RealityParcelVouchersContract {
+impl NonFungibleTokenVouchersResolver for RealityParcelVouchersContract {
     #[private]
     fn nft_resolve_transfer(
         &mut self,
@@ -123,7 +121,13 @@ impl NonFungibleTokenResolver for RealityParcelVouchersContract {
 
         // if not successful, return nft back to original owner
         if !resp {
-            NearEvent::log_nft_transfer(receiver_id, previous_owner_id, vec![token_id], None, None);
+            NearEvent::log_nft_transfer(
+                receiver_id.to_string(),
+                previous_owner_id.to_string(),
+                vec![token_id],
+                None,
+                None,
+            );
         }
 
         resp
@@ -160,7 +164,6 @@ mod tests {
     use super::*;
     use near_sdk::test_utils::{accounts, VMContextBuilder};
     use near_sdk::testing_env;
-    use near_sdk::MockedBlockchain;
 
     use mock::MockContract;
     use near_contract_standards::fungible_token::core::FungibleTokenCore;
@@ -171,7 +174,7 @@ mod tests {
 
     const TOTAL_SUPPLY: Balance = 1_000_000_000_000_000;
 
-    fn get_context(predecessor_account_id: ValidAccountId) -> VMContextBuilder {
+    fn get_context(predecessor_account_id: AccountId) -> VMContextBuilder {
         let mut builder = VMContextBuilder::new();
         builder
             .current_account_id(accounts(0))
@@ -335,7 +338,7 @@ mod tests {
             &mut contract,
             &royalty,
             Some(U128::from(1 * 10u128.pow(24))),
-            Some(100),
+            Some(1100),
         );
 
         let nft_series_return = contract.nft_get_series_single("1".to_string());
@@ -514,7 +517,7 @@ mod tests {
             &mut contract,
             &royalty,
             Some(U128::from(1_000_000_000 * 10u128.pow(24))),
-            Some(100),
+            Some(1100),
         );
 
         testing_env!(context
@@ -753,7 +756,7 @@ mod tests {
             &mut contract,
             &royalty,
             Some(U128::from(1 * 10u128.pow(24))),
-            Some(100),
+            Some(1100),
         );
 
         testing_env!(context

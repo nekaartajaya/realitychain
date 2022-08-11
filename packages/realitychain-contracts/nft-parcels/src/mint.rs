@@ -17,11 +17,7 @@ pub trait NonFungibleTokenReceiver {
 #[near_bindgen]
 impl RealityParcelsContract {
     #[payable]
-    pub fn nft_mint(
-        &mut self,
-        token_series_id: TokenSeriesId,
-        receiver_id: ValidAccountId,
-    ) -> TokenId {
+    pub fn nft_mint(&mut self, token_series_id: TokenSeriesId, receiver_id: AccountId) -> TokenId {
         let initial_storage_usage = env::storage_usage();
 
         let token_series = self
@@ -33,7 +29,7 @@ impl RealityParcelsContract {
             token_series.creator_id,
             "RealityChain: not creator"
         );
-        let token_id: TokenId = self._nft_mint_series(token_series_id, receiver_id.to_string());
+        let token_id: TokenId = self._nft_mint_series(token_series_id, receiver_id.clone());
 
         refund_deposit(env::storage_usage() - initial_storage_usage, 0);
 
@@ -46,7 +42,7 @@ impl RealityParcelsContract {
     pub fn nft_mint_and_approve(
         &mut self,
         token_series_id: TokenSeriesId,
-        account_id: ValidAccountId,
+        account_id: AccountId,
         msg: Option<String>,
     ) -> Option<Promise> {
         let initial_storage_usage = env::storage_usage();
@@ -92,32 +88,27 @@ impl RealityParcelsContract {
         refund_deposit(env::storage_usage() - initial_storage_usage, 0);
 
         NearEvent::log_nft_mint(
-            token_series.creator_id.clone(),
+            token_series.creator_id.clone().to_string(),
             vec![token_id.clone()],
             None,
         );
 
         if let Some(msg) = msg {
-            Some(ext_approval_receiver::nft_on_approve(
-                token_id,
-                token_series.creator_id,
-                approval_id,
-                msg,
-                &account_id,
-                NO_DEPOSIT,
-                env::prepaid_gas() - GAS_FOR_NFT_APPROVE - GAS_FOR_MINT,
-            ))
+            Some(
+                ext_approval_receiver::ext(self.contract_id.clone()).nft_on_approve(
+                    token_id,
+                    token_series.creator_id,
+                    approval_id,
+                    msg,
+                ),
+            )
         } else {
             None
         }
     }
 
     #[payable]
-    pub fn nft_buy(
-        &mut self,
-        token_series_id: TokenSeriesId,
-        receiver_id: ValidAccountId,
-    ) -> TokenId {
+    pub fn nft_buy(&mut self, token_series_id: TokenSeriesId, receiver_id: AccountId) -> TokenId {
         let initial_storage_usage = env::storage_usage();
 
         let token_series = self
@@ -131,8 +122,7 @@ impl RealityParcelsContract {
             "RealityChain: attached deposit is less than price : {}",
             price
         );
-        let token_id: TokenId =
-            self._nft_mint_series(token_series_id.clone(), receiver_id.to_string());
+        let token_id: TokenId = self._nft_mint_series(token_series_id.clone(), receiver_id.clone());
 
         let for_treasury = price as u128
             * self.calculate_market_data_transaction_fee(&token_series_id)
@@ -250,15 +240,14 @@ impl RealityParcelsContract {
         token_series.is_mintable = false;
         self.token_series_by_id
             .insert(&token_series_id, &token_series);
-        env::log(
-            json!({
+        env::log_str(
+            &json!({
                 "type": "nft_set_series_non_mintable",
                 "params": {
                     "token_series_id": token_series_id,
                 }
             })
-            .to_string()
-            .as_bytes(),
+            .to_string(),
         );
     }
 }
