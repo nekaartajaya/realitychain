@@ -4,19 +4,19 @@
   "scripts": {
     "lerna": "lerna",
     "build:all": "lerna run build",
-    "build": "lerna run build --scope=@realitychain/{erc20,api,webapp,webapp-old}",
+    "build": "lerna run build --scope=@realitychain/{erc20,api,webapp,mvp}",
     "deploy:testnet:parcels": "yarn workspace @realitychain/nft-parcels deploy:testnet",
     "deploy:testnet:vouchers": "yarn workspace @realitychain/nft-vouchers deploy:testnet",
     "prepare:all": "lerna run prepare",
-    "prepare": "lerna run prepare --scope=@realitychain/{erc20,api,webapp,webapp-old}",
+    "prepare": "lerna run prepare --scope=@realitychain/{erc20,api,webapp,mvp}",
     "lint:all": "lerna run --parallel lint --scope=@realitychain/{nft-parcels,erc20,api,nft-vouchers}",
     "lint": "lerna run --parallel lint --scope=@realitychain/{erc20}",
     "format:all": "lerna run --parallel format",
-    "format": "lerna run --parallel format --scope=@realitychain/{erc20,api,webapp,webapp-old}",
+    "format": "lerna run --parallel format --scope=@realitychain/{erc20,api,webapp,mvp}",
     "test": "lerna run --parallel test --scope=@realitychain/{erc20}",
     "test:all": "lerna run --parallel test --scope=@realitychain/{nft-parcels,erc20,nft-vouchers}",
     "start": "lerna bootstrap && yarn workspace @realitychain/webapp start",
-    "start-old": "lerna bootstrap && yarn workspace @realitychain/webapp-old start"
+    "start:mvp": "lerna bootstrap && yarn workspace @realitychain/mvp start"
   },
   "resolutions": {
     "**/ethers": "^5.6.8",
