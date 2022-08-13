@@ -57,7 +57,7 @@ const main = async () => {
         registration_only: null,
       },
       gas: 300000000000000,
-      amount: '7090000000000000000000',
+      amount: '279370000000000000000000',
     });
 
     console.log(ret);

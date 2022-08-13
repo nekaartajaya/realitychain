@@ -19,7 +19,7 @@ export async function nftCreateParcelSeries(
   contract: RcParcelsContract,
   args: NftCreateParcelSeriesDto,
   gas: number = 300000000000000,
-  amount: string = '7090000000000000000000',
+  amount: string = '279370000000000000000000',
 ): Promise<TokenSeriesJson> {
   return (await contract.nft_create_series({
     args,
@@ -32,7 +32,7 @@ export async function nftCreateVoucherSeries(
   contract: RcVouchersContract,
   args: NftCreateVoucherSeriesDto,
   gas: number = 300000000000000,
-  amount: string = '7090000000000000000000',
+  amount: string = '279370000000000000000000',
 ): Promise<TokenSeriesJson> {
   return (await contract.nft_create_series({
     args,
@@ -57,7 +57,7 @@ export async function nftBuy(
   contract: RcParcelsContract,
   args: NftBuyDto,
   gas: number = 300000000000000,
-  amount: string = '7090000000000000000000',
+  amount: string = '279370000000000000000000',
 ): Promise<any> {
   return (await contract.nft_buy({
     args,
@@ -70,7 +70,7 @@ export async function nftMint(
   contract: RcParcelsContract,
   args: NftMintDto,
   gas: number = 300000000000000,
-  amount: string = '7090000000000000000000',
+  amount: string = '279370000000000000000000',
 ): Promise<any> {
   return (await contract.nft_mint({
     args,
@@ -95,7 +95,7 @@ export async function ftStakeAndNftMint(
   contract: RcVouchersContract,
   args: FtStakeAndNftMintDto,
   gas: number = 300000000000000,
-  amount: string = '7090000000000000000000',
+  amount: string = '279370000000000000000000',
 ): Promise<any> {
   return (await contract.ft_stake_and_nft_mint({
     args,
@@ -120,7 +120,7 @@ export async function ftStorageDeposit(
   contract: Nep141Contract,
   args: StorageDepositDto,
   gas: number = 300000000000000,
-  amount: string = '7090000000000000000000',
+  amount: string = '279370000000000000000000',
 ): Promise<any> {
   return (await contract.storage_deposit({
     args,

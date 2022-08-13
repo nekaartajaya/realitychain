@@ -38,11 +38,9 @@ export const WorldComponent = ({ balance }) => {
   const price = () => {
     switch (size) {
       case "small":
-        return `${1 * 10 ** 13}`;
       case "medium":
-        return `${3 * 10 ** 13}`;
       case "large":
-        return `${5 * 10 ** 13}`;
+        return '62857143000000';
       default:
         return "0";
     }
@@ -73,7 +71,7 @@ export const WorldComponent = ({ balance }) => {
     if (balance >= value) {
       await ftStakeAndNftMint(window.vouchersContract, {
         receiver_id: "ms-vouchers.testnet",
-        amount: "10000000000000",
+        amount: 62857143000000,
         token_series_id: "1",
       });
       navigate("/minting");

@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "lerna": "lerna",
+    "bootstrap": "yarn workspace @realitychain/api setConstant && lerna bootstrap",
     "build:all": "lerna run build",
     "build": "lerna run build --scope=@realitychain/{erc20,api,webapp,mvp}",
     "init:testnet": "yarn workspace @realitychain/nft-parcels init:testnet && yarn workspace @realitychain/nft-vouchers init:testnet",
@@ -16,8 +17,8 @@
     "format": "lerna run --parallel format --scope=@realitychain/{erc20,api,webapp,mvp}",
     "test": "lerna run --parallel test --scope=@realitychain/{erc20}",
     "test:all": "lerna run --parallel test --scope=@realitychain/{nft-parcels,erc20,nft-vouchers}",
-    "start": "lerna bootstrap && yarn workspace @realitychain/webapp start",
-    "start:mvp": "lerna bootstrap && yarn workspace @realitychain/mvp start"
+    "start": "yarn bootstrap && yarn workspace @realitychain/webapp start",
+    "start:mvp": "yarn bootstrap && yarn workspace @realitychain/mvp start"
   },
   "resolutions": {
     "**/ethers": "^5.6.8",
