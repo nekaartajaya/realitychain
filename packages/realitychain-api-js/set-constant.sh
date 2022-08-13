@@ -1,4 +1,14 @@
-export interface ContractConfig {
+#!/bin/bash
+ft_input="../../fungible-token-address"
+ft_acc=$( cat "$ft_input" )
+
+parcel_input="../../nft-parcel-address"
+parcel_acc=$( cat "$parcel_input" )
+
+voucher_input="../../nft-voucher-address"
+voucher_acc=$( cat "$voucher_input" )
+
+file="export interface ContractConfig {
   networkId: string;
   nodeUrl: string;
   walletUrl: string;
@@ -18,7 +28,7 @@ export const testnetNep141Config: Nep141Config = {
   nodeUrl: 'https://rpc.testnet.near.org',
   walletUrl: 'https://wallet.testnet.near.org',
   appName: 'Reality Chain Testnet',
-  contractName: 'dev-1659971238392-58880293835351',
+  contractName: '$ft_acc',
 };
 
 export const rcParcelsTestnetConfig: RcParcelsConfig = {
@@ -26,7 +36,7 @@ export const rcParcelsTestnetConfig: RcParcelsConfig = {
   nodeUrl: 'https://rpc.testnet.near.org',
   walletUrl: 'https://wallet.testnet.near.org',
   appName: 'Reality Chain Testnet',
-  contractName: 'dev-1660421623735-59109855259501',
+  contractName: '$parcel_acc',
 };
 
 export const rcParcelsMainnetConfig: RcParcelsConfig = {
@@ -42,7 +52,7 @@ export const rcVouchersTestnetConfig: RcVouchersConfig = {
   nodeUrl: 'https://rpc.testnet.near.org',
   walletUrl: 'https://wallet.testnet.near.org',
   appName: 'Reality Chain Testnet',
-  contractName: 'dev-1660421640610-21758553617704',
+  contractName: '$voucher_acc',
 };
 
 export const rcVouchersMainnetConfig: RcVouchersConfig = {
@@ -53,4 +63,6 @@ export const rcVouchersMainnetConfig: RcVouchersConfig = {
   contractName: 'ms-vouchers.near',
 };
 
-export const oneYoctoNear: string = '1';
+export const oneYoctoNear: string = '1';"
+
+echo "$file" > "./src/constant.ts"
