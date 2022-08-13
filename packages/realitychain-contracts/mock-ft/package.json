@@ -1,0 +1,17 @@
+{
+  "name": "@realitychain/mock-ft",
+  "version": "1.0.0",
+  "description": "Reality Chain Mock FT",
+  "scripts": {
+    "build": "cd scripts && ./build.sh",
+    "deploy:testnet": "./deploy.sh",
+    "init:testnet": "./init.sh",
+    "prepare": "yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/realitychainio/realitychain-monorepo.git"
+  },
+  "author": "NEAR Inc",
+  "license": "Apache License"
+}
