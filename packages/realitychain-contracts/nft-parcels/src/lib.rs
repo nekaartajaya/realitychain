@@ -80,7 +80,7 @@ pub struct RealityParcelsContract {
     tokens: NonFungibleToken,
     metadata: LazyOption<NFTContractMetadata>,
     // CUSTOM
-    contract_id: AccountId,
+    voucher_nft_id: AccountId,
     parcel_nft_id: AccountId,
     real_ft_id: AccountId,
     token_series_by_id: UnorderedMap<TokenSeriesId, TokenSeries>,

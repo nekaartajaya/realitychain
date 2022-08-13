@@ -8,14 +8,14 @@ use near_sdk::{
 impl RealityParcelVouchersContract {
     #[init]
     pub fn new_default_meta(
-        contract_id: AccountId,
+        voucher_nft_id: AccountId,
         parcel_nft_id: AccountId,
         real_ft_id: AccountId,
         owner_id: AccountId,
         treasury_id: AccountId,
     ) -> Self {
         Self::new(
-            contract_id,
+            voucher_nft_id,
             parcel_nft_id,
             real_ft_id,
             owner_id,
@@ -35,7 +35,7 @@ impl RealityParcelVouchersContract {
 
     #[init]
     pub fn new(
-        contract_id: AccountId,
+        voucher_nft_id: AccountId,
         parcel_nft_id: AccountId,
         real_ft_id: AccountId,
         owner_id: AccountId,
@@ -53,7 +53,7 @@ impl RealityParcelVouchersContract {
                 Some(StorageKey::Enumeration),
                 Some(StorageKey::Approval),
             ),
-            contract_id: contract_id,
+            voucher_nft_id: voucher_nft_id,
             parcel_nft_id: parcel_nft_id,
             real_ft_id: real_ft_id,
             owner_id: owner_id,
@@ -85,7 +85,7 @@ impl RealityParcelVouchersContract {
             tokens: prev.tokens,
             metadata: prev.metadata,
             token_series_by_id: prev.token_series_by_id,
-            contract_id: prev.owner_id.clone(),
+            voucher_nft_id: prev.owner_id.clone(),
             parcel_nft_id: prev.owner_id.clone(),
             real_ft_id: prev.owner_id.clone(),
             owner_id: prev.owner_id,
@@ -706,10 +706,10 @@ impl RealityParcelVouchersContract {
         );
 
         // Initiating receiver's call and the callback
-        ext_non_fungible_token_receiver::ext(self.contract_id.clone())
+        ext_non_fungible_token_receiver::ext(self.voucher_nft_id.clone())
             .nft_on_transfer(sender_id, previous_owner_id.clone(), token_id.clone(), msg)
             .then(
-                ext_self::ext(self.contract_id.clone()).nft_resolve_transfer(
+                ext_self::ext(self.voucher_nft_id.clone()).nft_resolve_transfer(
                     previous_owner_id,
                     receiver_id.into(),
                     token_id,
