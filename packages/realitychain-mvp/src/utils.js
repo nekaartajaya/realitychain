@@ -66,7 +66,7 @@ export function login() {
   window.Buffer = buffer.Buffer;
   console.log(parcelsConfig.contractName, 99);
   window.walletConnection.requestSignIn({
-    contractId: "agustinustheo.testnet",
+    contractId: "rc-orang.testnet",
     methodNames: [],
   });
   const signer = new InMemorySigner(

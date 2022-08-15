@@ -65,7 +65,7 @@ export function login() {
   // the private key in localStorage.
   window.Buffer = buffer.Buffer;
   window.walletConnection.requestSignIn({
-    contractId: "agustinustheo.testnet",
+    contractId: "rc-orang.testnet",
     methodNames: [],
   });
   const signer = new InMemorySigner(

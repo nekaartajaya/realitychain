@@ -10,7 +10,7 @@ import {
 
 const main = async () => {
   try {
-    const ownerAccountId = 'agustinustheo.testnet';
+    const ownerAccountId = 'rc-orang.testnet';
     const treasuryAccountId = 'ms-vouchers.testnet';
     const keyStore = new keyStores.UnencryptedFileSystemKeyStore(`${process.env.HOME}/.near-credentials/`);
     const contract = await vouchersContractWithAccountId(ownerAccountId, keyStore, rcVouchersTestnetConfig);

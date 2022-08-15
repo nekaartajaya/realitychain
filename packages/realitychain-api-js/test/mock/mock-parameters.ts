@@ -1,6 +1,6 @@
 import { NftBuyDto, NftCreateParcelSeriesDto, NftDecreaseSeriesCopiesDto, NftMintDto } from '../../src/interfaces';
 
-export const accountId = 'agustinustheo.testnet';
+export const accountId = 'rc-orang.testnet';
 
 export const nftCreateSeriesParams: NftCreateParcelSeriesDto = {
   parcel_metadata: {
