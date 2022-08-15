@@ -12,11 +12,7 @@ trait FungibleToken {
 #[near_bindgen]
 impl RealityParcelVouchersContract {
     #[payable]
-    pub fn ft_stake_and_nft_mint(
-        &mut self,
-        amount: u128,
-        token_series_id: String,
-    ) -> Vec<TokenId> {
+    pub fn ft_stake_and_nft_mint(&mut self, amount: u128, token_series_id: String) -> Vec<TokenId> {
         assert!(
             amount >= 62857143000000,
             "RealityChain: Amount staked is not enough"

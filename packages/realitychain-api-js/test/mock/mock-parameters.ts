@@ -6,9 +6,11 @@ export const nftCreateSeriesParams: NftCreateParcelSeriesDto = {
   parcel_metadata: {
     world_id: 'world_id',
     land_id: 'land_id',
-    land_x: 0,
-    land_y: 0,
-    land_size: 0,
+    size_x: 11,
+    size_y: 11,
+    pos_x: -120,
+    pos_y: -120,
+    land_type: 'Building',
   },
   token_metadata: {
     title: 'Dark',
@@ -34,9 +36,11 @@ export const nullNftCreateSeriesParams: NftCreateParcelSeriesDto = {
   parcel_metadata: {
     world_id: 'world_id',
     land_id: 'land_id',
-    land_x: 0,
-    land_y: 0,
-    land_size: 0,
+    size_x: 11,
+    size_y: 11,
+    pos_x: -120,
+    pos_y: -120,
+    land_type: 'Building',
   },
   token_metadata: {
     title: 'Dark',
@@ -62,9 +66,11 @@ export const oneNftCreateSeriesParams: NftCreateParcelSeriesDto = {
   parcel_metadata: {
     world_id: 'world_id',
     land_id: 'land_id',
-    land_x: 0,
-    land_y: 0,
-    land_size: 0,
+    size_x: 11,
+    size_y: 11,
+    pos_x: -120,
+    pos_y: -120,
+    land_type: 'Building',
   },
   token_metadata: {
     title: 'Dark',
@@ -90,9 +96,11 @@ export const twoNftCreateSeriesParams: NftCreateParcelSeriesDto = {
   parcel_metadata: {
     world_id: 'world_id',
     land_id: 'land_id',
-    land_x: 0,
-    land_y: 0,
-    land_size: 0,
+    size_x: 11,
+    size_y: 11,
+    pos_x: -120,
+    pos_y: -120,
+    land_type: 'Building',
   },
   token_metadata: {
     title: 'Dark',
@@ -118,9 +126,11 @@ export const nftCreateSeriesWithPriceParams: NftCreateParcelSeriesDto = {
   parcel_metadata: {
     world_id: 'world_id',
     land_id: 'land_id',
-    land_x: 0,
-    land_y: 0,
-    land_size: 0,
+    size_x: 11,
+    size_y: 11,
+    pos_x: -120,
+    pos_y: -120,
+    land_type: 'Building',
   },
   token_metadata: {
     title: 'Dark',

@@ -33,6 +33,8 @@ export async function parcelsContractWithAccountId(
       'nft_decrease_series_copies',
       'nft_set_series_non_mintable',
       'nft_set_series_price',
+      'nft_set_series_parcel_metadata',
+      'nft_set_series_metadata',
     ],
   })) as RcParcelsContract;
 }

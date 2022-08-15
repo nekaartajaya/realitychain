@@ -13,6 +13,8 @@ import {
   Nep141Contract,
   StorageDepositDto,
   FtTransferCallDto,
+  NftSetSeriesParcelMetadataDto,
+  NftSetSeriesTokenMetadataDto,
 } from './interfaces';
 
 export async function nftCreateParcelSeries(
@@ -47,6 +49,30 @@ export async function nftSetSeriesNonMintable(
   gas: number = 300000000000000,
 ): Promise<TokenSeriesJson> {
   return (await contract.nft_set_series_non_mintable({
+    args,
+    gas,
+    amount: oneYoctoNear,
+  })) as TokenSeriesJson;
+}
+
+export async function nftSetSeriesParcelMetadata(
+  contract: RcParcelsContract,
+  args: NftSetSeriesParcelMetadataDto,
+  gas: number = 300000000000000,
+): Promise<TokenSeriesJson> {
+  return (await contract.nft_set_series_parcel_metadata({
+    args,
+    gas,
+    amount: oneYoctoNear,
+  })) as TokenSeriesJson;
+}
+
+export async function nftSetSeriesMetadata(
+  contract: RcParcelsContract,
+  args: NftSetSeriesTokenMetadataDto,
+  gas: number = 300000000000000,
+): Promise<TokenSeriesJson> {
+  return (await contract.nft_set_series_metadata({
     args,
     gas,
     amount: oneYoctoNear,

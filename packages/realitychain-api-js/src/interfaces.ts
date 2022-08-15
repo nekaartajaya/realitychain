@@ -47,6 +47,16 @@ export interface Royalty {
   [x: string]: number;
 }
 
+export interface NftSetSeriesParcelMetadataDto {
+  token_series_id: string;
+  parcel_metadata: ParcelMetadata;
+}
+
+export interface NftSetSeriesTokenMetadataDto {
+  token_series_id: string;
+  metadata: TokenMetadata;
+}
+
 export interface NftCreateParcelSeriesDto {
   parcel_metadata: ParcelMetadata;
   token_metadata: TokenMetadata;
@@ -115,6 +125,8 @@ export interface RcParcelsContract extends Contract {
   nft_set_series_price;
   nft_get_series_single;
   nft_token;
+  nft_set_series_metadata;
+  nft_set_series_parcel_metadata;
 }
 
 export interface RcVouchersContract extends Contract {
