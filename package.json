@@ -18,7 +18,10 @@
     "format": "lerna run --parallel format --scope=@realitychain/{erc20,api,webapp,mvp,rest}",
     "test": "lerna run --parallel test --scope=@realitychain/{erc20}",
     "test:all": "lerna run --parallel test --scope=@realitychain/{nft-parcels,erc20,nft-vouchers}",
-    "start": "yarn bootstrap && yarn workspace @realitychain/webapp start",
+    "start:frontend:dev": "yarn bootstrap && yarn workspace @realitychain/webapp start",
+    "start:backend:dev": "yarn bootstrap && yarn workspace @realitychain/rest start:dev",
+    "start:backend:staging": "pm2 stop rc-backend && yarn bootstrap && pm2 start rc-backend",
+    "start:backend:prod": "pm2 stop rc-backend-prod && yarn bootstrap && pm2 start rc-backend-prod",
     "start:mvp": "yarn bootstrap && yarn workspace @realitychain/mvp start"
   },
   "resolutions": {
