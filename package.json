@@ -10,6 +10,7 @@
     "init:testnet": "yarn workspace @realitychain/nft-parcels init:testnet && yarn workspace @realitychain/nft-vouchers init:testnet",
     "deploy:testnet": "yarn workspace @realitychain/nft-parcels deploy:testnet && yarn workspace @realitychain/nft-vouchers deploy:testnet && yarn workspace @realitychain/api setConstant",
     "clear:testnet": "rm -rf ./packages/realitychain-contracts/nft-parcels/neardev && rm -rf ./packages/realitychain-contracts/nft-vouchers/neardev",
+    "reset:testnet": "yarn clear:testnet && yarn deploy:testnet && yarn init:testnet",
     "prepare:all": "lerna run prepare",
     "prepare": "lerna run prepare --scope=@realitychain/{erc20,api,webapp,mvp,rest}",
     "lint:all": "lerna run --parallel lint --scope=@realitychain/{nft-parcels,erc20,api,nft-vouchers}",
