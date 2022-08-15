@@ -25,6 +25,8 @@
     "@nestjs/mapped-types": "^1.1.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/testing": "^9.0.9",
+    "near-api-js": "^0.45.1",
+    "dotenv": "^16.0.1",
     "typeorm": "^0.3.6"
   },
   "devDependencies": {

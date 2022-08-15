@@ -1,42 +1,20 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { NearNftsService } from './near-nfts.service';
-import { CreateNearNftDto } from './dto/create-near-nft.dto';
-import { UpdateNearNftDto } from './dto/update-near-nft.dto';
-
-@Controller('near-nfts')
+import {
+  NftSetSeriesParcelMetadataDto,
+  NftSetSeriesTokenMetadataDto,
+} from '@realitychain/api';
+@Controller('parcels')
 export class NearNftsController {
   constructor(private readonly nearNftsService: NearNftsService) {}
 
-  @Post()
-  create(@Body() createNearNftDto: CreateNearNftDto) {
-    return this.nearNftsService.create(createNearNftDto);
+  @Post('set-metadata')
+  async setMetadata(@Body() metadataDto: NftSetSeriesTokenMetadataDto) {
+    return await this.nearNftsService.setMetadata(metadataDto);
   }
 
-  @Get()
-  findAll() {
-    return this.nearNftsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.nearNftsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNearNftDto: UpdateNearNftDto) {
-    return this.nearNftsService.update(+id, updateNearNftDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.nearNftsService.remove(+id);
+  @Post('set-parcel-metadata')
+  async setParcelMetadata(@Body() parcelDto: NftSetSeriesParcelMetadataDto) {
+    return await this.nearNftsService.setParcelMetadata(parcelDto);
   }
 }

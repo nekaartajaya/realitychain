@@ -1,26 +1,45 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNearNftDto } from './dto/create-near-nft.dto';
-import { UpdateNearNftDto } from './dto/update-near-nft.dto';
+import {
+  NftSetSeriesParcelMetadataDto,
+  NftSetSeriesTokenMetadataDto,
+  nftSetSeriesParcelMetadata,
+  nftSetSeriesMetadata,
+  parcelsContractWithAccountId,
+} from '@realitychain/api';
+import { getParcelsConfig } from './config';
+import { keyStores } from 'near-api-js';
+
+require('dotenv').config(); // eslint-disable-line
 
 @Injectable()
 export class NearNftsService {
-  create(createNearNftDto: CreateNearNftDto) {
-    return 'This action adds a new nearNft';
+  async setMetadata(metadataDto: NftSetSeriesTokenMetadataDto) {
+    const parcelsConfig = getParcelsConfig('development');
+
+    // Initializing our contract APIs by contract name and configuration
+    const parcelsContract = await parcelsContractWithAccountId(
+      'rc-orang.testnet',
+      new keyStores.UnencryptedFileSystemKeyStore(
+        process.env.NEAR_CRED_DIR,
+      ),
+      parcelsConfig,
+    );
+
+    return await nftSetSeriesMetadata(parcelsContract, metadataDto);
   }
 
-  findAll() {
-    return `This action returns all nearNfts`;
-  }
+  async setParcelMetadata(parcelDto: NftSetSeriesParcelMetadataDto) {
+    const parcelsConfig = getParcelsConfig('development');
 
-  findOne(id: number) {
-    return `This action returns a #${id} nearNft`;
-  }
+    // Initializing our contract APIs by contract name and configuration
+    const parcelsContract = await parcelsContractWithAccountId(
+      'rc-orang.testnet',
+      new keyStores.UnencryptedFileSystemKeyStore(
+        process.env.NEAR_CRED_DIR,
+      ),
+      parcelsConfig,
+    );
 
-  update(id: number, updateNearNftDto: UpdateNearNftDto) {
-    return `This action updates a #${id} nearNft`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} nearNft`;
+    return await nftSetSeriesParcelMetadata(parcelsContract, parcelDto);
   }
 }
