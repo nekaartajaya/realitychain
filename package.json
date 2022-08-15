@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "lerna": "lerna",
-    "bootstrap": "yarn workspace @realitychain/api setConstant && lerna bootstrap",
-    "bootstrap:all": "yarn && yarn workspace @realitychain/api setConstant && lerna bootstrap",
+    "bootstrap": "yarn build && yarn workspace @realitychain/api setConstant && lerna bootstrap",
+    "bootstrap:all": "yarn && yarn bootstrap",
     "build:all": "lerna run build",
     "build": "lerna run build --scope=@realitychain/{erc20,api,webapp,mvp,rest}",
     "init:testnet": "yarn workspace @realitychain/nft-parcels init:testnet && yarn workspace @realitychain/nft-vouchers init:testnet",
@@ -20,8 +20,10 @@
     "test:all": "lerna run --parallel test --scope=@realitychain/{nft-parcels,erc20,nft-vouchers}",
     "start:frontend:dev": "yarn bootstrap && yarn workspace @realitychain/webapp start",
     "start:backend:dev": "yarn bootstrap && yarn workspace @realitychain/rest start:dev",
-    "start:backend:staging": "pm2 stop rc-backend && yarn bootstrap && pm2 start rc-backend",
-    "start:backend:prod": "pm2 stop rc-backend-prod && yarn bootstrap && pm2 start rc-backend-prod",
+    "start:backend:staging": "yarn bootstrap && pm2 start rc-backend",
+    "stop:backend:staging": "pm2 stop rc-backend",
+    "start:backend:prod": "yarn bootstrap && pm2 start rc-backend-prod",
+    "stop:backend:prod": "pm2 stop rc-backend-prod",
     "start:mvp": "yarn bootstrap && yarn workspace @realitychain/mvp start"
   },
   "resolutions": {
