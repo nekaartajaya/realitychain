@@ -40,7 +40,7 @@ export const WorldComponent = ({ balance }) => {
       case "small":
       case "medium":
       case "large":
-        return '62857143000000';
+        return "62857143000000";
       default:
         return "0";
     }
