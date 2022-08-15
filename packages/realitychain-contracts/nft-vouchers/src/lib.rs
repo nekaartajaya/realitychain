@@ -401,8 +401,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_ids =
-            contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
+        let token_ids = contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
 
         let token_from_nft_token = contract.nft_token(token_ids[0].clone());
         assert_eq!(token_from_nft_token.unwrap().owner_id, accounts(2))
@@ -427,10 +426,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        contract.ft_stake_and_nft_mint(
-            (TOTAL_SUPPLY / 4).into(),
-            token_series_id.clone(),
-        );
+        contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id.clone());
         contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
     }
 
@@ -452,10 +448,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        contract.ft_stake_and_nft_mint(
-            (TOTAL_SUPPLY / 4).into(),
-            token_series_id.clone(),
-        );
+        contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id.clone());
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -484,10 +477,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        contract.ft_stake_and_nft_mint(
-            (TOTAL_SUPPLY / 4).into(),
-            token_series_id.clone(),
-        );
+        contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id.clone());
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -540,8 +530,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_ids =
-            contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
+        let token_ids = contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -571,8 +560,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_ids =
-            contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
+        let token_ids = contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -603,8 +591,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_ids =
-            contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
+        let token_ids = contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
 
         testing_env!(context.predecessor_account_id(accounts(1)).build());
 
@@ -632,8 +619,7 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_ids =
-            contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
+        let token_ids = contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
 
         testing_env!(context
             .predecessor_account_id(accounts(1))

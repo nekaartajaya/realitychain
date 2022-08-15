@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { NearNftsModule } from './near-nfts/near-nfts.module';
+import { ParcelsModule } from './parcels/parcels.module';
+import { VouchersModule } from './vouchers/vouchers.module';
 
 require('dotenv').config(); // eslint-disable-line
 
 @Module({
-  imports: [NearNftsModule],
+  imports: [ParcelsModule, VouchersModule],
 })
 export class AppModule {}

@@ -6,22 +6,20 @@ import {
   nftSetSeriesMetadata,
   parcelsContractWithAccountId,
 } from '@realitychain/api';
-import { getParcelsConfig } from './config';
+import { getParcelsConfig } from '../config';
 import { keyStores } from 'near-api-js';
 
 require('dotenv').config(); // eslint-disable-line
 
 @Injectable()
-export class NearNftsService {
+export class ParcelsService {
   async setMetadata(metadataDto: NftSetSeriesTokenMetadataDto) {
     const parcelsConfig = getParcelsConfig('development');
 
     // Initializing our contract APIs by contract name and configuration
     const parcelsContract = await parcelsContractWithAccountId(
       'rc-orang.testnet',
-      new keyStores.UnencryptedFileSystemKeyStore(
-        process.env.NEAR_CRED_DIR,
-      ),
+      new keyStores.UnencryptedFileSystemKeyStore(process.env.NEAR_CRED_DIR),
       parcelsConfig,
     );
 
@@ -34,9 +32,7 @@ export class NearNftsService {
     // Initializing our contract APIs by contract name and configuration
     const parcelsContract = await parcelsContractWithAccountId(
       'rc-orang.testnet',
-      new keyStores.UnencryptedFileSystemKeyStore(
-        process.env.NEAR_CRED_DIR,
-      ),
+      new keyStores.UnencryptedFileSystemKeyStore(process.env.NEAR_CRED_DIR),
       parcelsConfig,
     );
 
