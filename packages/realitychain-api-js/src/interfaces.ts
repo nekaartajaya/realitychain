@@ -138,4 +138,5 @@ export interface RcVouchersContract extends Contract {
   nft_set_series_price;
   nft_get_series_single;
   nft_token;
+  nft_set_series_metadata;
 }

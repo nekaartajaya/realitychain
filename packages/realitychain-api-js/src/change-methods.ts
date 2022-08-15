@@ -68,7 +68,7 @@ export async function nftSetSeriesParcelMetadata(
 }
 
 export async function nftSetSeriesMetadata(
-  contract: RcParcelsContract,
+  contract: RcParcelsContract | RcVouchersContract,
   args: NftSetSeriesTokenMetadataDto,
   gas: number = 300000000000000,
 ): Promise<TokenSeriesJson> {

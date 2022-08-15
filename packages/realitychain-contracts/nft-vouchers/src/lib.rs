@@ -402,7 +402,7 @@ mod tests {
             .build());
 
         let token_ids =
-            contract.ft_stake_and_nft_mint(accounts(2), (TOTAL_SUPPLY / 4).into(), token_series_id);
+            contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
 
         let token_from_nft_token = contract.nft_token(token_ids[0].clone());
         assert_eq!(token_from_nft_token.unwrap().owner_id, accounts(2))
@@ -428,11 +428,10 @@ mod tests {
             .build());
 
         contract.ft_stake_and_nft_mint(
-            accounts(0),
             (TOTAL_SUPPLY / 4).into(),
             token_series_id.clone(),
         );
-        contract.ft_stake_and_nft_mint(accounts(0), (TOTAL_SUPPLY / 4).into(), token_series_id);
+        contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
     }
 
     #[test]
@@ -454,7 +453,6 @@ mod tests {
             .build());
 
         contract.ft_stake_and_nft_mint(
-            accounts(0),
             (TOTAL_SUPPLY / 4).into(),
             token_series_id.clone(),
         );
@@ -487,7 +485,6 @@ mod tests {
             .build());
 
         contract.ft_stake_and_nft_mint(
-            accounts(0),
             (TOTAL_SUPPLY / 4).into(),
             token_series_id.clone(),
         );
@@ -544,7 +541,7 @@ mod tests {
             .build());
 
         let token_ids =
-            contract.ft_stake_and_nft_mint(accounts(0), (TOTAL_SUPPLY / 4).into(), token_series_id);
+            contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -575,7 +572,7 @@ mod tests {
             .build());
 
         let token_ids =
-            contract.ft_stake_and_nft_mint(accounts(2), (TOTAL_SUPPLY / 4).into(), token_series_id);
+            contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -607,7 +604,7 @@ mod tests {
             .build());
 
         let token_ids =
-            contract.ft_stake_and_nft_mint(accounts(0), (TOTAL_SUPPLY / 4).into(), token_series_id);
+            contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
 
         testing_env!(context.predecessor_account_id(accounts(1)).build());
 
@@ -636,7 +633,7 @@ mod tests {
             .build());
 
         let token_ids =
-            contract.ft_stake_and_nft_mint(accounts(0), (TOTAL_SUPPLY / 4).into(), token_series_id);
+            contract.ft_stake_and_nft_mint((TOTAL_SUPPLY / 4).into(), token_series_id);
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -711,6 +708,96 @@ mod tests {
         assert_eq!(contract.get_transaction_fee().current_fee, next_fee);
         assert_eq!(contract.get_transaction_fee().next_fee, None);
         assert_eq!(contract.get_transaction_fee().start_time, None);
+    }
+
+    #[test]
+    fn test_set_series_metadata() {
+        let (mut context, mut contract, _) = setup_contract();
+        testing_env!(context
+            .predecessor_account_id(accounts(1))
+            .attached_deposit(STORAGE_FOR_CREATE_SERIES)
+            .build());
+
+        let mut royalty: HashMap<AccountId, u32> = HashMap::new();
+        royalty.insert(accounts(1), 2000);
+        create_series(
+            &mut contract,
+            &royalty,
+            Some(U128::from(1 * 10u128.pow(24))),
+            Some(1000),
+        );
+
+        let nft_series_return = contract.nft_get_series_single("1".to_string());
+
+        assert_eq!(nft_series_return.creator_id, accounts(1));
+
+        assert_eq!(nft_series_return.token_series_id, "1",);
+
+        assert_eq!(nft_series_return.royalty, royalty,);
+
+        assert!(nft_series_return.metadata.copies.is_some());
+
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
+
+        assert_eq!(
+            nft_series_return.metadata.title.unwrap(),
+            "Tsundere land".to_string()
+        );
+
+        assert_eq!(
+            nft_series_return.metadata.reference.unwrap(),
+            "bafybeicg4ss7qh5odijfn2eogizuxkrdh3zlv4eftcmgnljwu7dm64uwji".to_string()
+        );
+
+        testing_env!(context
+            .predecessor_account_id(accounts(1))
+            .attached_deposit(1)
+            .build());
+
+        let _ = contract.nft_set_series_metadata(
+            nft_series_return.token_series_id.clone(),
+            TokenMetadata {
+                title: Some("Tsundere land".to_string()),
+                description: None,
+                media: Some(
+                    "bafybeidzcan4nzcz7sczs4yzyxly4galgygnbjewipj6haco4kffoqpkiy".to_string(),
+                ),
+                media_hash: None,
+                copies: Some(1100),
+                issued_at: None,
+                expires_at: None,
+                starts_at: None,
+                updated_at: None,
+                extra: None,
+                reference: Some(
+                    "bafybeicg4ss7qh5odijfn2eogizuxkrdh3zlv4eftcmgnljwu7dm64uwji".to_string(),
+                ),
+                reference_hash: None,
+            },
+        );
+
+        let nft_series_return =
+            contract.nft_get_series_single(nft_series_return.token_series_id.clone().to_string());
+
+        assert_eq!(nft_series_return.creator_id, accounts(1));
+
+        assert_eq!(nft_series_return.token_series_id, "1",);
+
+        assert_eq!(nft_series_return.royalty, royalty,);
+
+        assert!(nft_series_return.metadata.copies.is_some());
+
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
+
+        assert_eq!(
+            nft_series_return.metadata.title.unwrap(),
+            "Tsundere land".to_string()
+        );
+
+        assert_eq!(
+            nft_series_return.metadata.reference.unwrap(),
+            "bafybeicg4ss7qh5odijfn2eogizuxkrdh3zlv4eftcmgnljwu7dm64uwji".to_string()
+        );
     }
 
     #[test]
