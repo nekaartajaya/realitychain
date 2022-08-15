@@ -6,7 +6,7 @@
     "bootstrap": "yarn workspace @realitychain/api setConstant && lerna bootstrap",
     "bootstrap:all": "yarn && yarn workspace @realitychain/api setConstant && lerna bootstrap",
     "build:all": "lerna run build",
-    "build": "lerna run build --scope=@realitychain/{erc20,api,webapp,mvp.rest}",
+    "build": "lerna run build --scope=@realitychain/{erc20,api,webapp,mvp,rest}",
     "init:testnet": "yarn workspace @realitychain/nft-parcels init:testnet && yarn workspace @realitychain/nft-vouchers init:testnet",
     "deploy:testnet": "yarn workspace @realitychain/nft-parcels deploy:testnet && yarn workspace @realitychain/nft-vouchers deploy:testnet && yarn workspace @realitychain/api setConstant",
     "clear:testnet": "rm -rf ./packages/realitychain-contracts/nft-parcels/neardev && rm -rf ./packages/realitychain-contracts/nft-vouchers/neardev",
