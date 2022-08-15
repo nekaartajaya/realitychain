@@ -26,7 +26,7 @@ export const rcParcelsTestnetConfig: RcParcelsConfig = {
   nodeUrl: 'https://rpc.testnet.near.org',
   walletUrl: 'https://wallet.testnet.near.org',
   appName: 'Reality Chain Testnet',
-  contractName: 'dev-1660428267404-67198357895458',
+  contractName: 'dev-1660435666267-95933886875665',
 };
 
 export const rcParcelsMainnetConfig: RcParcelsConfig = {
@@ -42,7 +42,7 @@ export const rcVouchersTestnetConfig: RcVouchersConfig = {
   nodeUrl: 'https://rpc.testnet.near.org',
   walletUrl: 'https://wallet.testnet.near.org',
   appName: 'Reality Chain Testnet',
-  contractName: 'dev-1660428279655-91543100409952',
+  contractName: 'dev-1660435683644-73647126807030',
 };
 
 export const rcVouchersMainnetConfig: RcVouchersConfig = {

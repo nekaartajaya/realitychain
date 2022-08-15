@@ -14,3 +14,5 @@ voucher_acc=$( cat "$voucher_input" )
 params="{\"voucher_nft_id\": \"$voucher_acc\", \"parcel_nft_id\": \"$parcel_acc\", \"real_ft_id\": \"$ft_acc\", \"owner_id\": \"$owner_acc\", \"treasury_id\":\"$owner_acc\"}"
 
 near call $voucher_acc new_default_meta "'$params'" --accountId $owner_acc
+
+near call $ft_acc storage_deposit '' --accountId $voucher_acc --amount 0.00125

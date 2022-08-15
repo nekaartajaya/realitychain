@@ -72,8 +72,8 @@ export const WorldComponent = ({ balance }) => {
     };
     if (balance >= value) {
       await ftTransferCall(window.ftContract, {
-        receiver_id: "ms-vouchers.testnet",
-        amount: "10000000000000",
+        receiver_id: window.vouchersContract.account.accountId,
+        amount: 62857143000000,
         msg: '{ "token_series_id": "1" }',
       });
       navigate("/minting");

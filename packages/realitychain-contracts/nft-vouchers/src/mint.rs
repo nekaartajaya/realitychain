@@ -14,7 +14,6 @@ impl RealityParcelVouchersContract {
     #[payable]
     pub fn ft_stake_and_nft_mint(
         &mut self,
-        receiver_id: AccountId,
         amount: u128,
         token_series_id: String,
     ) -> Vec<TokenId> {
@@ -24,8 +23,9 @@ impl RealityParcelVouchersContract {
         );
 
         real_ft::ext(self.real_ft_id.clone())
+            .with_attached_deposit(1)
             .with_static_gas(GAS_FOR_CALLBACK)
-            .ft_transfer(receiver_id, U128::from(amount), None);
+            .ft_transfer(self.voucher_nft_id.clone(), U128::from(amount), None);
 
         self.locked_amount = U128::from(amount);
 

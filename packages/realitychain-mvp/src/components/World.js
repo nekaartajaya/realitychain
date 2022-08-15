@@ -70,7 +70,6 @@ export const WorldComponent = ({ balance }) => {
     };
     if (balance >= value) {
       await ftStakeAndNftMint(window.vouchersContract, {
-        receiver_id: "ms-vouchers.testnet",
         amount: 62857143000000,
         token_series_id: "1",
       });
