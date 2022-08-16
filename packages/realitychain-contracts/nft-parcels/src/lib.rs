@@ -159,7 +159,7 @@ mod tests {
     use near_sdk::testing_env;
 
     const STORAGE_FOR_CREATE_SERIES: Balance = 8540000000000000000000;
-    const STORAGE_FOR_MINT: Balance = 11280000000000000000000;
+    const STORAGE_FOR_MINT: Balance = 263230000000000000000000;
 
     fn get_context(predecessor_account_id: AccountId) -> VMContextBuilder {
         let mut builder = VMContextBuilder::new();
@@ -518,9 +518,12 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_id = contract.nft_mint("1".to_string(), accounts(2));
+        let token_ids = contract.nft_mint("1".to_string(), accounts(2));
 
-        let token_from_nft_token = contract.nft_token(token_id);
+        let token_from_nft_token = contract.nft_token(token_ids.get(0).unwrap().to_string());
+        assert_eq!(token_from_nft_token.unwrap().owner_id, accounts(2));
+
+        let token_from_nft_token = contract.nft_token(token_ids.get(49).unwrap().to_string());
         assert_eq!(token_from_nft_token.unwrap().owner_id, accounts(2))
     }
 
@@ -566,7 +569,6 @@ mod tests {
             .build());
 
         contract.nft_mint("1".to_string(), accounts(2));
-        contract.nft_mint("1".to_string(), accounts(2));
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -577,7 +579,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "RealityChain: cannot decrease supply, already minted : 2")]
+    #[should_panic(expected = "RealityChain: cannot decrease supply, already minted : 50")]
     fn test_invalid_decrease_copies() {
         let (mut context, mut contract) = setup_contract();
         testing_env!(context
@@ -588,14 +590,13 @@ mod tests {
         let mut royalty: HashMap<AccountId, u32> = HashMap::new();
         royalty.insert(accounts(1), 2000);
 
-        create_series(&mut contract, &royalty, None, Some(5));
+        create_series(&mut contract, &royalty, None, Some(49));
 
         testing_env!(context
             .predecessor_account_id(accounts(1))
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        contract.nft_mint("1".to_string(), accounts(2));
         contract.nft_mint("1".to_string(), accounts(2));
 
         testing_env!(context
@@ -686,13 +687,14 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_id = contract.nft_mint("1".to_string(), accounts(2));
+        let token_ids = contract.nft_mint("1".to_string(), accounts(2));
 
         testing_env!(context
             .predecessor_account_id(accounts(2))
             .attached_deposit(1)
             .build());
 
+        let token_id = token_ids.get(0).unwrap().to_string();
         contract.nft_burn(token_id.clone());
         let token = contract.nft_token(token_id);
         assert!(token.is_none());
@@ -716,13 +718,14 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_id = contract.nft_mint("1".to_string(), accounts(2));
+        let token_ids = contract.nft_mint("1".to_string(), accounts(2));
 
         testing_env!(context
             .predecessor_account_id(accounts(2))
             .attached_deposit(1)
             .build());
 
+        let token_id = token_ids.get(0).unwrap().to_string();
         contract.nft_transfer(accounts(3), token_id.clone(), None, None);
 
         let token = contract.nft_token(token_id).unwrap();
@@ -747,10 +750,11 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_id = contract.nft_mint("1".to_string(), accounts(2));
+        let token_ids = contract.nft_mint("1".to_string(), accounts(2));
 
         testing_env!(context.predecessor_account_id(accounts(2)).build());
 
+        let token_id = token_ids.get(0).unwrap().to_string();
         contract.nft_transfer_unsafe(accounts(3), token_id.clone(), None, None);
 
         let token = contract.nft_token(token_id).unwrap();
@@ -775,13 +779,14 @@ mod tests {
             .attached_deposit(STORAGE_FOR_MINT)
             .build());
 
-        let token_id = contract.nft_mint("1".to_string(), accounts(2));
+        let token_ids = contract.nft_mint("1".to_string(), accounts(2));
 
         testing_env!(context
             .predecessor_account_id(accounts(2))
             .attached_deposit(1)
             .build());
 
+        let token_id = token_ids.get(0).unwrap().to_string();
         let payout = contract.nft_transfer_payout(
             accounts(3),
             token_id.clone(),
