@@ -266,6 +266,7 @@ impl RealityParcelsContract {
             &token_series_id,
             &TokenSeries {
                 parcel_metadata: parcel_metadata.clone(),
+                voucher_series_id: token_series_id.clone(),
                 metadata: new_token_metadata.clone(),
                 creator_id: caller_id.clone(),
                 tokens: UnorderedSet::new(
@@ -291,7 +292,8 @@ impl RealityParcelsContract {
             &json!({
                 "type": "nft_create_series",
                 "params": {
-                    "token_series_id": token_series_id,
+                    "token_series_id": token_series_id.clone(),
+                    "voucher_series_id": token_series_id,
                     "parcel_metadata": parcel_metadata,
                     "token_metadata": new_token_metadata,
                     "creator_id": caller_id,
@@ -306,7 +308,8 @@ impl RealityParcelsContract {
         refund_deposit(env::storage_usage() - initial_storage_usage, 0);
 
         TokenSeriesJson {
-            token_series_id,
+            token_series_id: token_series_id.clone(),
+            voucher_series_id: token_series_id,
             metadata: new_token_metadata,
             parcel_metadata,
             creator_id: caller_id,
@@ -464,7 +467,8 @@ impl RealityParcelsContract {
             &json!({
                 "type": "nft_set_series_parcel_metadata",
                 "params": {
-                    "token_series_id": token_series_id,
+                    "token_series_id": token_series_id.clone(),
+                    "voucher_series_id": token_series_id,
                     "token_metadata": token_series.metadata,
                     "creator_id": caller_id,
                     "price": token_series.price.unwrap_or(0).to_string(),
@@ -476,7 +480,8 @@ impl RealityParcelsContract {
         );
 
         TokenSeriesJson {
-            token_series_id,
+            token_series_id: token_series_id.clone(),
+            voucher_series_id: token_series_id,
             metadata: token_series.metadata,
             parcel_metadata,
             creator_id: caller_id,
@@ -524,7 +529,8 @@ impl RealityParcelsContract {
             &json!({
                 "type": "nft_set_series_metadata",
                 "params": {
-                    "token_series_id": token_series_id,
+                    "token_series_id": token_series_id.clone(),
+                    "voucher_series_id": token_series_id,
                     "parcel_metadata": token_series.parcel_metadata,
                     "creator_id": caller_id,
                     "price": token_series.price.unwrap_or(0).to_string(),
@@ -536,7 +542,8 @@ impl RealityParcelsContract {
         );
 
         TokenSeriesJson {
-            token_series_id,
+            token_series_id: token_series_id.clone(),
+            voucher_series_id: token_series_id,
             metadata,
             parcel_metadata: token_series.parcel_metadata,
             creator_id: caller_id,
@@ -584,7 +591,8 @@ impl RealityParcelsContract {
             .expect("Series does not exist");
         let current_transaction_fee = self.get_market_data_transaction_fee(&token_series_id);
         TokenSeriesJson {
-            token_series_id,
+            token_series_id: token_series_id.clone(),
+            voucher_series_id: token_series_id,
             metadata: token_series.metadata,
             parcel_metadata: token_series.parcel_metadata,
             creator_id: token_series.creator_id,
@@ -620,7 +628,8 @@ impl RealityParcelsContract {
             .skip(start_index as usize)
             .take(limit)
             .map(|(token_series_id, token_series)| TokenSeriesJson {
-                token_series_id,
+                token_series_id: token_series_id.clone(),
+                voucher_series_id: token_series_id,
                 metadata: token_series.metadata,
                 parcel_metadata: token_series.parcel_metadata,
                 creator_id: token_series.creator_id,

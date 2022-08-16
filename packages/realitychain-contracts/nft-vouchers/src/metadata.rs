@@ -19,6 +19,7 @@ pub struct Payout {
 #[derive(BorshDeserialize, BorshSerialize)]
 pub struct TokenSeries {
     pub metadata: TokenMetadata,
+    pub parcel_series_id: TokenSeriesId,
     pub creator_id: AccountId,
     pub tokens: UnorderedSet<TokenId>,
     pub price: Option<Balance>,
@@ -30,6 +31,7 @@ pub struct TokenSeries {
 #[serde(crate = "near_sdk::serde")]
 pub struct TokenSeriesJson {
     pub token_series_id: TokenSeriesId,
+    pub parcel_series_id: TokenSeriesId,
     pub metadata: TokenMetadata,
     pub creator_id: AccountId,
     pub royalty: HashMap<AccountId, u32>,
