@@ -223,6 +223,12 @@ impl RealityParcelsContract {
         // Add 10% of copies
         let copies = copies.unwrap();
         let new_copies = copies + (copies / 10);
+
+        assert!(
+            (new_copies % 50) == 0,
+            "RealityChain: invalid copies should be divisible by 50"
+        );
+
         let mut new_token_metadata = token_metadata;
         new_token_metadata.copies = Some(new_copies);
 
@@ -512,6 +518,17 @@ impl RealityParcelsContract {
         assert!(
             token_series.is_mintable,
             "RealityChain: token series is not mintable"
+        );
+
+        let copies = token_series.metadata.copies.clone();
+        assert!(
+            copies.is_some(),
+            "RealityChain: token_series.metadata.copies is required"
+        );
+
+        assert!(
+            (copies.unwrap() % 50) == 0,
+            "RealityChain: invalid copies should be divisible by 50"
         );
 
         token_series.metadata = metadata.clone();
