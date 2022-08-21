@@ -12,6 +12,9 @@ import { TabsComponent } from "../Tabs/Tabs";
 import { useStyles } from "./profile.style";
 import { SelectMetaverse } from "./Render/Modal";
 import { NftUtility } from "./Render/Nft/Nft";
+
+import { nftGetSeries } from "@realitychain/api";
+
 export const ProfileComponent = () => {
   const style = useStyles();
   const [activeTab, setActiveTab] = React.useState("0");
@@ -53,6 +56,19 @@ export const ProfileComponent = () => {
 
   const handleChangeTab = (tab) => {
     setActiveTab(tab);
+  };
+
+  // TODO: Get all NFT utility
+
+  const [data, setData] = React.useState([]);
+
+  const getUtilitySeries = async () => {
+    try {
+      const response = await nftGetSeries(window.parasContract);
+      setData(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
