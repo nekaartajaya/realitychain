@@ -15,7 +15,22 @@ import {
   FtTransferCallDto,
   NftSetSeriesParcelMetadataDto,
   NftSetSeriesTokenMetadataDto,
+  ParasContract,
+  NftCreateUtilitySeriesDto,
 } from './interfaces';
+
+export async function nftCreateUtilitySeries(
+  contract: ParasContract,
+  args: NftCreateUtilitySeriesDto,
+  gas: number = 300000000000000,
+  amount: string = '279370000000000000000000',
+): Promise<TokenSeriesJson> {
+  return (await contract.nft_create_series({
+    args,
+    gas,
+    amount,
+  })) as TokenSeriesJson;
+}
 
 export async function nftCreateParcelSeries(
   contract: RcParcelsContract,
@@ -44,7 +59,7 @@ export async function nftCreateVoucherSeries(
 }
 
 export async function nftSetSeriesNonMintable(
-  contract: RcParcelsContract,
+  contract: RcParcelsContract | ParasContract,
   args: TokenSeriesIdDto,
   gas: number = 300000000000000,
 ): Promise<TokenSeriesJson> {
@@ -80,7 +95,7 @@ export async function nftSetSeriesMetadata(
 }
 
 export async function nftBuy(
-  contract: RcParcelsContract,
+  contract: RcParcelsContract | ParasContract,
   args: NftBuyDto,
   gas: number = 300000000000000,
   amount: string = '279370000000000000000000',
@@ -93,7 +108,7 @@ export async function nftBuy(
 }
 
 export async function nftMint(
-  contract: RcParcelsContract,
+  contract: RcParcelsContract | ParasContract,
   args: NftMintDto,
   gas: number = 300000000000000,
   amount: string = '279370000000000000000000',
@@ -106,7 +121,7 @@ export async function nftMint(
 }
 
 export async function nftDecreaseSeriesCopies(
-  contract: RcParcelsContract | RcVouchersContract,
+  contract: RcParcelsContract | RcVouchersContract | ParasContract,
   args: NftDecreaseSeriesCopiesDto,
   gas: number = 300000000000000,
 ): Promise<any> {

@@ -57,6 +57,12 @@ export interface NftSetSeriesTokenMetadataDto {
   metadata: TokenMetadata;
 }
 
+export interface NftCreateUtilitySeriesDto {
+  token_metadata: TokenMetadata;
+  price: any;
+  royalty: Royalty;
+}
+
 export interface NftCreateParcelSeriesDto {
   parcel_metadata: ParcelMetadata;
   token_metadata: TokenMetadata;
@@ -108,6 +114,23 @@ export interface Nep141Contract extends Contract {
   ft_balance_of;
   ft_transfer_call;
   storage_deposit;
+}
+
+export interface ParasContract extends Contract {
+  nft_create_series: (params: {
+    args: NftCreateUtilitySeriesDto;
+    gas: number;
+    amount: string;
+  }) => Promise<TokenSeriesJson>;
+  nft_get_series;
+  nft_buy;
+  nft_mint;
+  nft_decrease_series_copies;
+  nft_set_series_non_mintable;
+  nft_set_series_price;
+  nft_get_series_single;
+  nft_token;
+  nft_set_series_metadata;
 }
 
 export interface RcParcelsContract extends Contract {

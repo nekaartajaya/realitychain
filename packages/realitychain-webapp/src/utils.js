@@ -6,9 +6,11 @@ import {
   parcelsContractWithAccountId,
   nep141ContractWithAccountId,
   vouchersContractWithAccountId,
+  parasContractWithAccountId,
 } from "@realitychain/api";
-import { getParcelsConfig, getVouchersConfig, getNep141Config } from "./config";
+import { getParcelsConfig, getVouchersConfig, getNep141Config, getParasConfig } from "./config";
 
+const parasConfig = getParasConfig("development");
 const parcelsConfig = getParcelsConfig("development");
 const vouchersConfig = getVouchersConfig("development");
 const ftConfig = getNep141Config("development");
@@ -29,6 +31,13 @@ export async function initContract() {
 
   // Getting the Account ID. If still unauthorized, it's just empty string
   window.accountId = window.walletConnection.getAccountId();
+
+  // Initializing our contract APIs by contract name and configuration
+  window.parasContract = await parasContractWithAccountId(
+    window.accountId,
+    new keyStores.BrowserLocalStorageKeyStore(),
+    parasConfig
+  );
 
   // Initializing our contract APIs by contract name and configuration
   window.parcelsContract = await parcelsContractWithAccountId(

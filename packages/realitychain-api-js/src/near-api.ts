@@ -1,6 +1,6 @@
 import { keyStores, Near, connect, Account, Contract } from 'near-api-js';
-import { ContractConfig, Nep141Config, RcParcelsConfig, RcVouchersConfig } from './constant';
-import { Nep141Contract, RcParcelsContract, RcVouchersContract } from './interfaces';
+import { ContractConfig, Nep141Config, ParasConfig, RcParcelsConfig, RcVouchersConfig } from './constant';
+import { Nep141Contract, ParasContract, RcParcelsContract, RcVouchersContract } from './interfaces';
 
 export async function createNearConnection(keyStore: keyStores.KeyStore, config: ContractConfig): Promise<Near> {
   return await connect({
@@ -14,6 +14,27 @@ export async function createNearConnection(keyStore: keyStores.KeyStore, config:
 
 export async function useAccount(connection: Near, accountId: string): Promise<Account> {
   return await connection.account(accountId);
+}
+
+export async function parasContractWithAccountId(
+  accountId: string,
+  keyStore: keyStores.KeyStore,
+  config: ParasConfig,
+): Promise<ParasContract> {
+  const connection = await createNearConnection(keyStore, config);
+  const account = await useAccount(connection, accountId);
+
+  return (await new Contract(account, config.contractName, {
+    viewMethods: ['nft_get_series', 'nft_get_series_single', 'nft_token'],
+    changeMethods: [
+      'nft_create_series',
+      'nft_buy',
+      'nft_mint',
+      'nft_decrease_series_copies',
+      'nft_set_series_non_mintable',
+      'nft_set_series_price',
+    ],
+  })) as ParasContract;
 }
 
 export async function parcelsContractWithAccountId(

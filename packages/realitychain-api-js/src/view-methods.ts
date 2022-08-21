@@ -1,11 +1,11 @@
-import { RcParcelsContract, RcVouchersContract, TokenSeriesJson } from './interfaces';
+import { ParasContract, RcParcelsContract, RcVouchersContract, TokenSeriesJson } from './interfaces';
 
-export async function nftGetSeries(contract: RcParcelsContract | RcVouchersContract): Promise<TokenSeriesJson[]> {
+export async function nftGetSeries(contract: RcParcelsContract | RcVouchersContract | ParasContract): Promise<TokenSeriesJson[]> {
   return (await contract.nft_get_series()) as TokenSeriesJson[];
 }
 
 export async function nftGetSeriesSingle(
-  contract: RcParcelsContract | RcVouchersContract,
+  contract: RcParcelsContract | RcVouchersContract | ParasContract,
   tokenSeriesId: string,
 ): Promise<TokenSeriesJson> {
   return (await contract.nft_get_series_single({
@@ -13,7 +13,7 @@ export async function nftGetSeriesSingle(
   })) as TokenSeriesJson;
 }
 
-export async function nftToken(contract: RcParcelsContract | RcVouchersContract, tokenId: string): Promise<any> {
+export async function nftToken(contract: RcParcelsContract | RcVouchersContract | ParasContract, tokenId: string): Promise<any> {
   return await contract.nft_token({
     token_id: tokenId,
   });

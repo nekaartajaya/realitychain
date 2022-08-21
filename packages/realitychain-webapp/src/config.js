@@ -1,10 +1,27 @@
 import {
+  parasTestnetConfig,
+  parasMainnetConfig,
   rcParcelsTestnetConfig,
   rcParcelsMainnetConfig,
   rcVouchersTestnetConfig,
   rcVouchersMainnetConfig,
   testnetNep141Config,
 } from "@realitychain/api";
+
+export function getParasConfig(env) {
+  switch (env) {
+    case "production":
+    case "mainnet":
+      return parasMainnetConfig;
+    case "development":
+    case "testnet":
+      return parasTestnetConfig;
+    default:
+      throw Error(
+        `Unconfigured environment '${env}'. Can be configured in src/config.js.`
+      );
+  }
+}
 
 export function getParcelsConfig(env) {
   switch (env) {
