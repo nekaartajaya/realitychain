@@ -18,6 +18,11 @@ file="export interface ContractConfig {
 
 // tslint:disable-next-line
 export interface Nep141Config extends ContractConfig {}
+
+// tslint:disable-next-line
+export interface Nep141Config extends ContractConfig {}
+// tslint:disable-next-line
+export interface ParasConfig extends ContractConfig {}
 // tslint:disable-next-line
 export interface RcParcelsConfig extends ContractConfig {}
 // tslint:disable-next-line
@@ -28,7 +33,23 @@ export const testnetNep141Config: Nep141Config = {
   nodeUrl: 'https://rpc.testnet.near.org',
   walletUrl: 'https://wallet.testnet.near.org',
   appName: 'Reality Chain Testnet',
-  contractName: '$ft_acc',
+  contractName: 'dev-1660427718063-22239243730502',
+};
+
+export const parasTestnetConfig: ParasConfig = {
+  networkId: 'testnet',
+  nodeUrl: 'https://rpc.testnet.near.org',
+  walletUrl: 'https://wallet.testnet.near.org',
+  appName: 'Paras Testnet',
+  contractName: 'paras-token-v2.testnet',
+};
+
+export const parasMainnetConfig: ParasConfig = {
+  networkId: 'mainnet',
+  nodeUrl: 'https://rpc.mainnet.near.org',
+  walletUrl: 'https://wallet.mainnet.near.org',
+  appName: 'Paras Mainnet',
+  contractName: 'paras-token-v2.testnet',
 };
 
 export const rcParcelsTestnetConfig: RcParcelsConfig = {

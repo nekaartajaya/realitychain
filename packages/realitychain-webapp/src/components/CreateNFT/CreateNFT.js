@@ -18,6 +18,9 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 
 import { useStyles } from "./create.style";
+import {
+  nftCreateUtilitySeries,
+} from "@realitychain/api";
 
 export const CreateNFTComponent = () => {
   const [searchParams] = useSearchParams();
@@ -85,16 +88,31 @@ export const CreateNFTComponent = () => {
     window.open("https://near.realitychain.io/previewer", { target: "_blank" });
   };
 
-  const handleMint = () => {
+  const handleMint = async () => {
     if (name && image && description && selectedType) {
-      const payload = {
-        name,
-        description,
-        image,
-        selectedType,
-        metaverse: "myriad.town id", // or else ??
-      };
-      console.log(payload);
+
+      // TODO: Upload image to IPFS
+
+      await nftCreateUtilitySeries(window.parasContract, {
+        token_metadata: {
+          title: name,
+          media: 'image',
+          reference: 'image',
+          copies: 1000,
+          issued_at: "",
+          description: description,
+          media_hash: null,
+          expires_at: null,
+          starts_at: null,
+          updated_at: null,
+          extra: null,
+          reference_hash: null,
+        },
+        price: null,
+        royalty: {
+          [window.accountId]: 1000,
+        },
+      });
     }
   };
 

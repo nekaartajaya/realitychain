@@ -43,39 +43,41 @@ export const SeriesComponent = ({ balance }) => {
     setLand_y(e.target.value);
   };
 
-  const voucherParams = {
-    token_metadata: {
-      title: "Dark",
-      media: "bafybeifdbvb6yzajogbe4dbn3bgxoli3sp7ol7upfmu2givpvbwufydthu",
-      reference: "bafybeifvzitvju4ftwnkf7w7yakz7i5colcey223uk2ui4t5z3ss7l2od4",
-      copies: 100,
-      issued_at: "",
-      description: null,
-      media_hash: null,
-      expires_at: null,
-      starts_at: null,
-      updated_at: null,
-      extra: null,
-      reference_hash: null,
-    },
-    price: null,
-    royalty: {
-      [window.accountId]: 1000,
-    },
-  };
-
-  const parcelParams = {
-    parcel_metadata: {
-      world_id,
-      land_id,
-      land_size,
-      land_x,
-      land_y,
-    },
-    ...voucherParams,
-  };
-
   const handleCreateSeries = async () => {
+    // TODO: Set Voucher Params here
+
+    const voucherParams = {
+      token_metadata: {
+        title: "Dark",
+        media: "bafybeifdbvb6yzajogbe4dbn3bgxoli3sp7ol7upfmu2givpvbwufydthu",
+        reference: "bafybeifvzitvju4ftwnkf7w7yakz7i5colcey223uk2ui4t5z3ss7l2od4",
+        copies: 100,
+        issued_at: "",
+        description: null,
+        media_hash: null,
+        expires_at: null,
+        starts_at: null,
+        updated_at: null,
+        extra: null,
+        reference_hash: null,
+      },
+      price: null,
+      royalty: {
+        [window.accountId]: 1000,
+      },
+    };
+  
+    const parcelParams = {
+      parcel_metadata: {
+        world_id,
+        land_id,
+        land_size,
+        land_x,
+        land_y,
+      },
+      ...voucherParams,
+    };
+
     await nftCreateParcelSeries(window.parcelsContract, parcelParams);
     await nftCreateVoucherSeries(window.vouchersContract, voucherParams);
     navigate("/staking");
