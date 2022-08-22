@@ -6,9 +6,51 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Typography from "@material-ui/core/Typography";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    input: {
+      "& .MuiInputBase-root": {
+        fontSize: 13,
+      },
+      "& .MuiInputBase-input": {
+        background: "rgba(15, 19, 25, 1)",
+        padding: "10px 8px",
+        borderRadius: 4,
+      },
+      "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+        borderBottom: "none",
+      },
+      "& .MuiInput-underline:before": {
+        borderBottom: "none",
+      },
+      "& .MuiInput-underline:after": {
+        borderBottom: "none",
+      },
+      "& .MuiInputBase-input.Mui-disabled": {
+        color: "#FFF",
+        background: "rgba(255, 255, 255, 0.1)",
+      },
+    },
+  })
+);
 
 export const ModalConnect = (props) => {
   const { open, onHide, onLogin } = props;
+  const style = useStyles();
+  const [address, setAddress] = React.useState('rc-orang.testnet');
+
+  const handleSetAddress = (e) => {
+    setAddress(e.target.value);
+  };
+
+  const handleLogin = () => {
+    console.log('hallo')
+    onLogin(address);
+  };
 
   return (
     <Dialog
@@ -26,6 +68,14 @@ export const ModalConnect = (props) => {
             To deploy and work with your contracts, you must connect your NEAR
             wallet.
           </Typography>
+          <TextField
+            value={address}
+            onChange={handleSetAddress}
+            style={{ marginBottom: 16, marginTop: 8, minWidth: 100 }}
+            className={style.input}
+            id="outlined-basic"
+            placeholder="Contract ID"
+          />
         </div>
       </DialogContent>
       <DialogActions>
@@ -39,7 +89,7 @@ export const ModalConnect = (props) => {
         <Button
           variant="text"
           style={{ color: "#D391D6", width: "auto" }}
-          onClick={onLogin}
+          onClick={handleLogin}
         >
           connect wallet
         </Button>

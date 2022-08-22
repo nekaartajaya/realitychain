@@ -67,14 +67,14 @@ export function logout() {
   window.location.replace(window.location.origin + window.location.pathname);
 }
 
-export function login() {
+export function login(nearAddress) {
   // Allow the current app to make calls to the specified contract on the
   // user's behalf.
   // This works by creating a new access key for the user's account and storing
   // the private key in localStorage.
   window.Buffer = buffer.Buffer;
   window.walletConnection.requestSignIn({
-    contractId: "rc-orang.testnet",
+    contractId: nearAddress,
     methodNames: [],
   });
   const signer = new InMemorySigner(

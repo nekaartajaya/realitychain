@@ -47,9 +47,10 @@ function App() {
     setOpen(false);
   };
 
-  const onLogin = () => {
+  const onLogin = (address) => {
     setLoading(true);
-    login();
+    console.log('hola', address)
+    login(address);
     setTimeout(() => {
       setLoading(false);
     }, 5000);
@@ -59,6 +60,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
+        {/* TODO: REMOVE OLD NAVBAR */}
         {/* <Header onConnect={handleOpenModal} onLogout={logout} balance={balance} /> */}
         {/* <ConnectWallet open={open} onHide={handleCloseModal} onLogin={onLogin} /> */}
         <Navbar
