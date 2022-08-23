@@ -16,6 +16,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import {uploadFile, getList, checkAuthorization} from '../../lib/services/pinata-api'
 import { useStyles } from "./create.style";
@@ -30,18 +33,39 @@ export const CreateNFTComponent = () => {
   const [description, setDescription] = React.useState("");
   const [image, setImage] = React.useState("");
   const [selectedType, setSelectedType] = React.useState("");
+  const [body, setBody] = React.useState('');
+  const [selectedInteraction, setSelectedInteraction] = React.useState('');
+
   const [open, setOpen] = React.useState(false);
+  const [openInteraction, setOpenInteraction] = React.useState(false);
   const [metaverseId, setMetaverseId] = React.useState(
     searchParams.get("metaverseId")
   );
 
   // make sure data of type
   const types = [
-    { id: "select1", name: "Selection 1" },
-    { id: "select2", name: "Selection 2" },
-    { id: "select3", name: "Selection 3" },
-    { id: "select4", name: "Selection 4" },
+    { id: "avatarhead", name: "AvatarHead", category: 'body' },
+    { id: "avatarhair", name: "AvatarHair", category: 'body' },
+    { id: "avatarface", name: "AvatarFace", category: 'body' },
+    { id: "avatararm", name: "AvatarArm", category: 'body' },
+    { id: "avatarhip", name: "AvatarHip", category: 'body' },
+    { id: "avatarskirt", name: "AvatarSkirt", category: 'wear' },
+    { id: "avatartop", name: "AvatarTop", category: 'wear' },
+    { id: "avatarhand", name: "AvatarHand", category: 'body' },
+    { id: "avatarthigh", name: "AvatarThigh", category: 'body' },
+    { id: "avatarleg", name: "AvatarLeg", category: 'body' },
+    { id: "avatarshoe", name: "AvatarShoe", category: 'wear' },
+    { id: "floor", name: "Floor", category: 'static' },
+    { id: "furniture", name: "Furniture", category: 'furniture' },
+    { id: "painting", name: "Painting", category: 'static' },
+    { id: "wall", name: "Wall", category: 'static' },
   ];
+
+  const interactions = [
+    { id: "none", name: "None" },
+    { id: "bed", name: "Bed" },
+    { id: "chair", name: "Chair" },
+  ]
 
   const checkPinataAuth = async () => {
     try {
@@ -61,6 +85,10 @@ export const CreateNFTComponent = () => {
     setOpen(!open);
   };
 
+  const handleClickInteraction = () => {
+    setOpenInteraction(!open);
+  };
+
   const handleChangeName = (e) => {
     setName(e.target.value);
   };
@@ -72,6 +100,15 @@ export const CreateNFTComponent = () => {
   const handleSelectType = (_type) => {
     setSelectedType(types.filter((item) => item.id === _type)[0]);
     setOpen((open) => !open);
+  };
+
+  const handleSelectInteraction = (_interaction) => {
+    setSelectedInteraction(interactions.filter((interactions) => interactions.id === _interaction)[0]);
+    setOpenInteraction((open) => !open);
+  };
+
+  const handleChange = (event) => {
+    setBody(event.target.value);
   };
 
   const uploadFieldRef = useRef(null);
@@ -109,6 +146,13 @@ export const CreateNFTComponent = () => {
         await uploadFile(pinataApiOptions, image)
       } catch (error) {
         console.log(error)
+      }
+
+      if (selectedType === 'wear') {
+        console.log(body);
+      }
+      if (selectedType === 'furniture') {
+        console.log(selectedInteraction)
       }
 
       await nftCreateUtilitySeries(window.parasContract, {
@@ -245,6 +289,53 @@ export const CreateNFTComponent = () => {
                 ))}
               </Collapse>
             </List>
+            
+            {selectedType.category === 'wear' && (
+              <>
+                <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
+                  BODY
+                </Typography>
+                <RadioGroup aria-label="body" name="gender1" value={body} onChange={handleChange} style={{display: 'flex', gap: 16, flexDirection: 'row', marginBottom: 24}}>
+                  <FormControlLabel value="male" control={<Radio />} label="Male" />
+                  <FormControlLabel value="female" control={<Radio />} label="Female" />
+                </RadioGroup>
+              </>
+            )}
+
+            {selectedType.category === 'furniture' && (
+              <>
+                <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
+                  INTERACTION
+                </Typography>
+                <List
+                  aria-labelledby="nested-list-subheader"
+                  className={style.list}
+                  style={{ marginBottom: 24 }}
+                  dense
+                >
+                  <ListItem button onClick={handleClickInteraction}>
+                    <ListItemText
+                      primary={selectedInteraction ? selectedInteraction.name : "Select category"}
+                    />
+                    {openInteraction ? <ExpandLess /> : <ExpandMore />}
+                  </ListItem>
+                  <Collapse in={openInteraction} timeout="auto" unmountOnExit>
+                    {interactions.map((interaction) => (
+                      <List component="div" disablePadding dense>
+                        <ListItem
+                          button
+                          className={style.nested}
+                          key={interaction.id}
+                          onClick={() => handleSelectInteraction(interaction.id)}
+                        >
+                          <ListItemText primary={interaction.name} />
+                        </ListItem>
+                      </List>
+                    ))}
+                  </Collapse>
+                </List>
+              </>
+            )}
 
             <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
               File
