@@ -156,7 +156,7 @@ export interface RcVouchersContract extends Contract {
   new_default_meta;
   nft_create_series;
   nft_get_series;
-  ft_stake_and_nft_mint;
+  nft_mint;
   nft_decrease_series_copies;
   nft_set_series_price;
   nft_get_series_single;

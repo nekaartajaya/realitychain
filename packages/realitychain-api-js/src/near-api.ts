@@ -72,7 +72,7 @@ export async function vouchersContractWithAccountId(
     viewMethods: ['nft_get_series', 'nft_get_series_single', 'nft_token'],
     changeMethods: [
       'nft_create_series',
-      'ft_stake_and_nft_mint',
+      'nft_mint',
       'nft_decrease_series_copies',
       'nft_set_series_price',
       'nft_set_series_metadata',

@@ -138,7 +138,7 @@ export async function ftStakeAndNftMint(
   gas: number = 300000000000000,
   amount: string = '279370000000000000000000',
 ): Promise<any> {
-  return (await contract.ft_stake_and_nft_mint({
+  return (await contract.nft_mint({
     args,
     gas,
     amount,

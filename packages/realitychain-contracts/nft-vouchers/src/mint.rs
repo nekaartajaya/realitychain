@@ -12,18 +12,8 @@ trait FungibleToken {
 #[near_bindgen]
 impl RealityParcelVouchersContract {
     #[payable]
-    pub fn ft_stake_and_nft_mint(&mut self, amount: u128, token_series_id: String) -> Vec<TokenId> {
-        assert!(
-            amount >= 62857143000000,
-            "RealityChain: Amount staked is not enough"
-        );
-
-        real_ft::ext(self.real_ft_id.clone())
-            .with_attached_deposit(1)
-            .with_static_gas(GAS_FOR_CALLBACK)
-            .ft_transfer(self.voucher_nft_id.clone(), U128::from(amount), None);
-
-        self.locked_amount = U128::from(amount);
+    pub fn nft_mint(&mut self, token_series_id: String) -> Vec<TokenId> {
+        self.locked_amount = U128::from(62857143000000);
 
         let initial_storage_usage = env::storage_usage();
         let sender_id = env::predecessor_account_id();
