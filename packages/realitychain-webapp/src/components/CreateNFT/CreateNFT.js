@@ -17,6 +17,7 @@ import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 
+import {uploadFile, getList, checkAuthorization} from '../../lib/services/pinata-api'
 import { useStyles } from "./create.style";
 import {
   nftCreateUtilitySeries,
@@ -42,9 +43,18 @@ export const CreateNFTComponent = () => {
     { id: "select4", name: "Selection 4" },
   ];
 
+  const checkPinataAuth = async () => {
+    try {
+      await checkAuthorization()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   React.useEffect(() => {
     console.log(metaverseId);
     // fetch data metaverse *myriad.town and set to state
+    checkPinataAuth()
   }, [metaverseId]);
 
   const handleClick = () => {
@@ -90,8 +100,16 @@ export const CreateNFTComponent = () => {
 
   const handleMint = async () => {
     if (name && image && description && selectedType) {
-
-      // TODO: Upload image to IPFS
+      // TODO: Make sure Upload image to IPFS is working properly
+      const pinataApiOptions = {
+        pinataMetadata: {"name": image.name, "keyvalues": {"company": "Pinata"}},
+        pinataOptions: {"cidVersion": 1},
+      }
+      try {
+        await uploadFile(pinataApiOptions, image)
+      } catch (error) {
+        console.log(error)
+      }
 
       await nftCreateUtilitySeries(window.parasContract, {
         token_metadata: {
