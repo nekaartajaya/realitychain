@@ -19,14 +19,18 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
-    "@realitychain/api": "0.0.1-beta.0",
     "@nestjs/common": "^8.0.6",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/jwt": "^9.0.0",
     "@nestjs/mapped-types": "^1.1.0",
+    "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/testing": "^9.0.9",
-    "near-api-js": "^0.45.1",
+    "@realitychain/api": "0.0.1-beta.0",
     "dotenv": "^16.0.1",
+    "near-api-js": "^0.45.1",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.0",
     "typeorm": "^0.3.6"
   },
   "devDependencies": {
