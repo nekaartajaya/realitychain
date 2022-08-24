@@ -82,28 +82,4 @@ export const rcParcelsMainnetConfig: RcParcelsConfig = {
   contractName: 'ms-parcels.near',
 };
 
-export const rcVouchersDevConfig: RcVouchersConfig = {
-  networkId: 'testnet',
-  nodeUrl: 'https://rpc.testnet.near.org',
-  walletUrl: 'https://wallet.testnet.near.org',
-  appName: 'Reality Chain Dev',
-  contractName: 'dev-1660564774361-10073544118461',
-};
-
-export const rcVouchersTestnetConfig: RcVouchersConfig = {
-  networkId: 'testnet',
-  nodeUrl: 'https://rpc.testnet.near.org',
-  walletUrl: 'https://wallet.testnet.near.org',
-  appName: 'Reality Chain Testnet',
-  contractName: 'ms-vouchers.testnet',
-};
-
-export const rcVouchersMainnetConfig: RcVouchersConfig = {
-  networkId: 'mainnet',
-  nodeUrl: 'https://rpc.mainnet.near.org',
-  walletUrl: 'https://wallet.mainnet.near.org',
-  appName: 'Reality Chain Mainnet',
-  contractName: 'ms-vouchers.near',
-};
-
 export const oneYoctoNear: string = '1';

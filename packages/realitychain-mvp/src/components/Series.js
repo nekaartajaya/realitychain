@@ -21,7 +21,7 @@ export const SeriesComponent = ({ balance }) => {
 
   const voucherParams = {
     token_metadata: {
-      title: "RC Parcels",
+      title: "RC Parcels 10",
       media: "https://ipfs.debio.network/ipfs/QmcX8GohhCS2Q2kMFLL38aUffN4brCpaz8d6LtiYLqGcFn",
       reference: "bafybeifvzitvju4ftwnkf7w7yakz7i5colcey223uk2ui4t5z3ss7l2od4",
       copies: 1000,
@@ -41,8 +41,8 @@ export const SeriesComponent = ({ balance }) => {
   };
   const parcelParams = {
     parcel_metadata: {
-      world_id: "w1",
-      land_id: "b1",
+      world_id: "w10",
+      land_id: "b10",
       size_x: 11,
       size_y: 11,
       pos_x: -120,
@@ -54,7 +54,6 @@ export const SeriesComponent = ({ balance }) => {
 
   const handleCreateSeries = async () => {
     await nftCreateParcelSeries(window.parcelsContract, parcelParams);
-    await nftCreateVoucherSeries(window.vouchersContract, voucherParams);
     navigate("/staking");
   };
 
