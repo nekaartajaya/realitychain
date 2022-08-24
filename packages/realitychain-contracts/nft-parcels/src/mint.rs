@@ -17,11 +17,7 @@ pub trait NonFungibleTokenReceiver {
 #[near_bindgen]
 impl RealityParcelsContract {
     #[payable]
-    pub fn nft_mint(
-        &mut self,
-        token_series_id: TokenSeriesId,
-        receiver_id: AccountId,
-    ) -> Vec<TokenId> {
+    pub fn nft_mint(&mut self, token_series_id: TokenSeriesId, receiver_id: AccountId) -> TokenId {
         self.locked_amount = U128::from(62857143000000);
         let initial_storage_usage = env::storage_usage();
 
@@ -34,18 +30,13 @@ impl RealityParcelsContract {
             token_series.creator_id,
             "RealityChain: not creator"
         );
-
-        // Limited to 50 NFTs because of gas limits
-        let mut token_ids: Vec<TokenId> = vec![];
-        for _n in 0..50 {
-            token_ids.push(self._nft_mint_series(token_series_id.clone(), receiver_id.clone()));
-        }
+        let token_id: TokenId = self._nft_mint_series(token_series_id, receiver_id.clone());
 
         refund_deposit(env::storage_usage() - initial_storage_usage, 0);
 
-        NearEvent::log_nft_mint(receiver_id.to_string(), token_ids.clone(), None);
+        NearEvent::log_nft_mint(receiver_id.to_string(), vec![token_id.clone()], None);
 
-        token_ids
+        token_id
     }
 
     #[payable]
@@ -54,7 +45,7 @@ impl RealityParcelsContract {
         token_series_id: TokenSeriesId,
         account_id: AccountId,
         msg: Option<String>,
-    ) -> Vec<Option<Promise>> {
+    ) -> Option<Promise> {
         let initial_storage_usage = env::storage_usage();
 
         let token_series = self
@@ -66,70 +57,55 @@ impl RealityParcelsContract {
             token_series.creator_id,
             "RealityChain: not creator"
         );
+        let token_id: TokenId =
+            self._nft_mint_series(token_series_id, token_series.creator_id.clone());
 
-        // Limited to 50 NFTs because of gas limits
-        let mut token_ids: Vec<TokenId> = vec![];
-        let mut promises: Vec<Option<Promise>> = vec![];
-        for _n in 0..50 {
-            // Mint token
-            let token_id =
-                self._nft_mint_series(token_series_id.clone(), token_series.creator_id.clone());
+        // Need to copy the nft_approve code here to solve the gas problem
+        // get contract-level LookupMap of token_id to approvals HashMap
+        let approvals_by_id = self.tokens.approvals_by_id.as_mut().unwrap();
 
-            // Need to copy the nft_approve code here to solve the gas problem
-            // get contract-level LookupMap of token_id to approvals HashMap
-            let approvals_by_id = self.tokens.approvals_by_id.as_mut().unwrap();
+        // update HashMap of approvals for this token
+        let approved_account_ids = &mut approvals_by_id.get(&token_id).unwrap_or_default();
+        let account_id: AccountId = account_id.into();
+        let approval_id: u64 = self
+            .tokens
+            .next_approval_id_by_id
+            .as_ref()
+            .unwrap()
+            .get(&token_id)
+            .unwrap_or(1u64);
+        approved_account_ids.insert(account_id.clone(), approval_id);
 
-            // update HashMap of approvals for this token
-            let approved_account_ids = &mut approvals_by_id.get(&token_id).unwrap_or_default();
-            let account_id: AccountId = account_id.clone().into();
-            let approval_id: u64 = self
-                .tokens
-                .next_approval_id_by_id
-                .as_ref()
-                .unwrap()
-                .get(&token_id)
-                .unwrap_or(1u64);
-            approved_account_ids.insert(account_id.clone(), approval_id);
+        // save updated approvals HashMap to contract's LookupMap
+        approvals_by_id.insert(&token_id, approved_account_ids);
 
-            // save updated approvals HashMap to contract's LookupMap
-            approvals_by_id.insert(&token_id, approved_account_ids);
-
-            // increment next_approval_id for this token
-            self.tokens
-                .next_approval_id_by_id
-                .as_mut()
-                .unwrap()
-                .insert(&token_id, &(approval_id + 1));
-
-            let promise = if let Some(msg) = msg.clone() {
-                Some(
-                    ext_approval_receiver::ext(self.voucher_nft_id.clone()).nft_on_approve(
-                        token_id.clone(),
-                        token_series.creator_id.clone(),
-                        approval_id,
-                        msg,
-                    ),
-                )
-            } else {
-                None
-            };
-
-            // Push promise
-            promises.push(promise);
-
-            // Push minted token_id
-            token_ids.push(token_id);
-        }
+        // increment next_approval_id for this token
+        self.tokens
+            .next_approval_id_by_id
+            .as_mut()
+            .unwrap()
+            .insert(&token_id, &(approval_id + 1));
 
         refund_deposit(env::storage_usage() - initial_storage_usage, 0);
 
         NearEvent::log_nft_mint(
             token_series.creator_id.clone().to_string(),
-            token_ids.clone(),
+            vec![token_id.clone()],
             None,
         );
 
-        promises
+        if let Some(msg) = msg {
+            Some(
+                ext_approval_receiver::ext(self.voucher_nft_id.clone()).nft_on_approve(
+                    token_id,
+                    token_series.creator_id,
+                    approval_id,
+                    msg,
+                ),
+            )
+        } else {
+            None
+        }
     }
 
     #[payable]
