@@ -151,15 +151,3 @@ export interface RcParcelsContract extends Contract {
   nft_set_series_metadata;
   nft_set_series_parcel_metadata;
 }
-
-export interface RcVouchersContract extends Contract {
-  new_default_meta;
-  nft_create_series;
-  nft_get_series;
-  nft_mint;
-  nft_decrease_series_copies;
-  nft_set_series_price;
-  nft_get_series_single;
-  nft_token;
-  nft_set_series_metadata;
-}

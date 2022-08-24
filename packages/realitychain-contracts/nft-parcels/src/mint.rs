@@ -22,6 +22,7 @@ impl RealityParcelsContract {
         token_series_id: TokenSeriesId,
         receiver_id: AccountId,
     ) -> Vec<TokenId> {
+        self.locked_amount = U128::from(62857143000000);
         let initial_storage_usage = env::storage_usage();
 
         let token_series = self

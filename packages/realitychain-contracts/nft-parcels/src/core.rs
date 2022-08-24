@@ -68,6 +68,7 @@ impl RealityParcelsContract {
             market_data_transaction_fee: MarketDataTransactionFee {
                 transaction_fee: UnorderedMap::new(StorageKey::MarketDataTransactionFee),
             },
+            locked_amount: U128::from(0),
         }
     }
 
@@ -92,6 +93,7 @@ impl RealityParcelsContract {
             market_data_transaction_fee: MarketDataTransactionFee {
                 transaction_fee: UnorderedMap::new(StorageKey::MarketDataTransactionFee),
             },
+            locked_amount: U128::from(0),
         }
     }
 
