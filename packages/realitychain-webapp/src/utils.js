@@ -5,7 +5,6 @@ import {
   createNearConnection,
   parcelsContractWithAccountId,
   nep141ContractWithAccountId,
-  vouchersContractWithAccountId,
   parasContractWithAccountId,
 } from "@realitychain/api";
 import { getParcelsConfig, getVouchersConfig, getNep141Config, getParasConfig } from "./config";
@@ -44,13 +43,6 @@ export async function initContract() {
     window.accountId,
     new keyStores.BrowserLocalStorageKeyStore(),
     parcelsConfig
-  );
-
-  // Initializing our contract APIs by contract name and configuration
-  window.vouchersContract = await vouchersContractWithAccountId(
-    window.accountId,
-    new keyStores.BrowserLocalStorageKeyStore(),
-    vouchersConfig
   );
 
   // Initializing fungible token contract APIs

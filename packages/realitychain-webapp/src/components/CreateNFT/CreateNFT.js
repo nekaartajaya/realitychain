@@ -148,11 +148,15 @@ export const CreateNFTComponent = () => {
         console.log(error)
       }
 
+      const type = {
+        type: selectedType
+      }
+
       if (selectedType === 'wear') {
-        console.log(body);
+        type['body'] = body
       }
       if (selectedType === 'furniture') {
-        console.log(selectedInteraction)
+        type['interaction'] = selectedInteraction
       }
 
       await nftCreateUtilitySeries(window.parasContract, {
@@ -160,14 +164,14 @@ export const CreateNFTComponent = () => {
           title: name,
           media: 'image',
           reference: 'image',
-          copies: 1000,
+          copies: 100,
           issued_at: "",
           description: description,
           media_hash: null,
           expires_at: null,
           starts_at: null,
           updated_at: null,
-          extra: null,
+          extra: JSON.stringify(type),
           reference_hash: null,
         },
         price: null,
