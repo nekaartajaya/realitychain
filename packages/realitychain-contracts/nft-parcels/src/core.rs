@@ -216,23 +216,8 @@ impl RealityParcelsContract {
             "RealityChain: token_metadata.title is required"
         );
 
-        let copies = token_metadata.copies.clone();
-        assert!(
-            copies.is_some(),
-            "RealityChain: token_metadata.copies is required"
-        );
-
-        // Add 10% of copies
-        let copies = copies.unwrap();
-        let new_copies = copies + (copies / 10);
-
-        assert!(
-            (new_copies % 50) == 0,
-            "RealityChain: invalid copies should be divisible by 50"
-        );
-
         let mut new_token_metadata = token_metadata;
-        new_token_metadata.copies = Some(new_copies);
+        new_token_metadata.copies = Some(1);
 
         let mut total_perpetual = 0;
         let mut total_accounts = 0;
@@ -324,58 +309,6 @@ impl RealityParcelsContract {
             royalty: royalty_res,
             transaction_fee: Some(current_transaction_fee.into()),
         }
-    }
-
-    #[payable]
-    pub fn nft_decrease_series_copies(
-        &mut self,
-        token_series_id: TokenSeriesId,
-        decrease_copies: U64,
-    ) -> U64 {
-        assert_one_yocto();
-
-        let mut token_series = self
-            .token_series_by_id
-            .get(&token_series_id)
-            .expect("Token series not exist");
-        assert_eq!(
-            env::predecessor_account_id(),
-            token_series.creator_id,
-            "RealityChain: Creator only"
-        );
-
-        let minted_copies = token_series.tokens.len();
-        let copies = token_series.metadata.copies.unwrap();
-
-        assert!(
-            (copies - decrease_copies.0) >= minted_copies,
-            "RealityChain: cannot decrease supply, already minted : {}",
-            minted_copies
-        );
-
-        let is_non_mintable = if (copies - decrease_copies.0) == minted_copies {
-            token_series.is_mintable = false;
-            true
-        } else {
-            false
-        };
-
-        token_series.metadata.copies = Some(copies - decrease_copies.0);
-
-        self.token_series_by_id
-            .insert(&token_series_id, &token_series);
-        env::log_str(
-            &json!({
-                "type": "nft_decrease_series_copies",
-                "params": {
-                    "token_series_id": token_series_id,
-                    "copies": U64::from(token_series.metadata.copies.unwrap()),
-                    "is_non_mintable": is_non_mintable,
-                }
-            })
-            .to_string(),
-        );
-        U64::from(token_series.metadata.copies.unwrap())
     }
 
     #[payable]
@@ -511,6 +444,7 @@ impl RealityParcelsContract {
             .token_series_by_id
             .get(&token_series_id)
             .expect("Token series not exist");
+
         assert_eq!(
             env::predecessor_account_id(),
             token_series.creator_id,
@@ -526,11 +460,6 @@ impl RealityParcelsContract {
         assert!(
             copies.is_some(),
             "RealityChain: token_series.metadata.copies is required"
-        );
-
-        assert!(
-            (copies.unwrap() % 50) == 0,
-            "RealityChain: invalid copies should be divisible by 50"
         );
 
         token_series.metadata = metadata.clone();

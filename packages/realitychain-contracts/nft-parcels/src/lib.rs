@@ -283,7 +283,7 @@ mod tests {
 
         assert!(nft_series_return.metadata.copies.is_some());
 
-        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1,);
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -322,7 +322,7 @@ mod tests {
 
         assert!(nft_series_return.metadata.copies.is_some());
 
-        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1,);
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -369,7 +369,7 @@ mod tests {
 
         assert!(nft_series_return.metadata.copies.is_some());
 
-        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1,);
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -409,7 +409,7 @@ mod tests {
 
         assert!(nft_series_return.metadata.copies.is_some());
 
-        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1,);
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -435,7 +435,7 @@ mod tests {
                     "bafybeidzcan4nzcz7sczs4yzyxly4galgygnbjewipj6haco4kffoqpkiy".to_string(),
                 ),
                 media_hash: None,
-                copies: Some(1100),
+                copies: Some(1),
                 issued_at: None,
                 expires_at: None,
                 starts_at: None,
@@ -459,7 +459,7 @@ mod tests {
 
         assert!(nft_series_return.metadata.copies.is_some());
 
-        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1100,);
+        assert_eq!(nft_series_return.metadata.copies.unwrap(), 1,);
 
         assert_eq!(
             nft_series_return.metadata.title.unwrap(),
@@ -525,31 +525,9 @@ mod tests {
         assert_eq!(token_from_nft_token.unwrap().owner_id, accounts(2))
     }
 
-    // #[test]
-    // #[should_panic(expected = "RealityChain: Token series is not mintable")]
-    // fn test_invalid_mint_above_copies() {
-    //     let (mut context, mut contract) = setup_contract();
-    //     testing_env!(context
-    //         .predecessor_account_id(accounts(1))
-    //         .attached_deposit(STORAGE_FOR_CREATE_SERIES)
-    //         .build());
-
-    //     let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-    //     royalty.insert(accounts(1), 2000);
-
-    //     create_series(&mut contract, &royalty, None, Some(1000));
-
-    //     testing_env!(context
-    //         .predecessor_account_id(accounts(1))
-    //         .attached_deposit(STORAGE_FOR_MINT)
-    //         .build());
-
-    //     contract.nft_mint("1".to_string(), accounts(2));
-    //     contract.nft_mint("1".to_string(), accounts(2));
-    // }
-
     #[test]
-    fn test_decrease_copies() {
+    #[should_panic(expected = "RealityChain: Token series is not mintable")]
+    fn test_invalid_mint_above_copies() {
         let (mut context, mut contract) = setup_contract();
         testing_env!(context
             .predecessor_account_id(accounts(1))
@@ -567,58 +545,7 @@ mod tests {
             .build());
 
         contract.nft_mint("1".to_string(), accounts(2));
-
-        testing_env!(context
-            .predecessor_account_id(accounts(1))
-            .attached_deposit(1)
-            .build());
-
-        contract.nft_decrease_series_copies("1".to_string(), U64::from(3));
-    }
-
-    // #[test]
-    // #[should_panic(expected = "RealityChain: cannot decrease supply, already minted : 2")]
-    // fn test_invalid_decrease_copies() {
-    //     let (mut context, mut contract) = setup_contract();
-    //     testing_env!(context
-    //         .predecessor_account_id(accounts(1))
-    //         .attached_deposit(STORAGE_FOR_CREATE_SERIES)
-    //         .build());
-
-    //     let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-    //     royalty.insert(accounts(1), 2000);
-
-    //     create_series(&mut contract, &royalty, None, Some(5));
-
-    //     testing_env!(context
-    //         .predecessor_account_id(accounts(1))
-    //         .attached_deposit(STORAGE_FOR_MINT)
-    //         .build());
-
-    //     contract.nft_mint("1".to_string(), accounts(2));
-    //     contract.nft_mint("1".to_string(), accounts(2));
-
-    //     testing_env!(context
-    //         .predecessor_account_id(accounts(1))
-    //         .attached_deposit(1)
-    //         .build());
-
-    //     contract.nft_decrease_series_copies("1".to_string(), U64::from(4));
-    // }
-
-    #[test]
-    #[should_panic(expected = "RealityChain: invalid copies should be divisible by 50")]
-    fn test_invalid_decrease_copies() {
-        let (mut context, mut contract) = setup_contract();
-        testing_env!(context
-            .predecessor_account_id(accounts(1))
-            .attached_deposit(STORAGE_FOR_CREATE_SERIES)
-            .build());
-
-        let mut royalty: HashMap<AccountId, u32> = HashMap::new();
-        royalty.insert(accounts(1), 2000);
-
-        create_series(&mut contract, &royalty, None, Some(5));
+        contract.nft_mint("1".to_string(), accounts(2));
     }
 
     #[test]
