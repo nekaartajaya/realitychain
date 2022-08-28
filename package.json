@@ -9,7 +9,7 @@
     "build": "lerna run build --scope=@realitychain/{erc20,api,webapp,mvp,rest}",
     "init:testnet": "yarn workspace @realitychain/nft-parcels init:testnet",
     "deploy:testnet": "yarn workspace @realitychain/nft-parcels deploy:testnet && yarn workspace @realitychain/api setConstant",
-    "clear:testnet": "rm -rf ./packages/realitychain-contracts/nft-parcels/neardev",
+    "clear:testnet": "rm -rf ./packages/realitychain-contracts/nft-parcels/.maintain/neardev",
     "reset:testnet": "yarn clear:testnet && yarn deploy:testnet && yarn init:testnet",
     "prepare:all": "lerna run prepare",
     "prepare": "lerna run prepare --scope=@realitychain/{erc20,api,webapp,mvp,rest}",
