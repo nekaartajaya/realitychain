@@ -6,7 +6,7 @@ use near_contract_standards::non_fungible_token::metadata::{
 use near_contract_standards::non_fungible_token::NonFungibleToken;
 use near_contract_standards::non_fungible_token::{Token, TokenId};
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::collections::{LazyOption, UnorderedMap, UnorderedSet};
+use near_sdk::collections::{LazyOption, UnorderedMap, TreeMap, UnorderedSet};
 use near_sdk::env::is_valid_account_id;
 use near_sdk::json_types::{U128, U64};
 use near_sdk::{
@@ -82,6 +82,7 @@ pub struct RealityParcelsContract {
     // CUSTOM
     parcel_nft_id: AccountId,
     real_ft_id: AccountId,
+    owner_by_series_id: TreeMap<TokenSeriesId, AccountId>,
     token_series_by_id: UnorderedMap<TokenSeriesId, TokenSeries>,
     treasury_id: AccountId,
     transaction_fee: TransactionFee,

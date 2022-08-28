@@ -195,6 +195,7 @@ impl RealityParcelsContract {
 
         let owner_id: AccountId = receiver_id;
         self.tokens.owner_by_id.insert(&token_id, &owner_id);
+        self.owner_by_series_id.insert(&token_series_id, &owner_id);
 
         self.tokens
             .token_metadata_by_id
