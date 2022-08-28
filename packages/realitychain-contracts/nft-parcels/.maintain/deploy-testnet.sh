@@ -1,2 +1,2 @@
 #!/bin/bash
-near deploy ms-parcels.testnet ../out/main.wasm
+near deploy v2-ms-parcels.testnet ../out/main.wasm
