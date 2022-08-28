@@ -76,6 +76,22 @@ pub struct RealityParcelsContractV1 {
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
+pub struct RealityParcelsContractV2 {
+    tokens: NonFungibleToken,
+    metadata: LazyOption<NFTContractMetadata>,
+    // CUSTOM
+    voucher_nft_id: AccountId,
+    parcel_nft_id: AccountId,
+    real_ft_id: AccountId,
+    token_series_by_id: UnorderedMap<TokenSeriesId, TokenSeries>,
+    treasury_id: AccountId,
+    transaction_fee: TransactionFee,
+    market_data_transaction_fee: MarketDataTransactionFee,
+    locked_amount: U128,
+}
+
+#[near_bindgen]
+#[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
 pub struct RealityParcelsContract {
     tokens: NonFungibleToken,
     metadata: LazyOption<NFTContractMetadata>,

@@ -71,7 +71,7 @@ impl RealityParcelsContract {
 
     #[init(ignore_state)]
     pub fn migrate() -> Self {
-        let prev: RealityParcelsContractV1 = env::state_read().expect("ERR_NOT_INITIALIZED");
+        let prev: RealityParcelsContractV2 = env::state_read().expect("ERR_NOT_INITIALIZED");
         assert_eq!(
             env::predecessor_account_id(),
             prev.tokens.owner_id,
