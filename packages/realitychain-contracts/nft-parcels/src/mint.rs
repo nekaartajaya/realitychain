@@ -96,7 +96,7 @@ impl RealityParcelsContract {
 
         if let Some(msg) = msg {
             Some(
-                ext_approval_receiver::ext(self.voucher_nft_id.clone()).nft_on_approve(
+                ext_approval_receiver::ext(self.parcel_nft_id.clone()).nft_on_approve(
                     token_id,
                     token_series.creator_id,
                     approval_id,

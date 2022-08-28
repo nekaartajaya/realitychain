@@ -9,14 +9,12 @@ use near_sdk::{
 impl RealityParcelsContract {
     #[init]
     pub fn new_default_meta(
-        voucher_nft_id: AccountId,
         parcel_nft_id: AccountId,
         real_ft_id: AccountId,
         owner_id: AccountId,
         treasury_id: AccountId,
     ) -> Self {
         Self::new(
-            voucher_nft_id,
             parcel_nft_id,
             real_ft_id,
             owner_id,
@@ -36,7 +34,6 @@ impl RealityParcelsContract {
 
     #[init]
     pub fn new(
-        voucher_nft_id: AccountId,
         parcel_nft_id: AccountId,
         real_ft_id: AccountId,
         owner_id: AccountId,
@@ -47,7 +44,6 @@ impl RealityParcelsContract {
         assert!(!env::state_exists(), "Already initialized");
         metadata.assert_valid();
         Self {
-            voucher_nft_id: voucher_nft_id,
             parcel_nft_id: parcel_nft_id,
             real_ft_id: real_ft_id,
             tokens: NonFungibleToken::new(
@@ -82,7 +78,6 @@ impl RealityParcelsContract {
         );
 
         RealityParcelsContract {
-            voucher_nft_id: env::predecessor_account_id(),
             parcel_nft_id: env::predecessor_account_id(),
             real_ft_id: env::predecessor_account_id(),
             tokens: prev.tokens,
@@ -786,10 +781,10 @@ impl RealityParcelsContract {
         );
 
         // Initiating receiver's call and the callback
-        ext_non_fungible_token_receiver::ext(self.voucher_nft_id.clone())
+        ext_non_fungible_token_receiver::ext(self.parcel_nft_id.clone())
             .nft_on_transfer(sender_id, previous_owner_id.clone(), token_id.clone(), msg)
             .then(
-                ext_self::ext(self.voucher_nft_id.clone()).nft_resolve_transfer(
+                ext_self::ext(self.parcel_nft_id.clone()).nft_resolve_transfer(
                     previous_owner_id,
                     receiver_id.into(),
                     token_id,

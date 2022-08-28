@@ -80,7 +80,6 @@ pub struct RealityParcelsContract {
     tokens: NonFungibleToken,
     metadata: LazyOption<NFTContractMetadata>,
     // CUSTOM
-    voucher_nft_id: AccountId,
     parcel_nft_id: AccountId,
     real_ft_id: AccountId,
     token_series_by_id: UnorderedMap<TokenSeriesId, TokenSeries>,
@@ -179,7 +178,6 @@ mod tests {
             accounts(1),
             accounts(2),
             accounts(3),
-            accounts(4),
         );
         (context, contract)
     }
@@ -193,7 +191,6 @@ mod tests {
             accounts(1),
             accounts(2),
             accounts(3),
-            accounts(4),
             NFTContractMetadata {
                 spec: NFT_METADATA_SPEC.to_string(),
                 name: "Triple Triad".to_string(),
@@ -206,7 +203,7 @@ mod tests {
             500,
         );
         testing_env!(context.is_view(true).build());
-        assert_eq!(contract.get_owner(), accounts(3));
+        assert_eq!(contract.get_owner(), accounts(2));
         assert_eq!(
             contract.nft_metadata().base_uri.unwrap(),
             "https://ipfs.fleek.co/ipfs/".to_string()
@@ -753,7 +750,7 @@ mod tests {
         let (mut context, mut contract) = setup_contract();
 
         testing_env!(context
-            .predecessor_account_id(accounts(3))
+            .predecessor_account_id(accounts(2))
             .attached_deposit(1)
             .build());
 
@@ -767,7 +764,7 @@ mod tests {
         let (mut context, mut contract) = setup_contract();
 
         testing_env!(context
-            .predecessor_account_id(accounts(3))
+            .predecessor_account_id(accounts(2))
             .attached_deposit(1)
             .build());
 
@@ -803,7 +800,7 @@ mod tests {
         let (mut context, mut contract) = setup_contract();
 
         testing_env!(context
-            .predecessor_account_id(accounts(3))
+            .predecessor_account_id(accounts(2))
             .attached_deposit(1)
             .build());
 
