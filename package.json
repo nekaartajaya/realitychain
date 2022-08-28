@@ -7,6 +7,7 @@
     "bootstrap:all": "yarn && yarn bootstrap",
     "build:all": "lerna run build",
     "build": "lerna run build --scope=@realitychain/{erc20,api,webapp,mvp,rest}",
+    "init:testnet": "yarn workspace @realitychain/nft-parcels init:testnet",
     "deploy:testnet": "yarn workspace @realitychain/nft-parcels deploy:testnet && yarn workspace @realitychain/api setConstant",
     "init:dev:testnet": "yarn workspace @realitychain/nft-parcels init:dev:testnet",
     "deploy:dev:testnet": "yarn workspace @realitychain/nft-parcels deploy:dev:testnet && yarn workspace @realitychain/api setConstant",
