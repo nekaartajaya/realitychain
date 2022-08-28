@@ -1639,6 +1639,15 @@
   resolved "https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-2.0.2.tgz"
   integrity sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg==
 
+"@debionetwork/pinata-ipfs@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@debionetwork/pinata-ipfs/-/pinata-ipfs-0.0.2.tgz#2d2464a631b86513fe978ae145f8d164e746978e"
+  integrity sha512-Ac2YChNMD3XC6jeg2yoMhZbDrTNeZnAY9mxTrdZFW57ib5QyYt5Hcu3eBuTy60W9KJQksl19sLqHll1g6Exy4g==
+  dependencies:
+    axios "^0.26.0"
+    form-data "^4.0.0"
+    isomorphic-fetch "^3.0.0"
+
 "@emotion/hash@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
@@ -6078,7 +6087,7 @@ axios@0.27.2:
     follow-redirects "^1.14.9"
     form-data "^4.0.0"
 
-axios@^0.26.1:
+axios@^0.26.0, axios@^0.26.1:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
   integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==

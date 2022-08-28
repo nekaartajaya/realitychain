@@ -20,7 +20,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import {uploadFile, getList, checkAuthorization} from '../../lib/services/pinata-api'
+import { uploadFile, getFileUrl } from '../../lib/services/pinata-proxy'
 import { useStyles } from "./create.style";
 import {
   nftCreateUtilitySeries,
@@ -67,18 +67,8 @@ export const CreateNFTComponent = () => {
     { id: "chair", name: "Chair" },
   ]
 
-  const checkPinataAuth = async () => {
-    try {
-      await checkAuthorization()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   React.useEffect(() => {
     console.log(metaverseId);
-    // fetch data metaverse *myriad.town and set to state
-    checkPinataAuth()
   }, [metaverseId]);
 
   const handleClick = () => {
@@ -137,16 +127,16 @@ export const CreateNFTComponent = () => {
 
   const handleMint = async () => {
     if (name && image && description && selectedType) {
-      // TODO: Make sure Upload image to IPFS is working properly
-      const pinataApiOptions = {
-        pinataMetadata: {"name": image.name, "keyvalues": {"company": "Pinata"}},
-        pinataOptions: {"cidVersion": 1},
-      }
-      try {
-        await uploadFile(pinataApiOptions, image)
-      } catch (error) {
-        console.log(error)
-      }
+      const blob = new Blob([image], { type: image.type })
+
+      const result = await uploadFile({
+        title: image.name,
+        type: image.type,
+        size: image.size,
+        file: blob
+      })
+
+      const link = getFileUrl(result.IpfsHash)
 
       const type = {
         type: selectedType
@@ -162,8 +152,8 @@ export const CreateNFTComponent = () => {
       await nftCreateUtilitySeries(window.parasContract, {
         token_metadata: {
           title: name,
-          media: 'image',
-          reference: 'image',
+          media: link,
+          reference: link,
           copies: 100,
           issued_at: "",
           description: description,

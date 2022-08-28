@@ -4,6 +4,7 @@
   "description": "Reality Chain frontend",
   "private": true,
   "dependencies": {
+    "@debionetwork/pinata-ipfs": "0.0.2",
     "@fontsource/montserrat": "^4.5.11",
     "@realitychain/api": "0.0.1-beta.0",
     "@heroicons/react": "^1.0.6",
