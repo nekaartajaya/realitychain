@@ -63,7 +63,7 @@ export const rcParcelsDevConfig: RcParcelsConfig = {
   nodeUrl: 'https://rpc.testnet.near.org',
   walletUrl: 'https://wallet.testnet.near.org',
   appName: 'Reality Chain Dev',
-  contractName: 'dev-1660564749556-64354322458995',
+  contractName: '',
 };
 
 export const rcParcelsTestnetConfig: RcParcelsConfig = {

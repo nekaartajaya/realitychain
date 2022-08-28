@@ -1,12 +1,9 @@
 #!/bin/bash
-ft_input="../../fungible-token-address"
+ft_input="../../../fungible-token-address"
 ft_acc=$( cat "$ft_input" )
 
-parcel_input="../../nft-parcel-address"
+parcel_input="../../../nft-parcel-address"
 parcel_acc=$( cat "$parcel_input" )
-
-voucher_input="../../nft-voucher-address"
-voucher_acc=$( cat "$voucher_input" )
 
 file="export interface ContractConfig {
   networkId: string;
@@ -94,4 +91,4 @@ export const rcParcelsMainnetConfig: RcParcelsConfig = {
 
 export const oneYoctoNear: string = '1';"
 
-echo "$file" > "./src/constant.ts"
+echo "$file" > "../src/constant.ts"

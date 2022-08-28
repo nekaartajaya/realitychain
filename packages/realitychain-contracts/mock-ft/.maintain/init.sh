@@ -1,8 +1,8 @@
 #!/bin/bash
-owner_input="../../../owner-address"
+owner_input="../../../../addresses/owner-address"
 owner_acc=$( cat "$owner_input" )
 
-ft_input="../../../fungible-token-address"
+ft_input="../../../../addresses/fungible-token-address"
 ft_acc=$( cat "$ft_input" )
 
 params="{\"owner_id\": \"$ft_acc\", \"total_supply\": \"1000000000000000000000000\", \"metadata\": { \"spec\": \"ft-1.0.0\", \"name\": \"Real FT Token V2.1\", \"symbol\": \"REAL21\", \"decimals\": 8 }}"

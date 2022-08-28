@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Reality Chain NFT Smart Contract",
   "scripts": {
-    "build": "./build.sh",
-    "deploy:testnet": "yarn build && ./deploy.sh",
-    "init:testnet": "./init.sh",
+    "build": "cd .maintain && ./build.sh",
+    "deploy:testnet": "cd .maintain && ./build.sh && ./deploy.sh",
+    "init:testnet": "cd .maintain && ./init.sh",
     "prepare": "yarn build",
     "lint": "cargo clippy",
     "format": "cargo fmt",

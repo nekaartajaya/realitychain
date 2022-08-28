@@ -4,8 +4,8 @@
   "description": "Reality Chain Mock FT",
   "scripts": {
     "build": "cd scripts && ./build.sh",
-    "deploy:testnet": "./deploy.sh",
-    "init:testnet": "./init.sh",
+    "deploy:testnet": "cd .maintain && ./deploy.sh",
+    "init:testnet": "cd .maintain && ./init.sh",
     "prepare": "yarn build"
   },
   "repository": {

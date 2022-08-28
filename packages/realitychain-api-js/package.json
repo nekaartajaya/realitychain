@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "setConstant": "./set-constant.sh",
+    "setConstant": "cd .maintain && ./set-constant.sh",
     "format": "prettier --write \"(src|example|test)/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "yarn build",
