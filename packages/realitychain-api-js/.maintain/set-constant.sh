@@ -1,8 +1,8 @@
 #!/bin/bash
-ft_input="../../../fungible-token-address"
+ft_input="../../../addresses/dev/fungible-token-address"
 ft_acc=$( cat "$ft_input" )
 
-parcel_input="../../../nft-parcel-address"
+parcel_input="../../../addresses/dev/nft-parcel-address"
 parcel_acc=$( cat "$parcel_input" )
 
 file="export interface ContractConfig {
