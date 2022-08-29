@@ -4,6 +4,8 @@
   "description": "Reality Chain NFT Smart Contract",
   "scripts": {
     "build": "cd .maintain && ./build.sh",
+    "deploy:mainnet": "node ./scripts/deploy-near-mainnet.ts",
+    "populate:mainnet": "node ./scripts/populate-near-mainnet.ts",
     "deploy:testnet": "node ./scripts/deploy-near-testnet.ts",
     "populate:testnet": "node ./scripts/populate-near-testnet.ts",
     "init:testnet": "cd .maintain && ./init-testnet.sh",

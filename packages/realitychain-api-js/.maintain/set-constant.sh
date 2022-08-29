@@ -62,7 +62,7 @@ export const parasMainnetConfig: ParasConfig = {
   nodeUrl: 'https://rpc.mainnet.near.org',
   walletUrl: 'https://wallet.mainnet.near.org',
   appName: 'Paras Mainnet',
-  contractName: 'paras-token-v2.testnet',
+  contractName: 'paras-token-v2.near',
 };
 
 export const rcParcelsDevConfig: RcParcelsConfig = {
