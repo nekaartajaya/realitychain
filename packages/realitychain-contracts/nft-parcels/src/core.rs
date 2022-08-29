@@ -323,11 +323,6 @@ impl RealityParcelsContract {
             "RealityChain: Creator only"
         );
 
-        assert!(
-            token_series.is_mintable,
-            "RealityChain: token series is not mintable"
-        );
-
         if let Some(price) = price {
             assert!(
                 price.0 < MAX_PRICE,
@@ -381,11 +376,6 @@ impl RealityParcelsContract {
             caller_id.clone() == token_series.creator_id
                 || Some(caller_id.clone()) == self.owner_by_series_id.get(&token_series_id),
             "RealityChain: Creator or Owner only"
-        );
-
-        assert!(
-            token_series.is_mintable,
-            "RealityChain: token series is not mintable"
         );
 
         token_series.parcel_metadata = parcel_metadata.clone();
@@ -442,11 +432,6 @@ impl RealityParcelsContract {
             caller_id.clone() == token_series.creator_id
                 || Some(caller_id.clone()) == self.owner_by_series_id.get(&token_series_id),
             "RealityChain: Creator or Owner only"
-        );
-
-        assert!(
-            token_series.is_mintable,
-            "RealityChain: token series is not mintable"
         );
 
         let copies = token_series.metadata.copies.clone();
