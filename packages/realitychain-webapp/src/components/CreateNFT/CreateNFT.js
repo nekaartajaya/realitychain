@@ -1,7 +1,7 @@
 import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 
 import React, { useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -26,6 +26,7 @@ import { nftCreateUtilitySeries, nftMint } from "@realitychain/api";
 
 export const CreateNFTComponent = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -33,6 +34,9 @@ export const CreateNFTComponent = () => {
   const [selectedType, setSelectedType] = React.useState("");
   const [body, setBody] = React.useState("");
   const [selectedInteraction, setSelectedInteraction] = React.useState("");
+  const [offsetX, setOffsetX] = React.useState(0);
+  const [offsetY, setOffsetY] = React.useState(0);
+  const [isDisableButtonMint, setIsDisableButtonMint] = React.useState(true);
 
   const [open, setOpen] = React.useState(false);
   const [openInteraction, setOpenInteraction] = React.useState(false);
@@ -79,6 +83,14 @@ export const CreateNFTComponent = () => {
 
   const handleChangeName = (e) => {
     setName(e.target.value);
+  };
+
+  const handleChangeOffsetX = (e) => {
+    setOffsetX(e.target.value);
+  };
+
+  const handleChangeOffsetY = (e) => {
+    setOffsetY(e.target.value);
   };
 
   const handleChangeDescription = (e) => {
@@ -142,11 +154,13 @@ export const CreateNFTComponent = () => {
         type: selectedType,
       };
 
-      if (selectedType === "wear") {
+      if (selectedType.category === "wear") {
         type["body"] = body;
       }
-      if (selectedType === "furniture") {
+      if (selectedType.category === "furniture") {
         type["interaction"] = selectedInteraction;
+        type["offsetX"] = offsetX;
+        type["offsetY"] = offsetY;
       }
 
       const utilityResult = await nftCreateUtilitySeries(window.parasContract, {
@@ -174,8 +188,37 @@ export const CreateNFTComponent = () => {
         token_series_id: utilityResult.token_series_id,
         receiver_id: window.accountId,
       });
+
+      navigate("/profile");
     }
   };
+
+  React.useEffect(() => {
+    if (
+      name !== "" &&
+      description !== "" &&
+      image !== "" &&
+      selectedType !== ""
+    ) {
+      if (selectedType.category === "wear") {
+        if (body !== "") setIsDisableButtonMint(false);
+        else setIsDisableButtonMint(true);
+      } else if (selectedType.category === "furniture") {
+        if (selectedInteraction !== "" && offsetX !== 0 && offsetY !== 0)
+          setIsDisableButtonMint(false);
+        else setIsDisableButtonMint(true);
+      } else setIsDisableButtonMint(false);
+    }
+  }, [
+    name,
+    description,
+    image,
+    selectedType,
+    body,
+    selectedInteraction,
+    offsetX,
+    offsetY,
+  ]);
 
   const style = useStyles();
   return (
@@ -358,6 +401,32 @@ export const CreateNFTComponent = () => {
                     ))}
                   </Collapse>
                 </List>
+
+                <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
+                  OFFSET
+                </Typography>
+                <div className="d-flex" style={{ marginBottom: 24 }}>
+                  <div className="d-flex align-items-center  w-25">
+                    <div className="me-2">X</div>
+                    <TextField
+                      value={offsetX}
+                      onChange={handleChangeOffsetX}
+                      className={`${style.input} me-5`}
+                      id="outlined-basic"
+                      type="number"
+                    />
+                  </div>
+                  <div className="d-flex align-items-center w-25">
+                    <div className="me-2">Y</div>
+                    <TextField
+                      value={offsetY}
+                      onChange={handleChangeOffsetY}
+                      className={`${style.input} me-5`}
+                      id="outlined-basic"
+                      type="number"
+                    />
+                  </div>
+                </div>
               </>
             )}
 
@@ -402,16 +471,28 @@ export const CreateNFTComponent = () => {
               <Button
                 variant="outlined"
                 color="primary"
-                style={{ width: "auto", marginRight: 16 }}
+                style={{
+                  width: "auto",
+                  marginRight: 16,
+                  color: isDisableButtonMint && "#757575",
+                  borderColor: isDisableButtonMint && "#757575",
+                }}
                 onClick={handlePreview}
+                disabled={isDisableButtonMint}
               >
                 preview
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                style={{ width: "auto" }}
+                style={{
+                  width: "auto",
+                  color: isDisableButtonMint && "#757575",
+                  backgroundColor:
+                    isDisableButtonMint && "rgba(255, 255, 255, 0.1)",
+                }}
                 onClick={handleMint}
+                disabled={isDisableButtonMint}
               >
                 mint
               </Button>
