@@ -1,4 +1,4 @@
-import { Account, Contract } from 'near-api-js';
+import { Contract } from 'near-api-js';
 
 export interface StorageDepositDto {
   account_id: string;
@@ -123,6 +123,7 @@ export interface ParasContract extends Contract {
     amount: string;
   }) => Promise<TokenSeriesJson>;
   nft_get_series;
+  nft_tokens_for_owner;
   nft_buy;
   nft_mint;
   nft_decrease_series_copies;
@@ -141,6 +142,7 @@ export interface RcParcelsContract extends Contract {
     amount: string;
   }) => Promise<TokenSeriesJson>;
   nft_get_series;
+  nft_tokens_for_owner;
   nft_buy;
   nft_mint;
   nft_decrease_series_copies;

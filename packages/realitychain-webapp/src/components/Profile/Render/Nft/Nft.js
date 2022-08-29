@@ -1,4 +1,5 @@
 import { ReactComponent as RealityChain } from "../../../../assets/logo.svg";
+import { nftTokensForOwner } from "@realitychain/api";
 
 import React from "react";
 
@@ -15,6 +16,24 @@ import { useStyles } from "./nft.style";
 export const NftUtility = ({ nfts }) => {
   const style = useStyles();
   const navigate = useNavigate();
+
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    getNftTokensForOwner();
+  }, []);
+
+  const getNftTokensForOwner = async () => {
+    try {
+      // TODO: Insert this into the UI
+      
+      const response = await nftTokensForOwner(window.parasContract, window.accountId);
+      console.log(response);
+      setData(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleOpenDetail = (id) => {
     navigate(`/nft-utility/${id}`);

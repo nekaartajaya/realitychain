@@ -4,6 +4,19 @@ export async function nftGetSeries(contract: RcParcelsContract | ParasContract):
   return (await contract.nft_get_series()) as TokenSeriesJson[];
 }
 
+export async function nftTokensForOwner(
+  contract: RcParcelsContract | ParasContract,
+  accountId: string,
+  fromIndex: string = "0",
+  limit: number = 5,
+): Promise<string[]> {
+  return (await contract.nft_tokens_for_owner({
+    account_id: accountId,
+    from_index: fromIndex,
+    limit,
+  })) as string[];
+}
+
 export async function nftGetSeriesSingle(
   contract: RcParcelsContract | ParasContract,
   tokenSeriesId: string,

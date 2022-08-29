@@ -25,7 +25,7 @@ export async function parasContractWithAccountId(
   const account = await useAccount(connection, accountId);
 
   return (await new Contract(account, config.contractName, {
-    viewMethods: ['nft_get_series', 'nft_get_series_single', 'nft_token'],
+    viewMethods: ['nft_get_series', 'nft_get_series_single', 'nft_token', 'nft_tokens_for_owner'],
     changeMethods: [
       'nft_create_series',
       'nft_buy',
@@ -46,7 +46,7 @@ export async function parcelsContractWithAccountId(
   const account = await useAccount(connection, accountId);
 
   return (await new Contract(account, config.contractName, {
-    viewMethods: ['nft_get_series', 'nft_get_series_single', 'nft_token'],
+    viewMethods: ['nft_get_series', 'nft_get_series_single', 'nft_token', 'nft_tokens_for_owner'],
     changeMethods: [
       'nft_create_series',
       'nft_buy',
