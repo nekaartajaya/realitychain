@@ -497,11 +497,6 @@ impl RealityParcelsContract {
             "RealityChain: Creator or Owner only"
         );
 
-        assert!(
-            token_series.is_mintable,
-            "RealityChain: token series is not mintable"
-        );
-
         let copies = token_series.metadata.copies.clone();
         assert!(
             copies.is_some(),
