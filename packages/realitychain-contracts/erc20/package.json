@@ -5,6 +5,9 @@
   "scripts": {
     "build": "yarn hardhat compile",
     "prepare": "yarn build",
+    "deploy:dev:testnet": "yarn hardhat run scripts/deploy-and-transfer.ts",
+    "deploy:testnet": "yarn hardhat run scripts/deploy-and-transfer.ts --network goerli",
+    "deploy:mainnet": "yarn hardhat run scripts/deploy-and-transfer.ts --network mainnet",
     "test": "yarn hardhat test",
     "format": "prettier --write \"(src|example|test)/**/*.ts\"",
     "lint": "tslint -p tsconfig.json"
