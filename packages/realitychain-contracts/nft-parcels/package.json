@@ -4,14 +4,19 @@
   "description": "Reality Chain NFT Smart Contract",
   "scripts": {
     "build": "cd .maintain && ./build.sh",
-    "deploy:testnet": "cd .maintain && ./deploy-testnet.sh",
+    "deploy:testnet": "node ./scripts/deploy-near-testnet.ts",
+    "populate:testnet": "node ./scripts/populate-near-testnet.ts",
     "init:testnet": "cd .maintain && ./init-testnet.sh",
     "deploy:dev:testnet": "cd .maintain && ./build.sh && ./deploy.sh",
     "init:dev:testnet": "cd .maintain && ./init.sh",
     "prepare": "yarn build",
     "lint": "cargo clippy",
-    "format": "cargo fmt",
+    "format": "cargo fmt && prettier --write \"scripts/**/*.ts\"",
     "test": "cargo test"
+  },
+  "devDependencies": {
+    "near-api-js": "^0.45.1",
+    "prettier": "^2.5.1"
   },
   "repository": {
     "type": "git",
