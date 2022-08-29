@@ -1047,6 +1047,14 @@ impl RealityParcelsContract {
     pub fn get_owner(&self) -> AccountId {
         self.tokens.owner_id.clone()
     }
+
+    pub fn get_owner_by_id(&self, token_id: &TokenId) -> Option<AccountId> {
+        self.tokens.owner_by_id.get(token_id)
+    }
+
+    pub fn get_owner_by_series_id(&self, token_series_id: &TokenSeriesId) -> Option<AccountId> {
+        self.owner_by_series_id.get(token_series_id)
+    }
 }
 
 fn royalty_to_payout(a: u32, b: Balance) -> U128 {

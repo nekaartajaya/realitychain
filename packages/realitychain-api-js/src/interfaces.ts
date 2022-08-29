@@ -127,6 +127,7 @@ export interface ParasContract extends Contract {
     gas: number;
     amount: string;
   }) => Promise<TokenSeriesJson>;
+  get_owner;
   nft_get_series;
   nft_tokens_for_owner;
   nft_buy;
@@ -146,6 +147,9 @@ export interface RcParcelsContract extends Contract {
     gas: number;
     amount: string;
   }) => Promise<TokenSeriesJson>;
+  get_owner;
+  get_owner_by_id;
+  get_owner_by_series_id;
   nft_get_series;
   nft_tokens_for_owner;
   nft_buy;
