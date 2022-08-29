@@ -78,7 +78,7 @@ export const NftUtility = ({ nfts }) => {
         return (
           <Paper
             style={{ width: 256, cursor: "pointer" }}
-            onClick={() => handleOpenDetail("id")}
+            onClick={() => handleOpenDetail(v.token_id)}
           >
             <Paper
               variant="outlined"

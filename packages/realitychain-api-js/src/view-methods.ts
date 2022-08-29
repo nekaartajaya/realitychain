@@ -7,8 +7,8 @@ export async function nftGetSeries(contract: RcParcelsContract | ParasContract):
 export async function nftTokensForOwner(
   contract: RcParcelsContract | ParasContract,
   accountId: string,
-  fromIndex: string = '0',
-  limit: number = 5,
+  fromIndex: string = "0",
+  limit: number = 50,
 ): Promise<string[]> {
   return (await contract.nft_tokens_for_owner({
     account_id: accountId,

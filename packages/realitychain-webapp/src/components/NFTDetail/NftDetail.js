@@ -11,19 +11,52 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import { useStyles } from "./nft-detail.style";
 import { Typography, Avatar } from "@material-ui/core";
 import { useParams } from "react-router-dom";
+import { getOwner, nftGetSeriesSingle } from "@realitychain/api";
 
 export const NFTDetail = () => {
   const style = useStyles();
   const { id } = useParams();
+  const tokenId = id.substring(0, id.indexOf(":"));
+
+  const [detail, setDetail] = React.useState(null);
+  const [extra, setExtra] = React.useState({});
+  const [owner, setOwner] = React.useState("");
 
   React.useEffect(() => {
-    console.log(id);
     // fetch data nft from id or any else
-  }, [id]);
+    getNftDetail(tokenId);
+    getNftOwner(tokenId);
+  }, []);
+
+  React.useEffect(() => {
+    if (detail !== null) setExtra(JSON.parse(detail?.metadata?.extra));
+  }, [detail]);
 
   const handleOpenLink = () => {
     // make sure fix link
-    window.open("https://paras.id/", { target: "_blank" });
+    window.open(process.env.REACT_APP_NFT_PARAS_URL + id + "/" + tokenId, {
+      target: "_blank",
+    });
+  };
+
+  const getNftDetail = async (tokenId) => {
+    try {
+      const response = await nftGetSeriesSingle(window.parasContract, tokenId);
+      console.log(response);
+      setDetail(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getNftOwner = async (tokenId) => {
+    try {
+      const response = await getOwner(window.parasContract, tokenId);
+      console.log(response);
+      setOwner(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -32,15 +65,13 @@ export const NFTDetail = () => {
         <Paper className={style.image}>
           <CardMedia
             className={style.media}
-            image={
-              "https://sb.kaleidousercontent.com/67418/800x533/a5ddfb21a6/persons3-nobg.png"
-            }
+            image={detail?.metadata?.media}
             title={"user.nam"}
           />
         </Paper>
         <div className={style.row2}>
           <Typography variant="h1" style={{ marginBottom: 24 }}>
-            Polo Shirt
+            {detail?.metadata?.title}
           </Typography>
           <Typography variant="body2" style={{ marginBottom: 8 }}>
             Owned by
@@ -49,7 +80,7 @@ export const NFTDetail = () => {
             <Avatar className={style.avatar} src="" variant="circle">
               <SvgIcon component={UserIcon} viewBox="0 0 20 20" />
             </Avatar>
-            <Typography variant="subtitle1">unknown.near</Typography>
+            <Typography variant="subtitle1">{owner}</Typography>
           </div>
           <Paper className={style.detail} style={{ marginBottom: 24 }}>
             <Typography
@@ -60,7 +91,7 @@ export const NFTDetail = () => {
               Description
             </Typography>
             <Typography variant="subtitle1" className={style.value}>
-              Shirt for my avatar
+              {detail?.metadata?.description}
             </Typography>
             <Typography
               variant="subtitle1"
@@ -70,17 +101,58 @@ export const NFTDetail = () => {
               TYPE
             </Typography>
             <Typography variant="subtitle1" className={style.value}>
-              AvatarTop
+              {extra?.type?.name}
             </Typography>
+            {extra?.type?.category === "wear" && (
+              <>
+                <Typography
+                  variant="subtitle1"
+                  className={style.key}
+                  color={"textSecondary"}
+                >
+                  Body
+                </Typography>
+                <Typography variant="subtitle1" className={style.value}>
+                  {extra?.body}
+                </Typography>
+              </>
+            )}
+
+            {extra?.type?.category === "furniture" && (
+              <>
+                <Typography
+                  variant="subtitle1"
+                  className={style.key}
+                  color={"textSecondary"}
+                >
+                  Interaction
+                </Typography>
+                <Typography variant="subtitle1" className={style.value}>
+                  {extra?.interaction?.name}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  className={style.key}
+                  color={"textSecondary"}
+                >
+                  Offset
+                </Typography>
+                <Typography variant="subtitle1" className={style.value}>
+                  <div>X {extra?.offsetX}</div>
+                  <div>Y {extra?.offsetY}</div>
+                </Typography>
+              </>
+            )}
+
             <Typography
               variant="subtitle1"
               className={style.key}
               color={"textSecondary"}
             >
-              Body
+              Creator
             </Typography>
             <Typography variant="subtitle1" className={style.value}>
-              Male
+              {detail?.creator_id}
             </Typography>
             <Typography
               variant="subtitle1"
@@ -115,7 +187,7 @@ export const NFTDetail = () => {
                 style={{ color: "#D391D6" }}
                 onClick={handleOpenLink}
               >
-                {"paras.id/abcde"}
+                {process.env.REACT_APP_NFT_PARAS_URL + id + "/" + tokenId}
               </Typography>
               <SvgIcon component={ExternalLinkIcon} viewBox="0 0 20 20" />
             </div>
