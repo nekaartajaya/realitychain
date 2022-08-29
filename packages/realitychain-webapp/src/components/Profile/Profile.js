@@ -77,7 +77,7 @@ export const ProfileComponent = () => {
         <Avatar className={style.avatar} src="" variant="circle">
           <SvgIcon component={UserIcon} viewBox="0 0 20 20" />
         </Avatar>
-        <Typography variant="h4">unknown.near</Typography>
+        <Typography variant="h4">{window.accountId}</Typography>
         <Typography variant="body2" color="textSecondary">
           Joined 24 October 2022
         </Typography>

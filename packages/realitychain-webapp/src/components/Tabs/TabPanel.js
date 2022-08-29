@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) =>
     root: {},
     owner: {
       width: "100%",
-      height: 586,
+      // height: 586,
       background: "transparent",
       // display: 'flex',
       // flexDirection: 'column',

@@ -65,62 +65,67 @@ export const NftUtility = ({ nfts }) => {
 
   return (
     <div
-      style={{ display: "flex", flexWrap: "wrap", gap: 32, marginBottom: 24 }}
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 32,
+        marginBottom: 24,
+        paddingBottom: 24,
+      }}
     >
       {/* maping */}
-      <Paper
-        style={{ width: 256, cursor: "pointer" }}
-        onClick={() => handleOpenDetail("id")}
-      >
-        <Paper
-          variant="outlined"
-          style={{ width: "100%", height: 256, background: "#222731" }}
-        >
-          <CardMedia
-            className={style.media}
-            image={
-              "https://sb.kaleidousercontent.com/67418/800x533/a5ddfb21a6/persons3-nobg.png"
-            }
-            title={"user.nam"}
-          />
-        </Paper>
-        <div className={style.content}>
-          <Typography variant="h6" style={{ marginBottom: 4 }}>
-            Floor
-          </Typography>
-          <div>
-            <Typography variant="caption" color="textSecondary">
-              by unknow.near
-            </Typography>
-          </div>
-          <Typography variant="caption" style={{ color: "#D391D6" }}>
-            Myriad.Town
-          </Typography>
-          <Divider
-            style={{
-              background: "#2B3240",
-              height: 2,
-              marginTop: 8,
-              marginBottom: 8,
-            }}
-          />
-          <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-            <Typography variant="caption" color="textSecondary">
-              Minted
-            </Typography>
-            <SvgIcon
-              component={RealityChain}
-              viewBox="0 0 40 40"
-              style={{ fontSize: 20 }}
-            />
-            <Typography variant="caption">50 REAL</Typography>
-          </div>
-        </div>
-      </Paper>
+      {data.map((v, i) => {
+        return (
+          <Paper
+            style={{ width: 256, cursor: "pointer" }}
+            onClick={() => handleOpenDetail("id")}
+          >
+            <Paper
+              variant="outlined"
+              style={{ width: "100%", height: 256, background: "#222731" }}
+            >
+              <CardMedia
+                className={style.media}
+                image={v.metadata.media}
+                title={"user.nam"}
+              />
+            </Paper>
+            <div className={style.content}>
+              <Typography variant="h6" style={{ marginBottom: 4 }}>
+                {v.metadata.title}
+              </Typography>
+              <div>
+                <Typography variant="caption" color="textSecondary">
+                  by {v.owner_id}
+                </Typography>
+              </div>
+              <Typography variant="caption" style={{ color: "#D391D6" }}>
+                Myriad.Town
+              </Typography>
+              <Divider
+                style={{
+                  background: "#2B3240",
+                  height: 2,
+                  marginTop: 8,
+                  marginBottom: 8,
+                }}
+              />
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                <Typography variant="caption" color="textSecondary">
+                  Minted
+                </Typography>
+                <SvgIcon
+                  component={RealityChain}
+                  viewBox="0 0 40 40"
+                  style={{ fontSize: 20 }}
+                />
+                <Typography variant="caption">50 REAL</Typography>
+              </div>
+            </div>
+          </Paper>
+        );
+      })}
       {/*  */}
-      <Paper style={{ width: 256 }} />
-      <Paper style={{ width: 256 }} />
-      <Paper style={{ width: 256 }} />
     </div>
   );
 };
