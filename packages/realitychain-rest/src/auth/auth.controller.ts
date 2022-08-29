@@ -1,17 +1,14 @@
-
 import { Controller, Get } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   @Get('login')
   async login() {
     return {
-      access_token: this.jwtService.sign({ username: "username" }),
+      access_token: this.jwtService.sign({ username: 'username' }),
     };
   }
 }

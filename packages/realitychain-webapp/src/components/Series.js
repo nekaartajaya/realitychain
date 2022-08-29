@@ -50,7 +50,8 @@ export const SeriesComponent = ({ balance }) => {
       token_metadata: {
         title: "Dark",
         media: "bafybeifdbvb6yzajogbe4dbn3bgxoli3sp7ol7upfmu2givpvbwufydthu",
-        reference: "bafybeifvzitvju4ftwnkf7w7yakz7i5colcey223uk2ui4t5z3ss7l2od4",
+        reference:
+          "bafybeifvzitvju4ftwnkf7w7yakz7i5colcey223uk2ui4t5z3ss7l2od4",
         copies: 100,
         issued_at: "",
         description: null,
@@ -66,7 +67,7 @@ export const SeriesComponent = ({ balance }) => {
         [window.accountId]: 1000,
       },
     };
-  
+
     const parcelParams = {
       parcel_metadata: {
         world_id,

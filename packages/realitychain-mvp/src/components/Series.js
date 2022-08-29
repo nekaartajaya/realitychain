@@ -22,7 +22,8 @@ export const SeriesComponent = ({ balance }) => {
   const voucherParams = {
     token_metadata: {
       title: "RC Parcels 10",
-      media: "https://ipfs.debio.network/ipfs/QmcX8GohhCS2Q2kMFLL38aUffN4brCpaz8d6LtiYLqGcFn",
+      media:
+        "https://ipfs.debio.network/ipfs/QmcX8GohhCS2Q2kMFLL38aUffN4brCpaz8d6LtiYLqGcFn",
       reference: "bafybeifvzitvju4ftwnkf7w7yakz7i5colcey223uk2ui4t5z3ss7l2od4",
       copies: 1000,
       issued_at: "",

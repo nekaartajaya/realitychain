@@ -41,14 +41,13 @@ const useStyles = makeStyles((theme) =>
 export const ModalConnect = (props) => {
   const { open, onHide, onLogin } = props;
   const style = useStyles();
-  const [address, setAddress] = React.useState('rc-orang.testnet');
+  const [address, setAddress] = React.useState("rc-orang.testnet");
 
   const handleSetAddress = (e) => {
     setAddress(e.target.value);
   };
 
   const handleLogin = () => {
-    console.log('hallo')
     onLogin(address);
   };
 

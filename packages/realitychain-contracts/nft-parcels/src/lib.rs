@@ -6,7 +6,7 @@ use near_contract_standards::non_fungible_token::metadata::{
 use near_contract_standards::non_fungible_token::NonFungibleToken;
 use near_contract_standards::non_fungible_token::{Token, TokenId};
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::collections::{LazyOption, UnorderedMap, TreeMap, UnorderedSet};
+use near_sdk::collections::{LazyOption, TreeMap, UnorderedMap, UnorderedSet};
 use near_sdk::env::is_valid_account_id;
 use near_sdk::json_types::{U128, U64};
 use near_sdk::{
@@ -539,7 +539,10 @@ mod tests {
             .build());
 
         let token_id = contract.nft_mint("1".to_string(), accounts(2));
-        assert_eq!(contract.owner_by_series_id.get(&"1".to_string()), Some(accounts(2)));
+        assert_eq!(
+            contract.owner_by_series_id.get(&"1".to_string()),
+            Some(accounts(2))
+        );
 
         let token_from_nft_token = contract.nft_token(token_id);
         assert_eq!(token_from_nft_token.unwrap().owner_id, accounts(2))
@@ -566,7 +569,10 @@ mod tests {
             .build());
 
         contract.nft_mint("1".to_string(), accounts(2));
-        assert_eq!(contract.owner_by_series_id.get(&"1".to_string()), Some(accounts(2)));
+        assert_eq!(
+            contract.owner_by_series_id.get(&"1".to_string()),
+            Some(accounts(2))
+        );
 
         contract.nft_mint("1".to_string(), accounts(2));
     }
@@ -655,13 +661,16 @@ mod tests {
             .build());
 
         let token_id = contract.nft_mint("1".to_string(), accounts(2));
-        assert_eq!(contract.owner_by_series_id.get(&"1".to_string()), Some(accounts(2)));
+        assert_eq!(
+            contract.owner_by_series_id.get(&"1".to_string()),
+            Some(accounts(2))
+        );
 
         testing_env!(context
             .predecessor_account_id(accounts(2))
             .attached_deposit(1)
             .build());
-            
+
         contract.nft_burn(token_id.clone());
         assert_eq!(contract.owner_by_series_id.get(&"1".to_string()), None);
 
@@ -694,9 +703,12 @@ mod tests {
             .predecessor_account_id(accounts(2))
             .attached_deposit(1)
             .build());
-            
+
         contract.nft_transfer(accounts(3), token_id.clone(), None, None);
-        assert_eq!(contract.owner_by_series_id.get(&"1".to_string()), Some(accounts(3)));
+        assert_eq!(
+            contract.owner_by_series_id.get(&"1".to_string()),
+            Some(accounts(3))
+        );
 
         let token = contract.nft_token(token_id).unwrap();
         assert_eq!(token.owner_id, accounts(3))
@@ -722,12 +734,18 @@ mod tests {
             .build());
 
         let token_id = contract.nft_mint("1".to_string(), accounts(2));
-        assert_eq!(contract.owner_by_series_id.get(&"1".to_string()), Some(accounts(2)));
+        assert_eq!(
+            contract.owner_by_series_id.get(&"1".to_string()),
+            Some(accounts(2))
+        );
 
         testing_env!(context.predecessor_account_id(accounts(2)).build());
-        
+
         contract.nft_transfer_unsafe(accounts(3), token_id.clone(), None, None);
-        assert_eq!(contract.owner_by_series_id.get(&"1".to_string()), Some(accounts(3)));
+        assert_eq!(
+            contract.owner_by_series_id.get(&"1".to_string()),
+            Some(accounts(3))
+        );
 
         let token = contract.nft_token(token_id).unwrap();
         assert_eq!(token.owner_id, accounts(3))
@@ -753,13 +771,16 @@ mod tests {
             .build());
 
         let token_id = contract.nft_mint("1".to_string(), accounts(2));
-        assert_eq!(contract.owner_by_series_id.get(&"1".to_string()), Some(accounts(2)));
+        assert_eq!(
+            contract.owner_by_series_id.get(&"1".to_string()),
+            Some(accounts(2))
+        );
 
         testing_env!(context
             .predecessor_account_id(accounts(2))
             .attached_deposit(1)
             .build());
-            
+
         let payout = contract.nft_transfer_payout(
             accounts(3),
             token_id.clone(),
@@ -767,7 +788,10 @@ mod tests {
             Some(U128::from(1 * 10u128.pow(24))),
             Some(10),
         );
-        assert_eq!(contract.owner_by_series_id.get(&"1".to_string()), Some(accounts(3)));
+        assert_eq!(
+            contract.owner_by_series_id.get(&"1".to_string()),
+            Some(accounts(3))
+        );
 
         let mut payout_calc: HashMap<AccountId, U128> = HashMap::new();
         payout_calc.insert(

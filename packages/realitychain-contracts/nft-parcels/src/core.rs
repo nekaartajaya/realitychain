@@ -378,7 +378,8 @@ impl RealityParcelsContract {
             .expect("Token series not exist");
 
         assert!(
-            caller_id.clone() == token_series.creator_id || Some(caller_id.clone()) == self.owner_by_series_id.get(&token_series_id),
+            caller_id.clone() == token_series.creator_id
+                || Some(caller_id.clone()) == self.owner_by_series_id.get(&token_series_id),
             "RealityChain: Creator or Owner only"
         );
 
@@ -438,7 +439,8 @@ impl RealityParcelsContract {
             .expect("Token series not exist");
 
         assert!(
-            caller_id.clone() == token_series.creator_id || Some(caller_id.clone()) == self.owner_by_series_id.get(&token_series_id),
+            caller_id.clone() == token_series.creator_id
+                || Some(caller_id.clone()) == self.owner_by_series_id.get(&token_series_id),
             "RealityChain: Creator or Owner only"
         );
 
@@ -679,7 +681,8 @@ impl RealityParcelsContract {
 
         let mut token_id_iter = token_id.split(TOKEN_DELIMETER);
         let token_series_id = token_id_iter.next().unwrap().parse().unwrap();
-        self.owner_by_series_id.insert(&token_series_id, &receiver_id);
+        self.owner_by_series_id
+            .insert(&token_series_id, &receiver_id);
 
         let authorized_id: Option<AccountId> = if sender_id != previous_owner_id {
             Some(sender_id)
@@ -717,12 +720,17 @@ impl RealityParcelsContract {
             .get(&token_id)
             .expect("Token not found");
         let receiver_id_str = receiver_id.to_string();
-        self.tokens
-            .nft_transfer(receiver_id.clone(), token_id.clone(), approval_id, memo.clone());
+        self.tokens.nft_transfer(
+            receiver_id.clone(),
+            token_id.clone(),
+            approval_id,
+            memo.clone(),
+        );
 
         let mut token_id_iter = token_id.split(TOKEN_DELIMETER);
         let token_series_id = token_id_iter.next().unwrap().parse().unwrap();
-        self.owner_by_series_id.insert(&token_series_id, &receiver_id);
+        self.owner_by_series_id
+            .insert(&token_series_id, &receiver_id);
 
         let authorized_id: Option<AccountId> = if sender_id != previous_owner_id {
             Some(sender_id)
@@ -917,10 +925,11 @@ impl RealityParcelsContract {
         let previous_token = self.nft_token(token_id.clone()).expect("no token");
         self.tokens
             .nft_transfer(receiver_id.clone(), token_id.clone(), approval_id, None);
-            
+
         let mut token_id_iter = token_id.split(TOKEN_DELIMETER);
         let token_series_id = token_id_iter.next().unwrap().parse().unwrap();
-        self.owner_by_series_id.insert(&token_series_id, &receiver_id);
+        self.owner_by_series_id
+            .insert(&token_series_id, &receiver_id);
 
         // Payout calculation
         let previous_owner_id = previous_token.owner_id;

@@ -16,15 +16,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import { uploadFile, getFileUrl } from '../../lib/services/pinata-proxy'
+import { uploadFile, getFileUrl } from "../../lib/services/pinata-proxy";
 import { useStyles } from "./create.style";
-import {
-  nftCreateUtilitySeries, nftMint,
-} from "@realitychain/api";
+import { nftCreateUtilitySeries, nftMint } from "@realitychain/api";
 
 export const CreateNFTComponent = () => {
   const [searchParams] = useSearchParams();
@@ -33,8 +31,8 @@ export const CreateNFTComponent = () => {
   const [description, setDescription] = React.useState("");
   const [image, setImage] = React.useState("");
   const [selectedType, setSelectedType] = React.useState("");
-  const [body, setBody] = React.useState('');
-  const [selectedInteraction, setSelectedInteraction] = React.useState('');
+  const [body, setBody] = React.useState("");
+  const [selectedInteraction, setSelectedInteraction] = React.useState("");
 
   const [open, setOpen] = React.useState(false);
   const [openInteraction, setOpenInteraction] = React.useState(false);
@@ -44,28 +42,28 @@ export const CreateNFTComponent = () => {
 
   // make sure data of type
   const types = [
-    { id: "avatarhead", name: "AvatarHead", category: 'body' },
-    { id: "avatarhair", name: "AvatarHair", category: 'body' },
-    { id: "avatarface", name: "AvatarFace", category: 'body' },
-    { id: "avatararm", name: "AvatarArm", category: 'body' },
-    { id: "avatarhip", name: "AvatarHip", category: 'body' },
-    { id: "avatarskirt", name: "AvatarSkirt", category: 'wear' },
-    { id: "avatartop", name: "AvatarTop", category: 'wear' },
-    { id: "avatarhand", name: "AvatarHand", category: 'body' },
-    { id: "avatarthigh", name: "AvatarThigh", category: 'body' },
-    { id: "avatarleg", name: "AvatarLeg", category: 'body' },
-    { id: "avatarshoe", name: "AvatarShoe", category: 'wear' },
-    { id: "floor", name: "Floor", category: 'static' },
-    { id: "furniture", name: "Furniture", category: 'furniture' },
-    { id: "painting", name: "Painting", category: 'static' },
-    { id: "wall", name: "Wall", category: 'static' },
+    { id: "avatarhead", name: "AvatarHead", category: "body" },
+    { id: "avatarhair", name: "AvatarHair", category: "body" },
+    { id: "avatarface", name: "AvatarFace", category: "body" },
+    { id: "avatararm", name: "AvatarArm", category: "body" },
+    { id: "avatarhip", name: "AvatarHip", category: "body" },
+    { id: "avatarskirt", name: "AvatarSkirt", category: "wear" },
+    { id: "avatartop", name: "AvatarTop", category: "wear" },
+    { id: "avatarhand", name: "AvatarHand", category: "body" },
+    { id: "avatarthigh", name: "AvatarThigh", category: "body" },
+    { id: "avatarleg", name: "AvatarLeg", category: "body" },
+    { id: "avatarshoe", name: "AvatarShoe", category: "wear" },
+    { id: "floor", name: "Floor", category: "static" },
+    { id: "furniture", name: "Furniture", category: "furniture" },
+    { id: "painting", name: "Painting", category: "static" },
+    { id: "wall", name: "Wall", category: "static" },
   ];
 
   const interactions = [
     { id: "none", name: "None" },
     { id: "bed", name: "Bed" },
     { id: "chair", name: "Chair" },
-  ]
+  ];
 
   React.useEffect(() => {
     console.log(metaverseId);
@@ -93,7 +91,9 @@ export const CreateNFTComponent = () => {
   };
 
   const handleSelectInteraction = (_interaction) => {
-    setSelectedInteraction(interactions.filter((interactions) => interactions.id === _interaction)[0]);
+    setSelectedInteraction(
+      interactions.filter((interactions) => interactions.id === _interaction)[0]
+    );
     setOpenInteraction((open) => !open);
   };
 
@@ -127,26 +127,26 @@ export const CreateNFTComponent = () => {
 
   const handleMint = async () => {
     if (name && image && description && selectedType) {
-      const blob = new Blob([image], { type: image.type })
+      const blob = new Blob([image], { type: image.type });
 
       const result = await uploadFile({
         title: image.name,
         type: image.type,
         size: image.size,
-        file: blob
-      })
+        file: blob,
+      });
 
-      const link = getFileUrl(result.IpfsHash)
+      const link = getFileUrl(result.IpfsHash);
 
       const type = {
-        type: selectedType
-      }
+        type: selectedType,
+      };
 
-      if (selectedType === 'wear') {
-        type['body'] = body
+      if (selectedType === "wear") {
+        type["body"] = body;
       }
-      if (selectedType === 'furniture') {
-        type['interaction'] = selectedInteraction
+      if (selectedType === "furniture") {
+        type["interaction"] = selectedInteraction;
       }
 
       const utilityResult = await nftCreateUtilitySeries(window.parasContract, {
@@ -288,20 +288,39 @@ export const CreateNFTComponent = () => {
                 ))}
               </Collapse>
             </List>
-            
-            {selectedType.category === 'wear' && (
+
+            {selectedType.category === "wear" && (
               <>
                 <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
                   BODY
                 </Typography>
-                <RadioGroup aria-label="body" name="gender1" value={body} onChange={handleChange} style={{display: 'flex', gap: 16, flexDirection: 'row', marginBottom: 24}}>
-                  <FormControlLabel value="male" control={<Radio />} label="Male" />
-                  <FormControlLabel value="female" control={<Radio />} label="Female" />
+                <RadioGroup
+                  aria-label="body"
+                  name="gender1"
+                  value={body}
+                  onChange={handleChange}
+                  style={{
+                    display: "flex",
+                    gap: 16,
+                    flexDirection: "row",
+                    marginBottom: 24,
+                  }}
+                >
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Male"
+                  />
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Female"
+                  />
                 </RadioGroup>
               </>
             )}
 
-            {selectedType.category === 'furniture' && (
+            {selectedType.category === "furniture" && (
               <>
                 <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
                   INTERACTION
@@ -314,7 +333,11 @@ export const CreateNFTComponent = () => {
                 >
                   <ListItem button onClick={handleClickInteraction}>
                     <ListItemText
-                      primary={selectedInteraction ? selectedInteraction.name : "Select category"}
+                      primary={
+                        selectedInteraction
+                          ? selectedInteraction.name
+                          : "Select category"
+                      }
                     />
                     {openInteraction ? <ExpandLess /> : <ExpandMore />}
                   </ListItem>
@@ -325,7 +348,9 @@ export const CreateNFTComponent = () => {
                           button
                           className={style.nested}
                           key={interaction.id}
-                          onClick={() => handleSelectInteraction(interaction.id)}
+                          onClick={() =>
+                            handleSelectInteraction(interaction.id)
+                          }
                         >
                           <ListItemText primary={interaction.name} />
                         </ListItem>

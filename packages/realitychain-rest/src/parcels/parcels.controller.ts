@@ -15,7 +15,7 @@ export class ParcelsController {
   async setMetadata(@Body() metadataDto: NftSetSeriesTokenMetadataDto) {
     return await this.parcelsService.setMetadata(metadataDto);
   }
-  
+
   @UseGuards(JwtAuthGuard)
   @Post('set-parcel-metadata')
   async setParcelMetadata(@Body() parcelDto: NftSetSeriesParcelMetadataDto) {

@@ -49,7 +49,7 @@ function App() {
 
   const onLogin = (address) => {
     setLoading(true);
-    console.log('hola', address)
+    console.log("hola", address);
     login(address);
     setTimeout(() => {
       setLoading(false);
