@@ -26,8 +26,11 @@ export const NftUtility = ({ nfts }) => {
   const getNftTokensForOwner = async () => {
     try {
       // TODO: Insert this into the UI
-      
-      const response = await nftTokensForOwner(window.parasContract, window.accountId);
+
+      const response = await nftTokensForOwner(
+        window.parasContract,
+        window.accountId
+      );
       console.log(response);
       setData(response);
     } catch (error) {

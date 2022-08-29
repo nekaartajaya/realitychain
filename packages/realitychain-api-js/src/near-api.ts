@@ -56,6 +56,7 @@ export async function parcelsContractWithAccountId(
       'nft_set_series_price',
       'nft_set_series_parcel_metadata',
       'nft_set_series_metadata',
+      'nft_set_series_metadata_extra',
     ],
   })) as RcParcelsContract;
 }

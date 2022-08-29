@@ -7,7 +7,7 @@ import { nftMint } from "@realitychain/api";
 export const ParcelListComponent = () => {
   const handleMinting = async (data) => {
     await nftMint(window.parcelsContract, {
-      token_series_id: `${data+1}`,
+      token_series_id: `${data + 1}`,
       receiver_id: window.accountId,
     });
   };

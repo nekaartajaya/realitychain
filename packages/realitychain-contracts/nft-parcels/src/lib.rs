@@ -465,6 +465,11 @@ mod tests {
             },
         );
 
+        let _ = contract.nft_set_series_metadata_extra(
+            nft_series_return.token_series_id.clone(),
+            "bafybeidzcan4nzcz7sczs4yzyxly4galgygnbjewipj6haco4kffoqpkiy".to_string(),
+        );
+
         let nft_series_return =
             contract.nft_get_series_single(nft_series_return.token_series_id.clone().to_string());
 

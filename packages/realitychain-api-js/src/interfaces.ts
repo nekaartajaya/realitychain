@@ -57,6 +57,11 @@ export interface NftSetSeriesTokenMetadataDto {
   metadata: TokenMetadata;
 }
 
+export interface NftSetSeriesTokenMetadataExtraDto {
+  token_series_id: string;
+  extra: string;
+}
+
 export interface NftCreateUtilitySeriesDto {
   token_metadata: TokenMetadata;
   price: any;
@@ -152,4 +157,5 @@ export interface RcParcelsContract extends Contract {
   nft_token;
   nft_set_series_metadata;
   nft_set_series_parcel_metadata;
+  nft_set_series_metadata_extra;
 }

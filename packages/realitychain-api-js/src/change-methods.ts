@@ -14,6 +14,7 @@ import {
   NftSetSeriesTokenMetadataDto,
   ParasContract,
   NftCreateUtilitySeriesDto,
+  NftSetSeriesTokenMetadataExtraDto,
 } from './interfaces';
 
 export async function nftCreateUtilitySeries(
@@ -72,6 +73,18 @@ export async function nftSetSeriesMetadata(
   gas: number = 300000000000000,
 ): Promise<TokenSeriesJson> {
   return (await contract.nft_set_series_metadata({
+    args,
+    gas,
+    amount: oneYoctoNear,
+  })) as TokenSeriesJson;
+}
+
+export async function nftSetSeriesMetadataExtra(
+  contract: RcParcelsContract,
+  args: NftSetSeriesTokenMetadataExtraDto,
+  gas: number = 300000000000000,
+): Promise<TokenSeriesJson> {
+  return (await contract.nft_set_series_metadata_extra({
     args,
     gas,
     amount: oneYoctoNear,

@@ -425,6 +425,74 @@ impl RealityParcelsContract {
     }
 
     #[payable]
+    pub fn nft_set_series_metadata_extra(
+        &mut self,
+        token_series_id: TokenSeriesId,
+        extra: String,
+    ) -> TokenSeriesJson {
+        assert_one_yocto();
+        let caller_id = env::predecessor_account_id();
+
+        let mut token_series = self
+            .token_series_by_id
+            .get(&token_series_id)
+            .expect("Token series not exist");
+
+        assert!(
+            caller_id.clone() == token_series.creator_id
+                || Some(caller_id.clone()) == self.owner_by_series_id.get(&token_series_id),
+            "RealityChain: Creator or Owner only"
+        );
+
+        assert!(
+            token_series.is_mintable,
+            "RealityChain: token series is not mintable"
+        );
+
+        let copies = token_series.metadata.copies.clone();
+        assert!(
+            copies.is_some(),
+            "RealityChain: token_series.metadata.copies is required"
+        );
+
+        token_series.metadata.extra = Some(extra);
+
+        self.token_series_by_id
+            .insert(&token_series_id, &token_series);
+
+        // set market data transaction fee
+        let current_transaction_fee = self.calculate_current_transaction_fee();
+        self.market_data_transaction_fee
+            .transaction_fee
+            .insert(&token_series_id, &current_transaction_fee);
+
+        env::log_str(
+            &json!({
+                "type": "nft_set_series_metadata_extra",
+                "params": {
+                    "token_series_id": token_series_id.clone(),
+                    "metadata": token_series.metadata,
+                    "parcel_metadata": token_series.parcel_metadata,
+                    "creator_id": caller_id,
+                    "price": token_series.price.unwrap_or(0).to_string(),
+                    "royalty": token_series.royalty,
+                    "transaction_fee": &current_transaction_fee.to_string()
+                }
+            })
+            .to_string(),
+        );
+
+        TokenSeriesJson {
+            token_series_id: token_series_id.clone(),
+            metadata: token_series.metadata,
+            parcel_metadata: token_series.parcel_metadata,
+            creator_id: caller_id,
+            royalty: token_series.royalty,
+            transaction_fee: Some(current_transaction_fee.into()),
+        }
+    }
+
+    #[payable]
     pub fn nft_set_series_metadata(
         &mut self,
         token_series_id: TokenSeriesId,
