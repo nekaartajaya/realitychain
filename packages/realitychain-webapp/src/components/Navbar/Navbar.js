@@ -53,7 +53,7 @@ export const Navbar = ({ onConnect, balance, onLogout }) => {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
-    const paths = ["discover", "marketplace", "project", "nft-utility"];
+    const paths = ["discover", "minting", "profile"];
     paths.forEach((path) => {
       const regex = new RegExp(`${path}`, "i");
       if (location.pathname.match(regex) !== null) {
@@ -112,7 +112,7 @@ export const Navbar = ({ onConnect, balance, onLogout }) => {
               value={"discover"}
               {...a11yProps(0)}
             />
-            <LinkTab
+            {/* <LinkTab
               label="MY PROJECT"
               href="/project"
               value={"project"}
@@ -135,9 +135,19 @@ export const Navbar = ({ onConnect, balance, onLogout }) => {
               href="/staking"
               value={"staking"}
               {...a11yProps(3)}
+            /> */}
+            <LinkTab
+              label="MARKETPLACE"
+              href="/minting"
+              value={"minting"}
+              {...a11yProps(1)}
             />
-            {/* <LinkTab label="MARKETPLACE" href="/marketplace" value={'marketplace'} disabled {...a11yProps(1)} /> */}
-            {/* <LinkTab label="NFT UTILITY" href="/nft-utility" value={'nft-utility'} disabled {...a11yProps(5)} /> */}
+            <LinkTab
+              label="NFT UTILITY"
+              href="/profile"
+              value={"profile"}
+              {...a11yProps(5)}
+            />
           </Tabs>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
