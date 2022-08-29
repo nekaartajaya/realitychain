@@ -23,7 +23,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { uploadFile, getFileUrl } from '../../lib/services/pinata-proxy'
 import { useStyles } from "./create.style";
 import {
-  nftCreateUtilitySeries,
+  nftCreateUtilitySeries, nftMint,
 } from "@realitychain/api";
 
 export const CreateNFTComponent = () => {
@@ -149,7 +149,7 @@ export const CreateNFTComponent = () => {
         type['interaction'] = selectedInteraction
       }
 
-      await nftCreateUtilitySeries(window.parasContract, {
+      const utilityResult = await nftCreateUtilitySeries(window.parasContract, {
         token_metadata: {
           title: name,
           media: link,
@@ -168,6 +168,11 @@ export const CreateNFTComponent = () => {
         royalty: {
           [window.accountId]: 1000,
         },
+      });
+
+      await nftMint(window.parasContract, {
+        token_series_id: utilityResult.token_series_id,
+        receiver_id: window.accountId,
       });
     }
   };
