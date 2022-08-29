@@ -516,6 +516,10 @@ impl RealityParcelsContract {
 
         self.tokens.owner_by_id.remove(&token_id);
 
+        let mut token_id_iter = token_id.split(TOKEN_DELIMETER);
+        let token_series_id = token_id_iter.next().unwrap().parse().unwrap();
+        self.owner_by_series_id.remove(&token_series_id);
+
         NearEvent::log_nft_burn(owner_id.to_string(), vec![token_id], None, None);
     }
 
@@ -667,11 +671,15 @@ impl RealityParcelsContract {
         let sender_id = env::predecessor_account_id();
         let (previous_owner_id, _) = self.tokens.internal_transfer(
             &sender_id,
-            &receiver_id,
-            &token_id,
+            &receiver_id.clone(),
+            &token_id.clone(),
             approval_id,
             memo.clone(),
         );
+
+        let mut token_id_iter = token_id.split(TOKEN_DELIMETER);
+        let token_series_id = token_id_iter.next().unwrap().parse().unwrap();
+        self.owner_by_series_id.insert(&token_series_id, &receiver_id);
 
         let authorized_id: Option<AccountId> = if sender_id != previous_owner_id {
             Some(sender_id)
@@ -710,7 +718,11 @@ impl RealityParcelsContract {
             .expect("Token not found");
         let receiver_id_str = receiver_id.to_string();
         self.tokens
-            .nft_transfer(receiver_id, token_id.clone(), approval_id, memo.clone());
+            .nft_transfer(receiver_id.clone(), token_id.clone(), approval_id, memo.clone());
+
+        let mut token_id_iter = token_id.split(TOKEN_DELIMETER);
+        let token_series_id = token_id_iter.next().unwrap().parse().unwrap();
+        self.owner_by_series_id.insert(&token_series_id, &receiver_id);
 
         let authorized_id: Option<AccountId> = if sender_id != previous_owner_id {
             Some(sender_id)
@@ -905,6 +917,10 @@ impl RealityParcelsContract {
         let previous_token = self.nft_token(token_id.clone()).expect("no token");
         self.tokens
             .nft_transfer(receiver_id.clone(), token_id.clone(), approval_id, None);
+            
+        let mut token_id_iter = token_id.split(TOKEN_DELIMETER);
+        let token_series_id = token_id_iter.next().unwrap().parse().unwrap();
+        self.owner_by_series_id.insert(&token_series_id, &receiver_id);
 
         // Payout calculation
         let previous_owner_id = previous_token.owner_id;
