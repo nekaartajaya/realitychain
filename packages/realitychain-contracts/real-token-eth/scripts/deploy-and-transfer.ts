@@ -4,6 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import hre from "hardhat";
 
 async function main() {
@@ -13,21 +14,21 @@ async function main() {
   // If this script is run directly using `node` you may want to call compile
   // manually to make sure everything is compiled
   // await hre.run('compile');
-  const networkName = hre.network.name;
+  const networkName: string = hre.network.name;
   console.log("Deploying to network: ", networkName);
 
   // We get the contract to deploy
-  const realTokenEthContract = await hre.ethers.getContractFactory(
-    "RealToken_deploy"
+  const realTokenEthContract: any = await hre.ethers.getContractFactory(
+    "RealToken"
   );
-  console.log("Deploying RealToken_deploy...");
-  const realTokenEthDeployed = await realTokenEthContract.deploy();
+  console.log("Deploying RealToken...");
+  const realTokenEthDeployed: any = await realTokenEthContract.deploy();
 
   await realTokenEthDeployed.deployed();
 
   console.log("Token deployed to:", realTokenEthDeployed.address);
 
-  const accounts = await hre.ethers.getSigners();
+  const accounts: SignerWithAddress[] = await hre.ethers.getSigners();
 
   console.log("Giving 100 mil REAL to: ", accounts[0].address);
   await realTokenEthDeployed.transfer(accounts[0].address, "100000000");

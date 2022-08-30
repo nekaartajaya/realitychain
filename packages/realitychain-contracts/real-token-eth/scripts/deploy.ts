@@ -5,6 +5,7 @@
 // Runtime Environment's members available in the global scope.
 
 import hre from "hardhat";
+import "@nomiclabs/hardhat-waffle";
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -13,15 +14,15 @@ async function main() {
   // If this script is run directly using `node` you may want to call compile
   // manually to make sure everything is compiled
   // await hre.run('compile');
-  const networkName = hre.network.name;
+  const networkName: string = hre.network.name;
   console.log("Deploying to network: ", networkName);
 
   // We get the contract to deploy
-  const realTokenEthContract = await hre.ethers.getContractFactory(
-    "RealToken_deploy"
+  const realTokenEthContract: any = await hre.ethers.getContractFactory(
+    "RealToken"
   );
-  console.log("Deploying RealToken_deploy...");
-  const realTokenEthDeployed = await realTokenEthContract.deploy();
+  console.log("Deploying RealToken...");
+  const realTokenEthDeployed: any = await realTokenEthContract.deploy();
 
   await realTokenEthDeployed.deployed();
 

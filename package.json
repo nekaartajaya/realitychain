@@ -43,7 +43,7 @@
     "hardhat": "^2.9.6",
     "husky": "^8.0.1",
     "lerna": "^5.1.4",
-    "ts-node": "^10.8.2"
+    "ts-node": "^10.8.0"
   },
   "workspaces": [
     "packages/*",
