@@ -17,20 +17,20 @@ async function main() {
   console.log("Deploying to network: ", networkName);
 
   // We get the contract to deploy
-  const erc20Contract = await hre.ethers.getContractFactory(
+  const realTokenEthContract = await hre.ethers.getContractFactory(
     "RealityChainToken"
   );
   console.log("Deploying RealityChainToken...");
-  const erc20Deployed = await erc20Contract.deploy();
+  const realTokenEthDeployed = await realTokenEthContract.deploy();
 
-  await erc20Deployed.deployed();
+  await realTokenEthDeployed.deployed();
 
-  console.log("Token deployed to:", erc20Deployed.address);
+  console.log("Token deployed to:", realTokenEthDeployed.address);
 
   const accounts = await hre.ethers.getSigners();
 
   console.log("Giving 100 mil REAL to: ", accounts[0].address);
-  await erc20Deployed.transfer(accounts[0].address, "100000000");
+  await realTokenEthDeployed.transfer(accounts[0].address, "100000000");
 }
 
 // We recommend this pattern to be able to use async/await everywhere
