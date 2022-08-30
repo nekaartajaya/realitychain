@@ -43,7 +43,7 @@ export const ProfileComponent = () => {
   const tabs = [
     {
       id: "0",
-      title: "NFT UTILITY",
+      title: "UTILITY NFT",
       component: <NftUtility nfts={["yeah"]} />,
     },
     {
@@ -91,7 +91,7 @@ export const ProfileComponent = () => {
           variant="contained"
           color="primary"
         >
-          create nft utility
+          create utility nft
         </Button>
         <TabsComponent
           position="left"

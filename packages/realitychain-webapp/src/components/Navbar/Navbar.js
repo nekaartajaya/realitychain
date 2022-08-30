@@ -143,7 +143,7 @@ export const Navbar = ({ onConnect, balance, onLogout }) => {
               {...a11yProps(1)}
             />
             <LinkTab
-              label="NFT UTILITY"
+              label="UTILITY NFT"
               href="/profile"
               value={"profile"}
               {...a11yProps(5)}
