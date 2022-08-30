@@ -18,9 +18,9 @@ async function main() {
 
   // We get the contract to deploy
   const realTokenEthContract = await hre.ethers.getContractFactory(
-    "RealityChainToken"
+    "RealToken_deploy"
   );
-  console.log("Deploying RealityChainToken...");
+  console.log("Deploying RealToken_deploy...");
   const realTokenEthDeployed = await realTokenEthContract.deploy();
 
   await realTokenEthDeployed.deployed();
