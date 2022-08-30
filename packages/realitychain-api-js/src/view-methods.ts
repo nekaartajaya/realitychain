@@ -1,13 +1,19 @@
-import { ParasContract, RcParcelsContract, TokenSeriesJson } from './interfaces';
+require('isomorphic-fetch');
+import { ParasContract, ParasTokenSeries, RcParcelsContract, TokenSeriesJson } from './interfaces';
 
 export async function nftGetSeries(contract: RcParcelsContract | ParasContract): Promise<TokenSeriesJson[]> {
   return (await contract.nft_get_series()) as TokenSeriesJson[];
 }
 
+export async function nftGetSeriesByCreatorId(baseUrl: string, accountId: string): Promise<ParasTokenSeries[]> {
+  const data = await fetch(`${baseUrl}/token-series?__skip=0&__limit=10&creator_id=${accountId}`);
+  return (await data.json()).data.results as ParasTokenSeries[];
+}
+
 export async function nftTokensForOwner(
   contract: RcParcelsContract | ParasContract,
   accountId: string,
-  fromIndex: string = "0",
+  fromIndex: string = '0',
   limit: number = 50,
 ): Promise<string[]> {
   return (await contract.nft_tokens_for_owner({

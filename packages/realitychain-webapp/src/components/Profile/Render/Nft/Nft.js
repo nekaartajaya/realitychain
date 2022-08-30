@@ -1,5 +1,4 @@
-import { ReactComponent as RealityChain } from "../../../../assets/logo.svg";
-import { nftTokensForOwner } from "@realitychain/api";
+import { nftTokensForOwner, nftGetSeriesByCreatorId } from "@realitychain/api";
 
 import React from "react";
 
@@ -8,7 +7,6 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import CardMedia from "@material-ui/core/CardMedia";
 import Divider from "@material-ui/core/Divider";
-import SvgIcon from "@material-ui/core/SvgIcon";
 
 import { useNavigate } from "react-router-dom";
 
@@ -20,15 +18,13 @@ export const NftUtility = ({ nfts }) => {
   const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
-    getNftTokensForOwner();
+    getNftUtilityByCreatorId();
   }, []);
 
-  const getNftTokensForOwner = async () => {
+  const getNftUtilityByCreatorId = async () => {
     try {
-      // TODO: Insert this into the UI
-
-      const response = await nftTokensForOwner(
-        window.parasContract,
+      const response = await nftGetSeriesByCreatorId(
+        "https://api-v3-marketplace-testnet.paras.id",
         window.accountId
       );
       console.log(response);
@@ -75,6 +71,20 @@ export const NftUtility = ({ nfts }) => {
     >
       {/* maping */}
       {data.map((v, i) => {
+        let toMintOrNotToMint = "";
+        if (v.in_circulation > 0) {
+          toMintOrNotToMint = (
+            <Typography variant="caption" color="textSecondary">
+              Minted
+            </Typography>
+          );
+        } else {
+          toMintOrNotToMint = (
+            <Button variant="contained" color="primary">
+              Mint
+            </Button>
+          );
+        }
         return (
           <Paper
             style={{ width: 256, cursor: "pointer" }}
@@ -111,9 +121,7 @@ export const NftUtility = ({ nfts }) => {
                 }}
               />
               <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                <Typography variant="caption" color="textSecondary">
-                  Minted
-                </Typography>
+                {toMintOrNotToMint}
               </div>
             </div>
           </Paper>

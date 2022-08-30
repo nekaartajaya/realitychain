@@ -43,6 +43,42 @@ export interface Token {
   approved_account_ids: [x: string];
 }
 
+export interface ParasTokenMetadata {
+  title: string | null;
+  media: string | null;
+  reference: string | null;
+  issued_at: string | null;
+  copies: number | null;
+  description: string | null;
+  media_hash: string | null;
+  expires_at: string | null;
+  starts_at: string | null;
+  updated_at: string | null;
+  extra: string | null;
+  reference_hash: string | null;
+  creator_id: string | null;
+  collection_id: string | null;
+  collection: string | null;
+}
+
+export interface ParasTokenSeries {
+  _id: string | null;
+  contract_id: string | null;
+  token_series_id: string | null;
+  creator_id: string;
+  price: string | null;
+  lowest_price: string | null;
+  royalty: Royalty;
+  metadata: ParasTokenMetadata;
+  in_circulation: number;
+  updated_at: number;
+  has_price: string | null;
+  transaction_fee: string | null;
+  is_creator: boolean;
+  categories: string[];
+  view: number;
+}
+
 export interface Royalty {
   [x: string]: number;
 }
