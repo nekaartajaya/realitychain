@@ -114,12 +114,6 @@ export const NftUtility = ({ nfts }) => {
                 <Typography variant="caption" color="textSecondary">
                   Minted
                 </Typography>
-                <SvgIcon
-                  component={RealityChain}
-                  viewBox="0 0 40 40"
-                  style={{ fontSize: 20 }}
-                />
-                <Typography variant="caption">50 REAL</Typography>
               </div>
             </div>
           </Paper>
