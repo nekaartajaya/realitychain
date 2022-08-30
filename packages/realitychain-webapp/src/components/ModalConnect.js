@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) =>
 export const ModalConnect = (props) => {
   const { open, onHide, onLogin } = props;
   const style = useStyles();
-  const [address, setAddress] = React.useState("rc-orang.testnet");
+  const [address, setAddress] = React.useState("paras-token-v2.testnet");
 
   const handleSetAddress = (e) => {
     setAddress(e.target.value);
@@ -69,6 +69,7 @@ export const ModalConnect = (props) => {
           </Typography>
           <TextField
             value={address}
+            disabled={true}
             onChange={handleSetAddress}
             style={{ marginBottom: 16, marginTop: 8, minWidth: 100 }}
             className={style.input}

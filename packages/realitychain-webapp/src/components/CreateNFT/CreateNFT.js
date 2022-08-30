@@ -22,7 +22,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { uploadFile, getFileUrl } from "../../lib/services/pinata-proxy";
 import { useStyles } from "./create.style";
-import { nftCreateUtilitySeries, nftMint } from "@realitychain/api";
+import { nftCreateUtilitySeries } from "@realitychain/api";
 
 export const CreateNFTComponent = () => {
   const [searchParams] = useSearchParams();
@@ -154,7 +154,7 @@ export const CreateNFTComponent = () => {
     window.open("https://near.realitychain.io/previewer", { target: "_blank" });
   };
 
-  const handleMint = async () => {
+  const handleCreateSeries = async () => {
     if (name && image && description && selectedType) {
       const blob = new Blob([image], { type: image.type });
 
@@ -180,7 +180,7 @@ export const CreateNFTComponent = () => {
         type["offsetY"] = offsetY;
       }
 
-      const utilityResult = await nftCreateUtilitySeries(window.parasContract, {
+      await nftCreateUtilitySeries(window.parasContract, {
         token_metadata: {
           title: name,
           media: link,
@@ -200,13 +200,6 @@ export const CreateNFTComponent = () => {
           [window.accountId]: 1000,
         },
       });
-
-      await nftMint(window.parasContract, {
-        token_series_id: utilityResult.token_series_id,
-        receiver_id: window.accountId,
-      });
-
-      navigate("/profile");
     }
   };
 
@@ -521,7 +514,7 @@ export const CreateNFTComponent = () => {
                   backgroundColor:
                     isDisableButtonMint && "rgba(255, 255, 255, 0.1)",
                 }}
-                onClick={handleMint}
+                onClick={handleCreateSeries}
                 disabled={isDisableButtonMint}
               >
                 mint

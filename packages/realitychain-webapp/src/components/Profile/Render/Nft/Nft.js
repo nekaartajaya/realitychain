@@ -1,4 +1,4 @@
-import { nftTokensForOwner, nftGetSeriesByCreatorId } from "@realitychain/api";
+import { nftGetSeriesByCreatorId, nftMint } from "@realitychain/api";
 
 import React from "react";
 
@@ -15,6 +15,13 @@ export const NftUtility = ({ nfts }) => {
   const style = useStyles();
   const navigate = useNavigate();
 
+  const handleCreateSeries = async (tokenSeriesId) => {      
+    await nftMint(window.parasContract, {
+      token_series_id: tokenSeriesId,
+      receiver_id: window.accountId,
+    });
+  };
+
   const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
@@ -27,7 +34,6 @@ export const NftUtility = ({ nfts }) => {
         "https://api-v3-marketplace-testnet.paras.id",
         window.accountId
       );
-      console.log(response);
       setData(response);
     } catch (error) {
       console.log(error);
@@ -80,7 +86,7 @@ export const NftUtility = ({ nfts }) => {
           );
         } else {
           toMintOrNotToMint = (
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={() => handleCreateSeries(v.token_series_id)}>
               Mint
             </Button>
           );

@@ -1,5 +1,5 @@
-import { keyStores, Near, connect, Account, Contract } from 'near-api-js';
-import { ContractConfig, Nep141Config, ParasConfig, RcParcelsConfig, RcVouchersConfig } from './constant';
+import { keyStores, Near, connect, Contract, WalletAccount, WalletConnection } from 'near-api-js';
+import { ContractConfig, Nep141Config, ParasConfig, RcParcelsConfig } from './constant';
 import { Nep141Contract, ParasContract, RcParcelsContract } from './interfaces';
 
 export async function createNearConnection(keyStore: keyStores.KeyStore, config: ContractConfig): Promise<Near> {
@@ -12,8 +12,8 @@ export async function createNearConnection(keyStore: keyStores.KeyStore, config:
   });
 }
 
-export async function useAccount(connection: Near, accountId: string): Promise<Account> {
-  return await connection.account(accountId);
+export function useAccount(connection: Near, config: ContractConfig): WalletConnection {
+  return new WalletAccount(connection, config.contractName);
 }
 
 export async function parasContractWithAccountId(
@@ -22,9 +22,9 @@ export async function parasContractWithAccountId(
   config: ParasConfig,
 ): Promise<ParasContract> {
   const connection = await createNearConnection(keyStore, config);
-  const account = await useAccount(connection, accountId);
+  const wallet = useAccount(connection, config);
 
-  return (await new Contract(account, config.contractName, {
+  return (await new Contract(wallet.account(), config.contractName, {
     viewMethods: ['nft_get_series', 'nft_get_series_single', 'nft_token', 'nft_tokens_for_owner', 'get_owner'],
     changeMethods: [
       'nft_create_series',
@@ -43,9 +43,9 @@ export async function parcelsContractWithAccountId(
   config: RcParcelsConfig,
 ): Promise<RcParcelsContract> {
   const connection = await createNearConnection(keyStore, config);
-  const account = await useAccount(connection, accountId);
+  const wallet = useAccount(connection, config);
 
-  return (await new Contract(account, config.contractName, {
+  return (await new Contract(wallet.account(), config.contractName, {
     viewMethods: [
       'nft_get_series',
       'nft_get_series_single',
@@ -75,9 +75,9 @@ export async function nep141ContractWithAccountId(
   config: Nep141Config,
 ): Promise<Nep141Contract> {
   const connection = await createNearConnection(keyStore, config);
-  const account = await useAccount(connection, accountId);
+  const wallet = useAccount(connection, config);
 
-  return (await new Contract(account, config.contractName, {
+  return (await new Contract(wallet.account(), config.contractName, {
     viewMethods: ['ft_balance_of'],
     changeMethods: ['ft_transfer_call', 'storage_deposit'],
   })) as Nep141Contract;
