@@ -36,6 +36,7 @@ export const CreateNFTComponent = () => {
   const [selectedInteraction, setSelectedInteraction] = React.useState("");
   const [offsetX, setOffsetX] = React.useState(0);
   const [offsetY, setOffsetY] = React.useState(0);
+  const [copies, setCopies] = React.useState(1);
   const [isDisableButtonMint, setIsDisableButtonMint] = React.useState(true);
 
   const [open, setOpen] = React.useState(false);
@@ -69,6 +70,17 @@ export const CreateNFTComponent = () => {
     { id: "chair", name: "Chair" },
   ];
 
+  const showBody = [
+    "avatarskirt",
+    "avatartop",
+    "avatarshoe",
+    "avatarhip",
+    "avatarhand",
+    "avatararm",
+    "avatarthigh",
+    "avatarleg",
+  ];
+
   React.useEffect(() => {
     console.log(metaverseId);
   }, [metaverseId]);
@@ -95,6 +107,11 @@ export const CreateNFTComponent = () => {
 
   const handleChangeDescription = (e) => {
     setDescription(e.target.value);
+  };
+
+  const handleChangeCopies = (e) => {
+    if (e.target.value < 1) setCopies(1);
+    else setCopies(e.target.value);
   };
 
   const handleSelectType = (_type) => {
@@ -154,7 +171,7 @@ export const CreateNFTComponent = () => {
         type: selectedType,
       };
 
-      if (selectedType.category === "wear") {
+      if (showBody.includes(selectedType.id)) {
         type["body"] = body;
       }
       if (selectedType.category === "furniture") {
@@ -168,7 +185,7 @@ export const CreateNFTComponent = () => {
           title: name,
           media: link,
           reference: link,
-          copies: 100,
+          copies: copies,
           issued_at: "",
           description: description,
           media_hash: null,
@@ -200,7 +217,7 @@ export const CreateNFTComponent = () => {
       image !== "" &&
       selectedType !== ""
     ) {
-      if (selectedType.category === "wear") {
+      if (showBody.includes(selectedType.id)) {
         if (body !== "") setIsDisableButtonMint(false);
         else setIsDisableButtonMint(true);
       } else if (selectedType.category === "furniture") {
@@ -209,6 +226,7 @@ export const CreateNFTComponent = () => {
         else setIsDisableButtonMint(true);
       } else setIsDisableButtonMint(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     name,
     description,
@@ -302,6 +320,18 @@ export const CreateNFTComponent = () => {
             />
 
             <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
+              NUMBER OF COPIES
+            </Typography>
+            <TextField
+              value={copies}
+              onChange={handleChangeCopies}
+              style={{ marginBottom: 24, width: 100 }}
+              className={style.input}
+              id="outlined-basic"
+              type={"number"}
+            />
+
+            <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
               TYPE
             </Typography>
             <List
@@ -332,7 +362,7 @@ export const CreateNFTComponent = () => {
               </Collapse>
             </List>
 
-            {selectedType.category === "wear" && (
+            {showBody.includes(selectedType.id) && (
               <>
                 <Typography variant="subtitle1" style={{ marginBottom: 4 }}>
                   BODY

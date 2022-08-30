@@ -53,7 +53,7 @@ export const Navbar = ({ onConnect, balance, onLogout }) => {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
-    const paths = ["discover", "minting", "profile"];
+    const paths = ["discover", "marketplace", "profile"];
     paths.forEach((path) => {
       const regex = new RegExp(`${path}`, "i");
       if (location.pathname.match(regex) !== null) {
@@ -138,8 +138,8 @@ export const Navbar = ({ onConnect, balance, onLogout }) => {
             /> */}
             <LinkTab
               label="MARKETPLACE"
-              href="/minting"
-              value={"minting"}
+              href="/marketplace"
+              value={"marketplace"}
               {...a11yProps(1)}
             />
             <LinkTab

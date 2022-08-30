@@ -44,10 +44,10 @@ export const useStyles = makeStyles((theme) =>
     },
     key: {
       textTransform: "uppercase",
-      width: 160,
+      width: "50%",
     },
     value: {
-      width: 284,
+      width: "50%",
     },
   })
 );

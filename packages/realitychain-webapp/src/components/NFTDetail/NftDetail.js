@@ -103,7 +103,17 @@ export const NFTDetail = () => {
             <Typography variant="subtitle1" className={style.value}>
               {extra?.type?.name}
             </Typography>
-            {extra?.type?.category === "wear" && (
+            <Typography
+              variant="subtitle1"
+              className={style.key}
+              color={"textSecondary"}
+            >
+              Number of Copies
+            </Typography>
+            <Typography variant="subtitle1" className={style.value}>
+              {detail?.metadata?.copies}
+            </Typography>
+            {extra?.body && (
               <>
                 <Typography
                   variant="subtitle1"

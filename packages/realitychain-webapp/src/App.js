@@ -24,6 +24,7 @@ import { NFTDetail } from "./components/NFTDetail/NftDetail";
 import { login, logout } from "./utils";
 import theme from "./themes/dark-theme";
 import { ModalConnect } from "./components/ModalConnect";
+import { Marketplace } from "./components/Marketplace/Marketplace";
 
 function App() {
   const [open, setOpen] = React.useState(false);
@@ -86,6 +87,7 @@ function App() {
           <Route path="/create-metaverse" element={<CreateComponent />} />
           <Route path="/nft-utility/create" element={<CreateNFTComponent />} />
           <Route path="/nft-utility/:id" element={<NFTDetail />} />
+          <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/" element={<HomePage onConnect={handleOpenModal} />} />
         </Routes>
       </Router>
