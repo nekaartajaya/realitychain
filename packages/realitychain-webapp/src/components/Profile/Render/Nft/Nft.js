@@ -15,7 +15,7 @@ export const NftUtility = ({ nfts }) => {
   const style = useStyles();
   const navigate = useNavigate();
 
-  const handleCreateSeries = async (tokenSeriesId) => {      
+  const handleCreateSeries = async (tokenSeriesId) => {
     await nftMint(window.parasContract, {
       token_series_id: tokenSeriesId,
       receiver_id: window.accountId,
@@ -86,7 +86,11 @@ export const NftUtility = ({ nfts }) => {
           );
         } else {
           toMintOrNotToMint = (
-            <Button variant="contained" color="primary" onClick={() => handleCreateSeries(v.token_series_id)}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleCreateSeries(v.token_series_id)}
+            >
               Mint
             </Button>
           );

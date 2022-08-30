@@ -7,11 +7,7 @@ import {
   nep141ContractWithAccountId,
   parasContractWithAccountId,
 } from "@realitychain/api";
-import {
-  getParcelsConfig,
-  getNep141Config,
-  getParasConfig,
-} from "./config";
+import { getParcelsConfig, getNep141Config, getParasConfig } from "./config";
 
 const parasConfig = getParasConfig("development");
 const parcelsConfig = getParcelsConfig("development");

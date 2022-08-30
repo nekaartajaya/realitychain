@@ -33,9 +33,9 @@
   "author": "Theo <agustinustheoo@gmail.com>",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/realitychain/realitychain-monorepo/issues"
+    "url": "https://github.com/realitychainio/realitychain-monorepo/issues"
   },
-  "homepage": "https://github.com/realitychain/realitychain-monorepo#readme",
+  "homepage": "https://github.com/realitychainio/realitychain-monorepo#readme",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
     "@nomiclabs/hardhat-etherscan": "^3.0.0",
