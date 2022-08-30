@@ -1,4 +1,7 @@
-# How to verify address of beneficiary
+# Fork of Oct Token Eth
+This repository is a fork of the Oct Token Eth repository.
+
+## How to verify address of beneficiary
 
 By using function `ecrecover` of Solidity, we can create a function to verify an address of Ethereum, to ensure that it is a public key corresponding to a real private key of an EOA. For example:
 
