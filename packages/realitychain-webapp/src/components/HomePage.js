@@ -43,7 +43,7 @@ export const HomePage = ({ onConnect }) => {
           variant="subtitle1"
           style={{ width: 298, wordWrap: "break-word", marginBottom: 28 }}
         >
-          The NFT utility is now available to create in RealityChain.
+          The NFT utility is now available to create in Reality Chain.
         </Typography>
         <Button
           variant="contained"
@@ -51,7 +51,7 @@ export const HomePage = ({ onConnect }) => {
           style={{ width: "auto" }}
           onClick={handleCreateNFT}
         >
-          Create now
+          Start creating
         </Button>
         <div style={{ position: "absolute", right: 0, top: -50, zIndex: -99 }}>
           <Illustration />
