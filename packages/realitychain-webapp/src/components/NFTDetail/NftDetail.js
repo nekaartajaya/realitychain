@@ -25,7 +25,7 @@ export const NFTDetail = () => {
 
   React.useEffect(() => {
     // fetch data nft from id or any else
-    getNftDetail(tokenId);
+    getNftDetail(tokenSeriesId);
     getNftOwner(tokenId);
   }, []);
 
@@ -35,14 +35,20 @@ export const NFTDetail = () => {
 
   const handleOpenLink = () => {
     // make sure fix link
-    window.open(process.env.REACT_APP_NFT_PARAS_URL + id + "/" + tokenId, {
-      target: "_blank",
-    });
+    window.open(
+      process.env.REACT_APP_NFT_PARAS_URL + `${tokenSeriesId}/${tokenId}`,
+      {
+        target: "_blank",
+      }
+    );
   };
 
-  const getNftDetail = async (tokenId) => {
+  const getNftDetail = async (tokenSeriesId) => {
     try {
-      const response = await nftGetSeriesSingle(window.parasContract, tokenId);
+      const response = await nftGetSeriesSingle(
+        window.parasContract,
+        tokenSeriesId
+      );
       console.log(response);
       setDetail(response);
     } catch (error) {
