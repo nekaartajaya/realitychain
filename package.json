@@ -3,8 +3,9 @@
   "private": true,
   "scripts": {
     "lerna": "lerna",
-    "bootstrap": "yarn build && yarn workspace @realitychain/api setConstant && lerna bootstrap",
-    "bootstrap:all": "yarn && yarn bootstrap",
+    "bootstrap": "lerna bootstrap -- --ignore-scripts && yarn build && yarn workspace @realitychain/api setConstant && lerna bootstrap -- --ignore-scripts",
+    "bootstrap:ci": "CI=false && yarn --ignore-scripts --silent && lerna bootstrap -- --ignore-scripts && yarn build:ci",
+    "bootstrap:all": "yarn --ignore-scripts --silent && yarn bootstrap",
     "build": "lerna run build --scope=@realitychain/{real-token-eth,api,webapp,mvp,rest}",
     "build:ci": "lerna run build --scope=@realitychain/{api,webapp,rest}",
     "build:all": "lerna run build",
