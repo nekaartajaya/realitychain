@@ -609,6 +609,8 @@ mod tests {
 
         contract.nft_set_series_price("1".to_string(), None);
 
+        contract.nft_set_series_stake_amount("1".to_string(), near_sdk::json_types::U128::from(57142857140), 8);
+
         testing_env!(context
             .predecessor_account_id(accounts(2))
             .attached_deposit(1 * 10u128.pow(24) + STORAGE_FOR_MINT)
@@ -904,6 +906,8 @@ mod tests {
             .build());
 
         contract.nft_set_series_price("1".to_string(), None);
+
+        contract.nft_set_series_stake_amount("1".to_string(), near_sdk::json_types::U128::from(57142857140), 8);
 
         assert_eq!(contract.get_transaction_fee().current_fee, 500);
         assert_eq!(contract.get_transaction_fee().next_fee, Some(next_fee));

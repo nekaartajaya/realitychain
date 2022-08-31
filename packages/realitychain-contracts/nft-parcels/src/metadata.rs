@@ -36,6 +36,8 @@ pub struct TokenSeries {
     pub is_mintable: bool,
     pub royalty: HashMap<AccountId, u32>,
     pub parcel_metadata: ParcelMetadata,
+    pub real_staked_amount: U128,
+    pub real_decimals: u32,
 }
 
 #[derive(Serialize, Deserialize)]

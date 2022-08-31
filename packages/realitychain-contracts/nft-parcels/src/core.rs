@@ -268,6 +268,8 @@ impl RealityParcelsContract {
                 price: price_res,
                 is_mintable: true,
                 royalty: royalty_res.clone(),
+                real_staked_amount: U128::from(57142857140),
+                real_decimals: 8,
             },
         );
 
@@ -356,6 +358,52 @@ impl RealityParcelsContract {
         );
 
         price
+    }
+
+    #[payable]
+    pub fn nft_set_series_stake_amount(
+        &mut self,
+        token_series_id: TokenSeriesId,
+        real_staked_amount: U128,
+        real_decimals: u32,
+    ) -> U128 {
+        assert_one_yocto();
+
+        let mut token_series = self
+            .token_series_by_id
+            .get(&token_series_id)
+            .expect("Token series not exist");
+        assert_eq!(
+            env::predecessor_account_id(),
+            token_series.creator_id,
+            "RealityChain: Creator only"
+        );
+
+        token_series.real_staked_amount = real_staked_amount.clone();
+        token_series.real_decimals = real_decimals.clone();
+
+        self.token_series_by_id
+            .insert(&token_series_id, &token_series);
+
+        // set market data transaction fee
+        let current_transaction_fee = self.calculate_current_transaction_fee();
+        self.market_data_transaction_fee
+            .transaction_fee
+            .insert(&token_series_id, &current_transaction_fee);
+
+        env::log_str(
+            &json!({
+                "type": "nft_set_series_price",
+                "params": {
+                    "token_series_id": token_series_id,
+                    "real_staked_amount": real_staked_amount,
+                    "real_decimals": real_decimals.to_string(),
+                }
+            })
+            .to_string(),
+        );
+
+        real_staked_amount
     }
 
     #[payable]
