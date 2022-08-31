@@ -85,7 +85,7 @@ export const NftUtility = ({ nfts }) => {
       {/* maping */}
       {data.map((v, i) => {
         let totalCards = [];
-        for(let j = 1; j <= v.metadata.copies; j++) {
+        for (let j = 1; j <= v.metadata.copies; j++) {
           let toMintOrNotToMint = "";
           if (v.total_mint >= j) {
             toMintOrNotToMint = (
@@ -104,7 +104,7 @@ export const NftUtility = ({ nfts }) => {
               </Button>
             );
           }
-          totalCards.push((
+          totalCards.push(
             <Paper
               style={{ width: 256, cursor: "pointer" }}
               onClick={() => handleOpenDetail(`${v.token_series_id}:${j}`)}
@@ -144,7 +144,7 @@ export const NftUtility = ({ nfts }) => {
                 </div>
               </div>
             </Paper>
-          ));
+          );
         }
         return totalCards;
       })}

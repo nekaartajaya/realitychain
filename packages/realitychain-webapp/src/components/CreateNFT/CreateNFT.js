@@ -176,33 +176,33 @@ export const CreateNFTComponent = () => {
         attributes: [],
       };
       extra.attributes.push({
-        trait_type: 'name',
-        value: selectedType.name
-      })
+        trait_type: "name",
+        value: selectedType.name,
+      });
       extra.attributes.push({
-        trait_type: 'category',
-        value: selectedType.category
-      })
+        trait_type: "category",
+        value: selectedType.category,
+      });
 
       if (showBody.includes(selectedType.id)) {
         extra.attributes.push({
-          trait_type: 'body',
-          value: body
-        })
+          trait_type: "body",
+          value: body,
+        });
       }
       if (selectedType.category === "furniture") {
         extra.attributes.push({
-          trait_type: 'interaction',
-          value: selectedInteraction.name
-        })
+          trait_type: "interaction",
+          value: selectedInteraction.name,
+        });
         extra.attributes.push({
-          trait_type: 'offsetX',
-          value: offsetX
-        })
+          trait_type: "offsetX",
+          value: offsetX,
+        });
         extra.attributes.push({
-          trait_type: 'offsetY',
-          value: offsetY
-        })
+          trait_type: "offsetY",
+          value: offsetY,
+        });
       }
 
       Cookies.set("create_nft", "true");
