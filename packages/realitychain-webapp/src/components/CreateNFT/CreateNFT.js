@@ -172,17 +172,37 @@ export const CreateNFTComponent = () => {
 
       const link = getFileUrl(result.IpfsHash);
 
-      const type = {
-        type: selectedType,
+      const extra = {
+        attributes: [],
       };
+      extra.attributes.push({
+        trait_type: 'name',
+        value: selectedType.name
+      })
+      extra.attributes.push({
+        trait_type: 'category',
+        value: selectedType.category
+      })
 
       if (showBody.includes(selectedType.id)) {
-        type["body"] = body;
+        extra.attributes.push({
+          trait_type: 'body',
+          value: body
+        })
       }
       if (selectedType.category === "furniture") {
-        type["interaction"] = selectedInteraction;
-        type["offsetX"] = offsetX;
-        type["offsetY"] = offsetY;
+        extra.attributes.push({
+          trait_type: 'interaction',
+          value: selectedInteraction.name
+        })
+        extra.attributes.push({
+          trait_type: 'offsetX',
+          value: offsetX
+        })
+        extra.attributes.push({
+          trait_type: 'offsetY',
+          value: offsetY
+        })
       }
 
       Cookies.set("create_nft", "true");
@@ -199,7 +219,7 @@ export const CreateNFTComponent = () => {
           expires_at: null,
           starts_at: null,
           updated_at: null,
-          extra: JSON.stringify(type),
+          extra: JSON.stringify(extra),
           reference_hash: null,
         },
         price: null,

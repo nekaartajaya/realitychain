@@ -17,6 +17,7 @@ export const NFTDetail = () => {
   const style = useStyles();
   const { id } = useParams();
   const tokenId = id;
+  const tokenSeriesId = id.substring(0, id.indexOf(":"));
 
   const [detail, setDetail] = React.useState(null);
   const [extra, setExtra] = React.useState({});
@@ -197,7 +198,7 @@ export const NFTDetail = () => {
                 style={{ color: "#D391D6" }}
                 onClick={handleOpenLink}
               >
-                {process.env.REACT_APP_NFT_PARAS_URL + id + "/" + tokenId}
+                {`${process.env.REACT_APP_NFT_PARAS_URL}${tokenSeriesId}/${tokenId}`}
               </Typography>
               <SvgIcon component={ExternalLinkIcon} viewBox="0 0 20 20" />
             </div>
