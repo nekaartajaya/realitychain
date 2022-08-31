@@ -1,0 +1,43 @@
+name: CI/CD Deploy Netlify Webapp
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Monorepo Code
+      uses: actions/checkout@v2
+    - name: Yarn Install
+      uses: borales/actions-yarn@v3.0.0
+      with:
+        cmd: install --ignore-scripts --silent # will run `yarn install` command
+    - name: Lerna Bootstrap
+      uses: borales/actions-yarn@v3.0.0
+      with:
+        cmd: lerna bootstrap -- --ignore-scripts --silent # will run `yarn build` command
+    - name: Yarn Build
+      uses: borales/actions-yarn@v3.0.0
+      with:
+        cmd: build:ci # will run `yarn test` command
+
+    - name: Deploy to Netlify
+      uses: nwtgck/actions-netlify@v1.1
+      with:
+        publish-dir: './packages/realitychain-webapp/build'
+        production-branch: main
+        github-token: ${{ secrets.MY_GITHUB_SECRET }}
+        deploy-message: "Deploy from GitHub Actions"
+        enable-pull-request-comment: false
+        enable-commit-comment: true
+        overwrites-pull-request-comment: true
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      timeout-minutes: 1
+      
