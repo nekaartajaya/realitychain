@@ -15,10 +15,14 @@ import { NftUtility } from "./Render/Nft/Nft";
 
 import { nftGetSeries } from "@realitychain/api";
 
-export const ProfileComponent = () => {
+export const ProfileComponent = ({ onConnect }) => {
   const style = useStyles();
   const [activeTab, setActiveTab] = React.useState("0");
   const [open, setOpen] = React.useState(false);
+
+  const handleConnectWallet = () => {
+    onConnect();
+  };
 
   const handleToggleModal = () => {
     setOpen(!open);
@@ -77,22 +81,37 @@ export const ProfileComponent = () => {
         <Avatar className={style.avatar} src="" variant="circle">
           <SvgIcon component={UserIcon} viewBox="0 0 20 20" />
         </Avatar>
-        <Typography variant="h4">{window.accountId}</Typography>
+        {window.accountId ? (
+          <Typography variant="h4">{window.accountId}</Typography>
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ width: "auto" }}
+            onClick={handleConnectWallet}
+          >
+            Connect
+          </Button>
+        )}
+
         <Typography variant="body2" color="textSecondary">
           Joined 24 October 2022
         </Typography>
-        <Button variant="text">edit profile</Button>
+        {window.accountId && <Button variant="text">edit profile</Button>}
       </div>
 
       <div style={{ position: "relative" }}>
-        <Button
-          onClick={handleToggleModal} //open modal show myriad town
-          className={style.button}
-          variant="contained"
-          color="primary"
-        >
-          create utility nft
-        </Button>
+        {window.accountId && (
+          <Button
+            onClick={handleToggleModal} //open modal show myriad town
+            className={style.button}
+            variant="contained"
+            color="primary"
+          >
+            create utility nft
+          </Button>
+        )}
+
         <TabsComponent
           position="left"
           tabs={tabs}

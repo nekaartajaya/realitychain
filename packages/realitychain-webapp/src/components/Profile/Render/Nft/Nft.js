@@ -11,11 +11,14 @@ import Divider from "@material-ui/core/Divider";
 import { useNavigate } from "react-router-dom";
 
 import { useStyles } from "./nft.style";
+import Cookies from "js-cookie";
 export const NftUtility = ({ nfts }) => {
   const style = useStyles();
   const navigate = useNavigate();
+  const mintNft = Cookies.get("mint_nft");
 
   const handleCreateSeries = async (tokenSeriesId) => {
+    Cookies.set("mint_nft", "true");
     await nftMint(window.parasContract, {
       token_series_id: tokenSeriesId,
       receiver_id: window.accountId,
@@ -26,6 +29,10 @@ export const NftUtility = ({ nfts }) => {
 
   React.useEffect(() => {
     getNftUtilityByCreatorId();
+    if (mintNft) {
+      getNftUtilityByCreatorId();
+      Cookies.remove("mint_nft");
+    }
   }, []);
 
   const getNftUtilityByCreatorId = async () => {
@@ -96,13 +103,11 @@ export const NftUtility = ({ nfts }) => {
           );
         }
         return (
-          <Paper
-            style={{ width: 256, cursor: "pointer" }}
-            onClick={() => handleOpenDetail(v.token_id)}
-          >
+          <Paper style={{ width: 256, cursor: "pointer" }}>
             <Paper
               variant="outlined"
               style={{ width: "100%", height: 256, background: "#222731" }}
+              onClick={() => handleOpenDetail(v.token_series_id)}
             >
               <CardMedia
                 className={style.media}
@@ -130,9 +135,16 @@ export const NftUtility = ({ nfts }) => {
                   marginBottom: 8,
                 }}
               />
-              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                {toMintOrNotToMint}
-              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                gap: 6,
+                alignItems: "center",
+                padding: "0 16px 16px",
+              }}
+            >
+              {toMintOrNotToMint}
             </div>
           </Paper>
         );

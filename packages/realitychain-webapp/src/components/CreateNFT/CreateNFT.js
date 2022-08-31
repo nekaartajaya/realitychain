@@ -19,6 +19,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Cookies from "js-cookie";
 
 import { uploadFile, getFileUrl } from "../../lib/services/pinata-proxy";
 import { useStyles } from "./create.style";
@@ -27,6 +28,7 @@ import { nftCreateUtilitySeries } from "@realitychain/api";
 export const CreateNFTComponent = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const createNft = Cookies.get("create_nft");
 
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -82,8 +84,11 @@ export const CreateNFTComponent = () => {
   ];
 
   React.useEffect(() => {
-    console.log(metaverseId);
-  }, [metaverseId]);
+    if (createNft) {
+      Cookies.remove("create_nft");
+      navigate("/profile");
+    }
+  }, []);
 
   const handleClick = () => {
     setOpen(!open);
@@ -111,7 +116,7 @@ export const CreateNFTComponent = () => {
 
   const handleChangeCopies = (e) => {
     if (e.target.value < 1) setCopies(1);
-    else setCopies(e.target.value);
+    else setCopies(Number(e.target.value));
   };
 
   const handleSelectType = (_type) => {
@@ -179,6 +184,8 @@ export const CreateNFTComponent = () => {
         type["offsetX"] = offsetX;
         type["offsetY"] = offsetY;
       }
+
+      Cookies.set("create_nft", "true");
 
       await nftCreateUtilitySeries(window.parasContract, {
         token_metadata: {
@@ -517,7 +524,7 @@ export const CreateNFTComponent = () => {
                 onClick={handleCreateSeries}
                 disabled={isDisableButtonMint}
               >
-                mint
+                create
               </Button>
             </div>
           </div>

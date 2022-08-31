@@ -81,7 +81,10 @@ function App() {
             element={<WorldComponent balance={balance} />}
           />
           <Route path="/discover" element={<DiscoverComponent />} />
-          <Route path="/profile" element={<ProfileComponent />} />
+          <Route
+            path="/profile"
+            element={<ProfileComponent onConnect={handleOpenModal} />}
+          />
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/project" element={<ProjectComponent />} />
           <Route path="/create-metaverse" element={<CreateComponent />} />

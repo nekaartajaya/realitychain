@@ -16,7 +16,7 @@ import { getOwner, nftGetSeriesSingle } from "@realitychain/api";
 export const NFTDetail = () => {
   const style = useStyles();
   const { id } = useParams();
-  const tokenId = id.substring(0, id.indexOf(":"));
+  const tokenId = id;
 
   const [detail, setDetail] = React.useState(null);
   const [extra, setExtra] = React.useState({});
@@ -181,7 +181,7 @@ export const NFTDetail = () => {
               className={style.key}
               color={"textSecondary"}
             >
-              NFT Utility link
+              Utility NFT link
             </Typography>
             <div
               style={{
