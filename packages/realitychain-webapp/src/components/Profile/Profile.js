@@ -94,10 +94,10 @@ export const ProfileComponent = ({ onConnect }) => {
           </Button>
         )}
 
-        <Typography variant="body2" color="textSecondary">
+        {/* <Typography variant="body2" color="textSecondary">
           Joined 24 October 2022
         </Typography>
-        {window.accountId && <Button variant="text">edit profile</Button>}
+        {window.accountId && <Button variant="text">edit profile</Button>} */}
       </div>
 
       <div style={{ position: "relative" }}>

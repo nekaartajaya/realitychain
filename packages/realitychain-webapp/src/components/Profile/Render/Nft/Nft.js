@@ -105,43 +105,51 @@ export const NftUtility = ({ nfts }) => {
             );
           }
           totalCards.push(
-            <Paper
-              style={{ width: 256, cursor: "pointer" }}
-              onClick={() => handleOpenDetail(`${v.token_series_id}:${j}`)}
-            >
-              <Paper
-                variant="outlined"
-                style={{ width: "100%", height: 256, background: "#222731" }}
+            <Paper style={{ width: 256, cursor: "pointer" }}>
+              <div
+                onClick={() => handleOpenDetail(`${v.token_series_id}:${j}`)}
               >
-                <CardMedia
-                  className={style.media}
-                  image={v.metadata.media}
-                  title={"user.nam"}
-                />
-              </Paper>
-              <div className={style.content}>
-                <Typography variant="h6" style={{ marginBottom: 4 }}>
-                  {v.metadata.title}
-                </Typography>
-                <div>
-                  <Typography variant="caption" color="textSecondary">
-                    by {v.owner_id}
+                <Paper
+                  variant="outlined"
+                  style={{ width: "100%", height: 256, background: "#222731" }}
+                >
+                  <CardMedia
+                    className={style.media}
+                    image={v.metadata.media}
+                    title={"user.nam"}
+                  />
+                </Paper>
+                <div className={style.content}>
+                  <Typography variant="h6" style={{ marginBottom: 4 }}>
+                    {v.metadata.title}
                   </Typography>
+                  <div>
+                    <Typography variant="caption" color="textSecondary">
+                      by {v.owner_id}
+                    </Typography>
+                  </div>
+                  <Typography variant="caption" style={{ color: "#D391D6" }}>
+                    Myriad.Town
+                  </Typography>
+                  <Divider
+                    style={{
+                      background: "#2B3240",
+                      height: 2,
+                      marginTop: 8,
+                      marginBottom: 8,
+                    }}
+                  />
                 </div>
-                <Typography variant="caption" style={{ color: "#D391D6" }}>
-                  Myriad.Town
-                </Typography>
-                <Divider
-                  style={{
-                    background: "#2B3240",
-                    height: 2,
-                    marginTop: 8,
-                    marginBottom: 8,
-                  }}
-                />
-                <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                  {toMintOrNotToMint}
-                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 6,
+                  alignItems: "center",
+                  padding: "0 16px 16px",
+                }}
+              >
+                {toMintOrNotToMint}
               </div>
             </Paper>
           );
