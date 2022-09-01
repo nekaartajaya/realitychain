@@ -1,6 +1,6 @@
 import * as buffer from "buffer";
 
-import { InMemorySigner, keyStores, WalletAccount } from "near-api-js";
+import { ConnectedWalletAccount, InMemorySigner, keyStores, WalletAccount } from "near-api-js";
 import {
   createNearConnection,
   parcelsContractWithAccountId,
@@ -34,6 +34,9 @@ export async function initContract() {
 
   // Getting the Account ID. If still unauthorized, it's just empty string
   window.accountId = window.walletConnection.getAccountId();
+
+  // Get connected wallet account
+  window.connectedWallet = new ConnectedWalletAccount(window.walletConnection, near.connection, window.accountId);
 
   // Initializing our contract APIs by contract name and configuration
   window.parasContract = await parasContractWithAccountId(

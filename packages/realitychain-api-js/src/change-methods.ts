@@ -1,3 +1,4 @@
+import { ConnectedWalletAccount, utils, WalletConnection } from 'near-api-js';
 import { oneYoctoNear } from './constant';
 import {
   NftBuyDto,
@@ -16,6 +17,95 @@ import {
   NftCreateUtilitySeriesDto,
   NftSetSeriesTokenMetadataExtraDto,
 } from './interfaces';
+import BN from 'bn.js';
+import { Action, createTransaction, functionCall } from 'near-api-js/lib/transaction';
+import { PublicKey } from 'near-api-js/lib/utils';
+import { baseDecode } from 'borsh';
+
+export async function createNearTransaction({
+  wallet,
+  receiverId,
+  actions,
+  nonceOffset = 1,
+}: {
+  wallet: ConnectedWalletAccount,
+  receiverId: string;
+  actions: Action[];
+  nonceOffset?: number;
+}) {
+  const localKey = await wallet.connection.signer.getPublicKey(
+    wallet.accountId,
+    wallet.connection.networkId
+  );
+  let accessKey = await wallet.accessKeyForTransaction(
+    receiverId,
+    actions,
+    localKey
+  );
+  if (!accessKey) {
+    throw new Error(
+      `Cannot find matching key for transaction sent to ${receiverId}`
+    );
+  }
+
+  const block = await wallet.connection.provider.block({ finality: 'final' });
+  const blockHash = baseDecode(block.header.hash);
+
+  const publicKey = PublicKey.from(accessKey.public_key);
+  const nonce = accessKey.access_key.nonce + nonceOffset;
+
+  return createTransaction(
+    wallet.accountId,
+    publicKey,
+    receiverId,
+    nonce,
+    actions,
+    blockHash
+  );
+}
+
+export interface FunctionCallOptions {
+  methodName: string;
+  args?: object;
+  gas?: string;
+  amount?: string;
+}
+
+export interface Transaction {
+  receiverId: string;
+  functionCalls: FunctionCallOptions[];
+}
+
+export const getGas = (gas: string) =>
+  gas ? new BN(gas) : new BN('100000000000000');
+export const getAmount = (amount: string) =>
+  amount ? new BN(utils.format.parseNearAmount(amount)) : new BN('0');
+
+export const executeMultipleTransactions = async (
+  wallet: ConnectedWalletAccount,
+  transactions: Transaction[],
+  callbackUrl?: string
+) => {
+  const currentTransactions = await Promise.all(
+    transactions.map((t, i) => {
+      return createNearTransaction({
+        wallet,
+        receiverId: t.receiverId,
+        nonceOffset: i + 1,
+        actions: t.functionCalls.map((fc) =>
+          functionCall(
+            fc.methodName,
+            fc.args,
+            getGas(fc.gas),
+            getAmount(fc.amount)
+          )
+        ),
+      });
+    })
+  );
+
+  return wallet.walletConnection.requestSignTransactions(currentTransactions, callbackUrl);
+};
 
 export async function nftCreateUtilitySeries(
   contract: ParasContract,

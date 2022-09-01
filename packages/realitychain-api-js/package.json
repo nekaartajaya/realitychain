@@ -39,10 +39,12 @@
   },
   "homepage": "https://github.com/realitychainio/realitychain-monorepo#readme",
   "dependencies": {
+    "bn.js": "^5.2.0",
     "js-base64": "^3.7.2",
     "near-api-js": "^0.45.1"
   },
   "devDependencies": {
+    "@types/bn.js": "^5.1.0",
     "@types/jest": "^28.1.4",
     "@types/node": "^18.0.3",
     "babel-jest": "^28.1.2",
