@@ -20,7 +20,6 @@ export const ParcelDetail = () => {
   const tokenSeriesId = id.substring(0, id.indexOf(":"));
 
   const [detail, setDetail] = React.useState(null);
-  const [extra, setExtra] = React.useState({});
   const [owner, setOwner] = React.useState("");
 
   React.useEffect(() => {
@@ -28,10 +27,6 @@ export const ParcelDetail = () => {
     getNftDetail(tokenSeriesId);
     getNftOwner(tokenId);
   }, []);
-
-  React.useEffect(() => {
-    if (detail !== null) setExtra(JSON.parse(detail?.metadata?.extra));
-  }, [detail]);
 
   const handleOpenLink = () => {
     // make sure fix link

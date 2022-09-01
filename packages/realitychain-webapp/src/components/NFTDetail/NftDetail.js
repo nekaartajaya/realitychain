@@ -40,7 +40,7 @@ export const NFTDetail = () => {
   }, [detail]);
 
   React.useEffect(() => {
-    if (extra.length > 0) {
+    if (extra?.length > 0) {
       setInteraction(
         extra.find((obj) => {
           return obj.trait_type === "interaction";
