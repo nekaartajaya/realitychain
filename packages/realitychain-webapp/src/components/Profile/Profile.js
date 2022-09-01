@@ -14,6 +14,7 @@ import { SelectMetaverse } from "./Render/Modal";
 import { NftUtility } from "./Render/Nft/Nft";
 
 import { nftGetSeries } from "@realitychain/api";
+import { NftParcel } from "./Render/Parcel/Parcel";
 
 export const ProfileComponent = ({ onConnect }) => {
   const style = useStyles();
@@ -53,8 +54,7 @@ export const ProfileComponent = ({ onConnect }) => {
     {
       id: "1",
       title: "NFT PARCEL",
-      component: tabs2(),
-      disabled: true,
+      component: <NftParcel nfts={[]} />,
     },
   ];
 

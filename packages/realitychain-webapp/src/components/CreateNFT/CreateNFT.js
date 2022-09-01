@@ -40,6 +40,7 @@ export const CreateNFTComponent = () => {
   const [offsetY, setOffsetY] = React.useState(0);
   const [copies, setCopies] = React.useState(1);
   const [isDisableButtonMint, setIsDisableButtonMint] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
 
   const [open, setOpen] = React.useState(false);
   const [openInteraction, setOpenInteraction] = React.useState(false);
@@ -160,6 +161,7 @@ export const CreateNFTComponent = () => {
   };
 
   const handleCreateSeries = async () => {
+    setLoading(true);
     if (name && image && description && selectedType) {
       const blob = new Blob([image], { type: image.type });
 
@@ -175,10 +177,10 @@ export const CreateNFTComponent = () => {
       const extra = {
         attributes: [],
       };
-      extra.attributes.push({
-        trait_type: "name",
-        value: selectedType.name,
-      });
+      // extra.attributes.push({
+      //   trait_type: "name",
+      //   value: selectedType.name,
+      // });
       extra.attributes.push({
         trait_type: "category",
         value: selectedType.category,
@@ -231,20 +233,23 @@ export const CreateNFTComponent = () => {
   };
 
   React.useEffect(() => {
-    if (
-      name !== "" &&
-      description !== "" &&
-      image !== "" &&
-      selectedType !== ""
-    ) {
-      if (showBody.includes(selectedType.id)) {
-        if (body !== "") setIsDisableButtonMint(false);
-        else setIsDisableButtonMint(true);
-      } else if (selectedType.category === "furniture") {
-        if (selectedInteraction !== "" && offsetX !== 0 && offsetY !== 0)
-          setIsDisableButtonMint(false);
-        else setIsDisableButtonMint(true);
-      } else setIsDisableButtonMint(false);
+    if (loading) setIsDisableButtonMint(true);
+    else {
+      if (
+        name !== "" &&
+        description !== "" &&
+        image !== "" &&
+        selectedType !== ""
+      ) {
+        if (showBody.includes(selectedType.id)) {
+          if (body !== "") setIsDisableButtonMint(false);
+          else setIsDisableButtonMint(true);
+        } else if (selectedType.category === "furniture") {
+          if (selectedInteraction !== "" && offsetX !== 0 && offsetY !== 0)
+            setIsDisableButtonMint(false);
+          else setIsDisableButtonMint(true);
+        } else setIsDisableButtonMint(false);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -256,6 +261,7 @@ export const CreateNFTComponent = () => {
     selectedInteraction,
     offsetX,
     offsetY,
+    loading,
   ]);
 
   const style = useStyles();
@@ -263,20 +269,20 @@ export const CreateNFTComponent = () => {
     <Container style={{ marginTop: 24, maxWidth: 888, padding: 0 }}>
       <div style={{ display: "flex", gap: 16, marginBottom: 24 }}>
         {/* TODO: Breadcrumbs */}
-        <Typography variant="h6">NFT Utility</Typography>
+        <Typography variant="h6">Utility NFT</Typography>
         <SvgIcon component={ChevronRightIcon} viewBox="0 0 20 20" />
-        <Typography variant="h6">Create NFT Utility</Typography>
+        <Typography variant="h6">Create Utility NFT</Typography>
       </div>
       <Paper style={{ minHeight: 972, padding: 24, marginBottom: 24 }}>
         <Typography variant="h4" style={{ marginBottom: 8 }}>
-          Create NFT Utility
+          Create Utility NFT
         </Typography>
         <Typography
           variant="body1"
           style={{ marginBottom: 24 }}
           color="textSecondary"
         >
-          Create and use your own NFT Utility in metaverse.
+          Create and use your own Utility NFT in metaverse.
         </Typography>
         <div
           style={{
@@ -544,7 +550,7 @@ export const CreateNFTComponent = () => {
                 onClick={handleCreateSeries}
                 disabled={isDisableButtonMint}
               >
-                create
+                {loading ? "creating" : "create"}
               </Button>
             </div>
           </div>

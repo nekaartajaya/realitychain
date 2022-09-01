@@ -11,6 +11,7 @@ export const useStyles = makeStyles((theme) =>
     },
     content: {
       padding: 16,
+      // minHeight: 110,
     },
   })
 );

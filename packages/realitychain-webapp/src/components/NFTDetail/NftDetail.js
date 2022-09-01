@@ -20,8 +20,13 @@ export const NFTDetail = () => {
   const tokenSeriesId = id.substring(0, id.indexOf(":"));
 
   const [detail, setDetail] = React.useState(null);
-  const [extra, setExtra] = React.useState({});
+  const [extra, setExtra] = React.useState([]);
   const [owner, setOwner] = React.useState("");
+  const [interaction, setInteraction] = React.useState(null);
+  const [offsetX, setOffsetX] = React.useState(null);
+  const [offsetY, setOffsetY] = React.useState(null);
+  const [body, setBody] = React.useState(null);
+  const [category, setCategory] = React.useState(null);
 
   React.useEffect(() => {
     // fetch data nft from id or any else
@@ -30,8 +35,39 @@ export const NFTDetail = () => {
   }, []);
 
   React.useEffect(() => {
-    if (detail !== null) setExtra(JSON.parse(detail?.metadata?.extra));
+    if (detail !== null)
+      setExtra(JSON.parse(detail?.metadata?.extra).attributes);
   }, [detail]);
+
+  React.useEffect(() => {
+    if (extra.length > 0) {
+      setInteraction(
+        extra.find((obj) => {
+          return obj.trait_type === "interaction";
+        })
+      );
+      setOffsetX(
+        extra.find((obj) => {
+          return obj.trait_type === "offsetX";
+        })
+      );
+      setOffsetY(
+        extra.find((obj) => {
+          return obj.trait_type === "offsetY";
+        })
+      );
+      setBody(
+        extra.find((obj) => {
+          return obj.trait_type === "body";
+        })
+      );
+      setCategory(
+        extra.find((obj) => {
+          return obj.trait_type === "category";
+        })
+      );
+    }
+  }, [extra]);
 
   const handleOpenLink = () => {
     // make sure fix link
@@ -47,10 +83,10 @@ export const NFTDetail = () => {
     try {
       const response = await nftGetSeriesSingle(
         window.parasContract,
-        tokenSeriesId
+        tokenId.includes(":") ? tokenSeriesId : tokenId
       );
-      console.log(response);
       setDetail(response);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -108,7 +144,7 @@ export const NFTDetail = () => {
               TYPE
             </Typography>
             <Typography variant="subtitle1" className={style.value}>
-              {extra?.type?.name}
+              {category?.value}
             </Typography>
             <Typography
               variant="subtitle1"
@@ -120,7 +156,7 @@ export const NFTDetail = () => {
             <Typography variant="subtitle1" className={style.value}>
               {detail?.metadata?.copies}
             </Typography>
-            {extra?.body && (
+            {body && (
               <>
                 <Typography
                   variant="subtitle1"
@@ -130,12 +166,12 @@ export const NFTDetail = () => {
                   Body
                 </Typography>
                 <Typography variant="subtitle1" className={style.value}>
-                  {extra?.body}
+                  {body?.value}
                 </Typography>
               </>
             )}
 
-            {extra?.type?.category === "furniture" && (
+            {category?.value === "furniture" && (
               <>
                 <Typography
                   variant="subtitle1"
@@ -145,7 +181,7 @@ export const NFTDetail = () => {
                   Interaction
                 </Typography>
                 <Typography variant="subtitle1" className={style.value}>
-                  {extra?.interaction?.name}
+                  {interaction?.value}
                 </Typography>
                 <Typography
                   variant="subtitle1"
@@ -155,8 +191,8 @@ export const NFTDetail = () => {
                   Offset
                 </Typography>
                 <Typography variant="subtitle1" className={style.value}>
-                  <div>X {extra?.offsetX}</div>
-                  <div>Y {extra?.offsetY}</div>
+                  <div>X {offsetX?.value}</div>
+                  <div>Y {offsetY?.value}</div>
                 </Typography>
               </>
             )}
@@ -182,33 +218,35 @@ export const NFTDetail = () => {
               Myriad.Town
             </Typography>
           </Paper>
-          <Paper className={style.link}>
-            <Typography
-              variant="subtitle1"
-              className={style.key}
-              color={"textSecondary"}
-            >
-              Utility NFT link
-            </Typography>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-            >
+          {tokenId.includes(":") && (
+            <Paper className={style.link}>
               <Typography
                 variant="subtitle1"
-                component="a"
-                style={{ color: "#D391D6" }}
-                onClick={handleOpenLink}
+                className={style.key}
+                color={"textSecondary"}
               >
-                {`${process.env.REACT_APP_NFT_PARAS_URL}${tokenSeriesId}/${tokenId}`}
+                Utility NFT link
               </Typography>
-              <SvgIcon component={ExternalLinkIcon} viewBox="0 0 20 20" />
-            </div>
-          </Paper>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  component="a"
+                  style={{ color: "#D391D6" }}
+                  onClick={handleOpenLink}
+                >
+                  {`${process.env.REACT_APP_NFT_PARAS_URL}${tokenSeriesId}/${tokenId}`}
+                </Typography>
+                <SvgIcon component={ExternalLinkIcon} viewBox="0 0 20 20" />
+              </div>
+            </Paper>
+          )}
         </div>
       </div>
     </Container>
