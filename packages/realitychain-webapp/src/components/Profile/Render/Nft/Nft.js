@@ -84,77 +84,70 @@ export const NftUtility = ({ nfts }) => {
     >
       {/* maping */}
       {data.map((v, i) => {
-        let totalCards = [];
-        for (let j = 1; j <= v.metadata.copies; j++) {
-          let toMintOrNotToMint = "";
-          if (v.total_mint >= j) {
-            toMintOrNotToMint = (
-              <Typography variant="caption" color="textSecondary">
-                Minted
-              </Typography>
-            );
-          } else {
-            toMintOrNotToMint = (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleMint(v.token_series_id)}
-              >
-                Mint
-              </Button>
-            );
-          }
-          totalCards.push(
-            <Paper style={{ width: 256, cursor: "pointer" }}>
-              <div
-                onClick={() => handleOpenDetail(`${v.token_series_id}:${j}`)}
-              >
-                <Paper
-                  variant="outlined"
-                  style={{ width: "100%", height: 256, background: "#222731" }}
-                >
-                  <CardMedia
-                    className={style.media}
-                    image={v.metadata.media}
-                    title={"user.nam"}
-                  />
-                </Paper>
-                <div className={style.content}>
-                  <Typography variant="h6" style={{ marginBottom: 4 }}>
-                    {v.metadata.title}
-                  </Typography>
-                  <div>
-                    <Typography variant="caption" color="textSecondary">
-                      by {v.owner_id}
-                    </Typography>
-                  </div>
-                  <Typography variant="caption" style={{ color: "#D391D6" }}>
-                    Myriad.Town
-                  </Typography>
-                  <Divider
-                    style={{
-                      background: "#2B3240",
-                      height: 2,
-                      marginTop: 8,
-                      marginBottom: 8,
-                    }}
-                  />
-                </div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 6,
-                  alignItems: "center",
-                  padding: "0 16px 16px",
-                }}
-              >
-                {toMintOrNotToMint}
-              </div>
-            </Paper>
+        let toMintOrNotToMint = "";
+        if (v.in_circulation > 0) {
+          toMintOrNotToMint = (
+            <Typography variant="caption" color="textSecondary">
+              Minted
+            </Typography>
+          );
+        } else {
+          toMintOrNotToMint = (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleCreateSeries(v.token_series_id)}
+            >
+              Mint
+            </Button>
           );
         }
-        return totalCards;
+        return (
+          <Paper style={{ width: 256, cursor: "pointer" }}>
+            <Paper
+              variant="outlined"
+              style={{ width: "100%", height: 256, background: "#222731" }}
+              onClick={() => handleOpenDetail(v.token_series_id)}
+            >
+              <CardMedia
+                className={style.media}
+                image={v.metadata.media}
+                title={"user.nam"}
+              />
+            </Paper>
+            <div className={style.content}>
+              <Typography variant="h6" style={{ marginBottom: 4 }}>
+                {v.metadata.title}
+              </Typography>
+              <div>
+                <Typography variant="caption" color="textSecondary">
+                  by {v.owner_id}
+                </Typography>
+              </div>
+              <Typography variant="caption" style={{ color: "#D391D6" }}>
+                Myriad.Town
+              </Typography>
+              <Divider
+                style={{
+                  background: "#2B3240",
+                  height: 2,
+                  marginTop: 8,
+                  marginBottom: 8,
+                }}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                gap: 6,
+                alignItems: "center",
+                padding: "0 16px 16px",
+              }}
+            >
+              {toMintOrNotToMint}
+            </div>
+          </Paper>
+        );
       })}
       {/*  */}
     </div>
