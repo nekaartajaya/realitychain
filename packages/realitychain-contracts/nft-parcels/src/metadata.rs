@@ -21,8 +21,7 @@ pub struct ParcelMetadata {
     pub world_id: String,
     pub land_id: String,
     pub land_type: String,
-    pub size_x: u32,
-    pub size_y: u32,
+    pub size: u32,
     pub pos_x: i32,
     pub pos_y: i32,
 }

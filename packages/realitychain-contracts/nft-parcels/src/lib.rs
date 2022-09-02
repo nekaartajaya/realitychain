@@ -242,8 +242,7 @@ mod tests {
             crate::metadata::ParcelMetadata {
                 world_id: "w1".to_string(),
                 land_id: "b1".to_string(),
-                size_x: 11,
-                size_y: 11,
+                size: 121,
                 pos_x: -120,
                 pos_y: -120,
                 land_type: "Building".to_string(),
@@ -360,8 +359,7 @@ mod tests {
             crate::metadata::ParcelMetadata {
                 world_id: "w2".to_string(),
                 land_id: "b2".to_string(),
-                size_x: 11,
-                size_y: 11,
+                size: 121,
                 pos_x: -120,
                 pos_y: -120,
                 land_type: "Building2".to_string(),
