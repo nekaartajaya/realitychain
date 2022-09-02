@@ -5,9 +5,9 @@ const homedir = require("os").homedir();
 
 const CREDENTIALS_DIR = ".near-credentials";
 // NOTE: replace "example" with your accountId
-const CONTRACT_NAME = "deploy-parcels-2.testnet";
-const FT_CONTRACT = "dev-1660427718063-22239243730502";
-const WHITELIST_ACCOUNT_ID = "rc-orang.testnet";
+const CONTRACT_NAME = "realitychain.near";
+const FT_CONTRACT = "realitychain.near";
+const WHITELIST_ACCOUNT_ID = "realitychain.near";
 const WASM_PATH = path.join(__dirname, "../out/main.wasm");
 
 const credentialsPath = path.join(homedir, CREDENTIALS_DIR);
